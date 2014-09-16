@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'accounts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -50,6 +51,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -85,6 +87,10 @@ def get_environment_variable(var_name):
 	except KeyError:
 		error_msg = "Set the %s environment variable" % var_name
 		raise ImproperlyConfigured(error_msg)
+
+# Custom User model
+
+AUTH_USER_MODEL = 'accounts.IWUser'
 	
 
 
