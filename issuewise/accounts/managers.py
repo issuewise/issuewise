@@ -45,7 +45,7 @@ class IWUserManager(BaseUserManager):
                           is_superuser=is_superuser, last_login=now,
                           date_joined=now, **extra_fields)
 		user.set_password(password)
-		#user.save(using=self._db)
+		user.save(using=self._db)
 		return user
 
 	def create_user(self, full_name, email, 
