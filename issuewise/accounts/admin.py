@@ -6,7 +6,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext_lazy as _
 
 
-from accounts.models import IWUser
+from accounts.models import WiseUser
 
 
 class UserCreationForm(forms.ModelForm):
@@ -26,7 +26,7 @@ class UserCreationForm(forms.ModelForm):
 
 
     class Meta:
-        model = IWUser
+        model = WiseUser
         fields = ('full_name', 'email')
 
     def clean_email(self):
@@ -80,7 +80,7 @@ class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = IWUser
+        model = WiseUser
         fields = ('email', 'password', 'is_active', 'is_staff', 'is_superuser')
 
     def clean_password(self):
@@ -90,7 +90,7 @@ class UserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-class IWUserAdmin(UserAdmin):
+class WiseUserAdmin(UserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
@@ -125,6 +125,6 @@ class IWUserAdmin(UserAdmin):
             return []
 
 # Now register the new UserAdmin...
-admin.site.register(IWUser, IWUserAdmin)
+admin.site.register(WiseUser, WiseUserAdmin)
 
 

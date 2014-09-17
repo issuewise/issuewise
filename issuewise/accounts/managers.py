@@ -3,7 +3,7 @@ from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
 from django.utils.http import urlquote
 
-class IWUserManager(BaseUserManager):
+class WiseUserManager(BaseUserManager):
 
 	def get_url_name(self,full_name):
 		"""

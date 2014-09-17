@@ -4,12 +4,12 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.core import validators
-from accounts.managers import IWUserManager
+from accounts.managers import WiseUserManager
 
 
 
 
-class IWAbstractUser(AbstractBaseUser, PermissionsMixin):
+class AbstractWiseUser(AbstractBaseUser, PermissionsMixin):
     """
     This is a copy of django.contrib.auth.AbstractUser with the 
 	following changes :
@@ -22,7 +22,7 @@ class IWAbstractUser(AbstractBaseUser, PermissionsMixin):
 	3. url_name is the encoded version of full name which appears
        in the url for the user e.g issuewise.org/users/url_name
 
-    4. uses a custom manager IWUserManager which, among other things,
+    4. uses a custom manager WiseUserManager which, among other things,
        sets the url_name from the full_name information.
     """
     url_name=models.TextField(_('encoded full name'))  
@@ -37,7 +37,7 @@ class IWAbstractUser(AbstractBaseUser, PermissionsMixin):
                     'active. Unselect this instead of deleting accounts.'))
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    objects = IWUserManager()
+    objects = WiseUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
@@ -66,15 +66,27 @@ class IWAbstractUser(AbstractBaseUser, PermissionsMixin):
 		
 
 
-class IWUser(IWAbstractUser):
+class WiseUser(AbstractWiseUser):
     """
     This is the custom user model for Issuewise. Add any additional 
 	fields in this model.
 	
-	Do not create new IWUser instances using 
-    IWUser(full_name, email, **kwargs)! Instead use
-	the safe manager methods IWUser.objects.create_user(full_name, email, **kwargs)
-    or IWUser.objects.create_superuser(full_name, email, password, **kwargs)
+	Do not create new WiseUser instances using 
+    WiseUser(full_name, email, **kwargs)! Instead use
+	the safe manager methods WiseUser.objects.create_user(full_name, email, **kwargs)
+    or WiseUser.objects.create_superuser(full_name, email, password, **kwargs)
+
+    If you use ModelForm's save method to create and save the IWUser,
+    you must assure the following before running save(commit=True):
+
+	1. Trailing whitespaces in full_name must be stripped
+    2. url_name should be set
+    3. email must be normalized
     """
-    class Meta(IWAbstractUser.Meta):
-        pass
+    class Meta(AbstractWiseUser.Meta):
+        verbose_name = _('wise user')
+        verbose_name_plural = _('wise users')
+
+
+
+    
