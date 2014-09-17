@@ -44,6 +44,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'accounts',
+	'userprofile',
+	'groups',
+	'subscription',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -90,7 +93,8 @@ def get_environment_variable(var_name):
 
 # Custom User model
 
-AUTH_USER_MODEL = 'accounts.IWUser'
+AUTH_USER_MODEL = 'accounts.WiseUser'
+SITE_GROUP_MODEL = 'groups.WiseGroup'
 	
 
 
