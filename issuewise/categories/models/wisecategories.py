@@ -1,12 +1,16 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from accounts.models.mixins import Creatable
-from core.models import UriNameMixin
-from groups.models.mixins import OwnedByGroup
+from accounts.models.mixins import creatable_factory
+from core.models import uri_name_mixin_factory
+from groups.models.mixins import owned_by_group_factory
+
+CreatableClass = creatable_factory()
+UriNameMixinClass = uri_name_mixin_factory()
+OwnedByGroupClass = owned_by_group_factory()
 
 
-class BaseCategory(Creatable):
+class BaseCategory(CreatableClass):
     """ Categories are used to label other objects. 
     Any model that inherits this class behaves like a category. """ 
     name = models.CharField(_('category name'), max_length=50)
@@ -15,7 +19,7 @@ class BaseCategory(Creatable):
         abstract = True
 
 
-class PublicCategory(BaseCategory, UriNameMixin):
+class PublicCategory(BaseCategory, UriNameMixinClass):
     """ Categories in the public domain """
 
     def save(self,*args,**kwargs):
@@ -25,7 +29,7 @@ class PublicCategory(BaseCategory, UriNameMixin):
         super(PublicCategory,self).save(*args,**kwargs)
 
 
-class GroupCategory(BaseCategory, UriNameMixin, OwnedByGroup):
+class GroupCategory(BaseCategory, UriNameMixinClass, OwnedByGroupClass):
     """ Categories that are owned by groups """
 
     def save(self,*args,**kwargs):
