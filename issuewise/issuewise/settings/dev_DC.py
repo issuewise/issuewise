@@ -1,12 +1,10 @@
-'''
-
+"""
 This is the settings file used by developer Dibya Chakravorty.
 You can use this as a template to create your custom settings file.
 To use this settings file, use
 
 python manage.py runserver --settings=issuewise.settings.dev_DC
-
-'''
+"""
 
 from .base import *
 
@@ -26,10 +24,10 @@ TEMPLATE_DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-		'NAME' : 'issuewise',
-		'USER' : 'root',
-		'PASSWORD' : get_environment_variable('MYSQL_ROOT_PASSWORD'),
-		'HOST' : '127.0.0.1',
-		'PORT': '3306',
+        'NAME' : 'issuewise',
+        'USER' : 'root',
+        'PASSWORD' : get_environment_variable('MYSQL_ROOT_PASSWORD'),
+        'HOST' : '127.0.0.1',
+        'PORT': '3306',
     }
 }

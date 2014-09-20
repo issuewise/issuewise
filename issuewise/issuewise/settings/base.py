@@ -1,5 +1,4 @@
 """
-
 Base settings to be inherited by all other settings files. 
 
 You are welcome to create your custom settings file. It is recommended 
@@ -7,7 +6,6 @@ that you keep your custom settings in the current directory. To import
 the base settings to your custom settings file use 
 
 from .base import * 
-
 """
 
 import os
@@ -35,6 +33,7 @@ ALLOWED_HOSTS = ['www.issuewise.org']
 
 
 # Application definition
+# accounts should always be the last app listed! 
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -43,10 +42,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'accounts',
-	'userprofile',
-	'groups',
-	'subscription',
+    'core',
+    'userprofile',
+    'groups',
+    'categories',
+    'accounts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,18 +84,20 @@ STATIC_URL = '/static/'
 
 
 def get_environment_variable(var_name):
-	""" Get the environment variable or return exception """
-	try:
-		return os.environ[var_name]
-	except KeyError:
-		error_msg = "Set the %s environment variable" % var_name
-		raise ImproperlyConfigured(error_msg)
+    """ Get the environment variable or return exception """
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the %s environment variable" % var_name
+        raise ImproperlyConfigured(error_msg)
 
 # Custom User model
 
 AUTH_USER_MODEL = 'accounts.WiseUser'
 SITE_GROUP_MODEL = 'groups.WiseGroup'
-	
+PUBLIC_CATEGORY_MODEL = 'categories.PublicCategory'
+GROUP_CATEGORY_MODEL = 'categories.GroupCategory'
+
 
 
 
