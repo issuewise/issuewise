@@ -6,7 +6,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext_lazy as _
 
 
-from accounts.models import WiseUser
+from accounts.models.wiseuser import WiseUser
 
 
 class UserCreationForm(forms.ModelForm):
@@ -14,7 +14,7 @@ class UserCreationForm(forms.ModelForm):
     fields, plus a repeated password."""
 
     error_messages = {
-        'duplicate_username': _("A user with that email already exists."),
+        'duplicate_email': _("A user with that email already exists."),
         'password_mismatch': _("The two password fields didn't match."),
     }
 
@@ -27,7 +27,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = WiseUser
-        fields = ('full_name', 'email')
+        fields = ('name', 'email')
 
     def clean_email(self):
         # Since User.username is unique, this check is redundant,
@@ -38,8 +38,8 @@ class UserCreationForm(forms.ModelForm):
         except self.Meta.model.DoesNotExist:
             return email
         raise forms.ValidationError(
-            self.error_messages['duplicate_username'],
-            code='duplicate_username',
+            self.error_messages['duplicate_email'],
+            code='duplicate_email',
         )
 
     def clean_password2(self):
@@ -54,19 +54,10 @@ class UserCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         """
-        Save the user after performing the following operations:
-
-        1. Strip trailing whitespaces in full_name
-        2. Normalize email
-        3. Set the url_name field
-        4. Set the hashed password
+        Save the user after setting the password hash
         """
         user = super(UserCreationForm, self).save(commit=False)
-        user.full_name=re.sub(r"^\s+|\s+$","",user.full_name)
-        user.url_name=self.Meta.model.objects.get_url_name(user.full_name)
-        user.email=self.Meta.model.objects.normalize_email(user.email)
         user.set_password(self.cleaned_data["password1"])
-		#user.set_url_name(self.Meta.objects.get_url_name(user.full_name))
         if commit:
             user.save()
         return user
@@ -98,29 +89,29 @@ class WiseUserAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('full_name', 'email', 'is_staff')
+    list_display = ('name', 'email', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
-    search_fields = ('full_name', 'email')
-    ordering = ('full_name',)
+    search_fields = ('name', 'email')
+    ordering = ('name',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal info'), {'fields': ('full_name','url_name')}),
+        (_('Personal info'), {'fields': ('name','uri_name')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Important dates'), {'fields': ('last_login',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('full_name', 'email', 'password1', 'password2')}
+            'fields': ('name', 'email', 'password1', 'password2')}
         ),
     )
 
     def get_readonly_fields(self, request, obj=None):
         if obj: # obj is not None, so this is an edit
-            return ['email','full_name','url_name'] # Return a list or tuple of readonly fields' names
+            return ['email','name','uri_name'] # Return a list or tuple of readonly fields' names
         else: # This is an addition
             return []
 
