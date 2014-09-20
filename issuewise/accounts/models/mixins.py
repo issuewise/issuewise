@@ -2,8 +2,14 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
+def creatable_factory():
+    return Creatable
 
-class Subscribable(models.Model):
+def subscribable_factory():
+    return Subscribable
+
+
+class BaseSubscribable(models.Model):
     """
     This is a plug for the WiseUser model used for subscription
     like relationships. 
@@ -33,10 +39,16 @@ class Subscribable(models.Model):
         auto_now_add=True)
 
     class Meta:
-        abstract=True
+        abstract = True
 
 
-class Creatable(models.Model):
+class Subscribable(BaseSubscribable):
+    
+    class Meta:
+        abstract = True
+
+
+class BaseCreatable(models.Model):
     """
     This is a plug for the WiseUser model for creator like
     relationships.
@@ -56,6 +68,12 @@ class Creatable(models.Model):
 
     class Meta:
         abstract=True
+
+
+class Creatable(BaseCreatable):
+    
+    class Meta:
+        abstract = True
 
 
 

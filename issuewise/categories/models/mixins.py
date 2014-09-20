@@ -1,8 +1,14 @@
 from django.db import models
 from django.conf import settings
 
+def public_category_plug_factory():
+    return PublicCategoryPlug
 
-class PublicCategoryPlug(models.Model):
+def group_category_plug_factory():
+    return GroupCategoryPlug
+
+
+class BasePublicCategoryPlug(models.Model):
     """ 
     This is a plug for the PublicCategory model. Any entity
     that needs to be labeled with a PublicCategory should do the 
@@ -24,10 +30,16 @@ class PublicCategoryPlug(models.Model):
         verbose_name=_('category'))
 
     class Meta:
-        abstract=True
+        abstract = True
 
 
-class GroupCategoryPlug(models.Model):
+class PublicCategoryPlug(BasePublicCategoryPlug):
+    
+    class Meta:
+        abstract = True
+
+
+class BaseGroupCategoryPlug(models.Model):
     """ This is a plug for the GroupCategory model. Any entity
     that needs to be labeled with a GroupCategory should do the 
     following:
@@ -48,5 +60,11 @@ class GroupCategoryPlug(models.Model):
         verbose_name=_('category'))
 
     class Meta:
-        abstract=True
+        abstract = True
+
+
+class GroupCategoryPlug(BaseGroupCategoryPlug):
+
+    class Meta:
+        abstract = True
 

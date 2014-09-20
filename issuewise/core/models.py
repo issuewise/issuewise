@@ -3,8 +3,11 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from core.managers import UriNameManager
 
+def uri_name_mixin_factory():
+    return UriNameMixin
 
-class UriNameMixin(models.Model):
+
+class BaseUriNameMixin(models.Model):
     """ Adds a uri_name field to any model that has a name field.
     If you want to include a uri_name field to a model, do the
     following:
@@ -32,6 +35,12 @@ class UriNameMixin(models.Model):
         are stripped 
         """
         self.name = re.sub(r"^\s+|\s+$",'',self.name)
+
+
+class UriNameMixin(BaseUriNameMixin):
+    
+    class Meta:
+        abstract = True
 
 
     
