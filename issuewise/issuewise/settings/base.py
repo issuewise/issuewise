@@ -91,12 +91,21 @@ def get_environment_variable(var_name):
         error_msg = "Set the %s environment variable" % var_name
         raise ImproperlyConfigured(error_msg)
 
-# Custom User model
+
+# Custom models for users
 
 AUTH_USER_MODEL = 'accounts.WiseUser'
+
+# Custom models for groups
+
 SITE_GROUP_MODEL = 'groups.WiseGroup'
+GROUP_MEMBERSHIP_MODEL = 'groups.Membership'
+
+# Custom models for categories
+
 PUBLIC_CATEGORY_MODEL = 'categories.PublicCategory'
 GROUP_CATEGORY_MODEL = 'categories.GroupCategory'
+
 
 
 
