@@ -3,10 +3,10 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.core import validators
-from core.models import UriNameMixin
+from core.models import uri_name_mixin_factory
 from accounts.managers import BaseWiseUserManager, WiseUserManager
 
-
+UriNameMixinClass = uri_name_mixin_factory()
 
 
 class BaseWiseUser(AbstractBaseUser, PermissionsMixin):
@@ -75,7 +75,7 @@ class BaseWiseUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
-class WiseUser(BaseWiseUser, UriNameMixin):
+class WiseUser(BaseWiseUser, UriNameMixinClass):
     """
     Issuewise users
 
