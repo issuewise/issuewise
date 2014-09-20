@@ -2,12 +2,14 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from accounts.models.mixins import Creatable
-from groups.models.relationships import Membership
-from core.models import UriNameMixin
+from accounts.models.mixins import creatable_factory
+from core.models import uri_name_mixin_factory
+
+CreatableClass = creatable_factory()
+UriNameMixinClass = uri_name_mixin_factory()
 
 
-class BaseWiseGroup(Creatable):
+class BaseWiseGroup(CreatableClass):
     """
     ANY CUSTOM GROUP CLASS SHOULD INHERIT THIS MODEL
 
@@ -21,13 +23,14 @@ class BaseWiseGroup(Creatable):
     name = models.CharField(max_length=200, help_text=_('Required. ' 
         '200 characters or less.'), verbose_name=_('group name'))
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, 
-        through=Membership, verbose_name=_('group members'))
+        through=settings.GROUP_MEMBERSHIP_MODEL, 
+        verbose_name=_('group members'))
 
     class Meta:
         abstract=True
 
 
-class WiseGroup(BaseWiseGroup, UriNameMixin):
+class WiseGroup(BaseWiseGroup, UriNameMixinClass):
     """ Issuewise groups """
     
     def save(self,*args,**kwargs):
