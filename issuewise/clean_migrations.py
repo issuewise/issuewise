@@ -1,3 +1,8 @@
+"""
+Run this file from a Django >=1.7 project root. 
+Removes all migration files from all apps in a project.
+""" 
+
 from unipath import Path
 
 this_file = Path(__file__).absolute()

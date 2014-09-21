@@ -6,6 +6,9 @@ from django.core import validators
 from core.models import uri_name_mixin_factory
 from accounts.managers import BaseWiseUserManager, WiseUserManager
 
+# Get appropriate mixin classes from their respective 
+# factory methods.
+
 UriNameMixinClass = uri_name_mixin_factory()
 
 
@@ -13,31 +16,43 @@ class BaseWiseUser(AbstractBaseUser, PermissionsMixin):
     """
     ANY CUSTOM USER CLASS SHOULD INHERIT THIS MODEL
 
-    Makes the following assumptions which should not be changed:
+    Fields
 
-    1. Email is the unique identifying name for the user.
+    Required: email
 
-    2. User is either a superuser, or a staff or none. Superusers
-    can log in and do almost anything that can be done using
-    the admin interface. Staffs can log in to the admin interface
-    and view all the data. Users who are neither staff nor 
-    superusers cannot log in to the admin interface.
+        Email is the unique identifying name for the user. No 
+        assumptions about characters allowed in email. 
+        Everything is allowed.
 
-    3. Full name information is required to create an user. The full 
-    name information is a singe field as naming
-    conventions very across the world. The patterns First name, Last
-    name or First Name, Middle Name, Last name are not universal.
-    Given name, Other names is a good pattern, but Full name is 
-    simpler.
+    is_superuser = False , is_staff = False
 
-    4. Users can join the website, either via registration or
-    via the admin interface. This explains the attribute date_joined.
+        User is either a superuser, or a staff or none. Superusers
+        can log in and do almost anything that can be done using
+        the admin interface. Staffs can log in to the admin interface
+        and view all the data. Users who are neither staff nor 
+        superusers cannot log in to the admin interface.
 
-    5. Users can be members of canonical Django permission based 
-    groups and can be given canonical Django permissions.
+    Required : name
+        
+        Full name of an user. No assumptions about characters allowed 
+        in email. Everything is allowed.
+        The full name information is a single field as naming 
+        conventions very across the world. The patterns First name, 
+        Lastname or First Name, Middle Name, Last name are not 
+        universal. Given name, Other names is a good pattern, but 
+        Full name is simpler.
 
-    6. Does NOT make any assumptions about characters allowed 
-    in name or email.
+    auto : date_joined
+    
+        Users can join the website, either via registration or
+        via the admin interface. The time of joing is stored
+        automatically in date_joined.
+
+    Additional information:
+        
+        Fully compatible with django authorization.
+        Users can be members of canonical Django permission based 
+        groups and can be given canonical Django permissions.
     """  
     name = models.CharField(_('full name'), max_length=200,
         help_text=_('Required. 200 characters or fewer.'))
@@ -77,25 +92,39 @@ class BaseWiseUser(AbstractBaseUser, PermissionsMixin):
 
 class WiseUser(BaseWiseUser, UriNameMixinClass):
     """
-    Issuewise users
+    ISSUEWISE USERS
 
-    Assumptions that can change:
+    Fields
 
-    1. Each user gets an correctly encoded uri_name which is a 
-    part of the user URI e.g issuewise.org/users/url_name. This
-    name is assigned the first time the WiseUser object gets saved.
+    auto : uri_name
 
-    2. Full name has no trailing whitespaces
+        Each user gets a correctly encoded uri_name. The uri_name
+        appears in the user URI as shown below:
+        issuewise.org/users/wiseuser_uri_name
+        This name is automatically assigned when the WiseUser object 
+        is saved to the database for the first time.
 
-    3. Email is normalized
+    required : name
 
-    4. The user account may be active or inactive. The account might
-    be inactive for the following reasons:
+        see BaseWiseUser.name 
+        All trailing whitespaces are removed when the WiseUser object 
+        is saved to the database for the first time.
+
+    required : email
+        
+        see BaseWiseUser.email
+        Email is normalized when the WiseUser object 
+        is saved to the database for the first time.
+
+    is_active = False
+
+        Denotes whether the user account is active or inactive. 
+        The account might be inactive for the following reasons:
         - email not verified
         - account deleted
         - account banned etc. 
     """
-    is_active = models.BooleanField(_('active'), default=True,
+    is_active = models.BooleanField(_('active'), default=False,
         help_text=_('Designates whether this user should be treated as '
                     'active. Unselect this instead of deleting accounts.'))
 
@@ -105,6 +134,12 @@ class WiseUser(BaseWiseUser, UriNameMixinClass):
         app_label = 'accounts'
 
     def save(self,*args,**kwargs):
+        """
+        Prior to saving, checks if the instance is being saved for the 
+        first time in the database. If yes, cleans the name field,
+        populates the uri_name field based on the cleaned name and
+        normalizes email.
+        """
         if not self.id:
             self.clean_name()
             self.uri_name = WiseUser.uri_name_manager.get_uri_name(self.name)

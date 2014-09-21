@@ -20,7 +20,6 @@ class Migration(migrations.Migration):
                 ('subscribed_at', models.DateTimeField(auto_now_add=True, verbose_name='time subscribed')),
             ],
             options={
-                'abstract': False,
             },
             bases=(models.Model,),
         ),
@@ -35,7 +34,6 @@ class Migration(migrations.Migration):
                 ('members', models.ManyToManyField(to=settings.AUTH_USER_MODEL, verbose_name='group members', through='groups.Membership')),
             ],
             options={
-                'abstract': False,
             },
             bases=(models.Model,),
         ),

@@ -4,6 +4,13 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class UserProfile(models.Model):
-    """ Stores additional information for users """
+    """ 
+    USER PROFILE MODEL
+        
+    Field
+
+    required : user
+        Denotes the user
+    """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='profile',
                                 verbose_name=_("user"))

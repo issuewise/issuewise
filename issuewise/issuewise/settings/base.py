@@ -90,6 +90,12 @@ def get_environment_variable(var_name):
         error_msg = "Set the %s environment variable" % var_name
         raise ImproperlyConfigured(error_msg)
 
+# Model declarations
+
+# To avoid hardcoding your models, use
+# from django.conf import settings
+# ...and then use settings.APPROPRIATE_MODEL
+# to establish Foreign Key relationships and for other purposes.
 
 # Custom models for users
 

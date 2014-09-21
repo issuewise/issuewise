@@ -1,6 +1,11 @@
 from django.db.models import get_model
 
 def get_model_from_settings(model_string):
+    """
+    Takes a string of the form 'app_label.model' as input, returns the 
+    appropriate model class if it can find it.
+    """
+    
     try:
        app_label, model_name = model_string.split('.')
     except ValueError:
