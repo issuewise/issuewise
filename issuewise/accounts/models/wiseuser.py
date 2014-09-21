@@ -102,7 +102,7 @@ class WiseUser(BaseWiseUser, UriNameMixinClass):
     wise_user_manager=WiseUserManager()
     
     class Meta(BaseWiseUser.Meta):
-        pass
+        app_label = 'accounts'
 
     def save(self,*args,**kwargs):
         if not self.id:

@@ -28,6 +28,9 @@ class PublicCategory(BaseCategory, UriNameMixinClass):
             self.uri_name = PublicCategory.uri_name_manager.get_uri_name(self.name)
         super(PublicCategory,self).save(*args,**kwargs)
 
+    class Meta: 
+        app_label = 'categories'
+
 
 class GroupCategory(BaseCategory, UriNameMixinClass, OwnedByGroupClass):
     """ Categories that are owned by groups """
@@ -37,4 +40,7 @@ class GroupCategory(BaseCategory, UriNameMixinClass, OwnedByGroupClass):
             self.clean_name()
             self.uri_name = GroupCategory.uri_name_manager.get_uri_name(self.name)
         super(GroupCategory,self).save(*args,**kwargs)
+
+    class Meta:
+        app_label = 'categories'
 

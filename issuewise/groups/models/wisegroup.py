@@ -39,3 +39,6 @@ class WiseGroup(BaseWiseGroup, UriNameMixinClass):
             self.uri_name = WiseGroup.uri_name_manager.get_uri_name(self.name)
         super(WiseGroup,self).save(*args,**kwargs)
 
+    class Meta:
+        app_label = 'groups'
+
