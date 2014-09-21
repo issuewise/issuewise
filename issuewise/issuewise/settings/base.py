@@ -33,7 +33,6 @@ ALLOWED_HOSTS = ['www.issuewise.org']
 
 
 # Application definition
-# accounts should always be the last app listed! 
 
 INSTALLED_APPS = (
     'django.contrib.admin',
