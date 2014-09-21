@@ -11,4 +11,4 @@ def member_on_create(sender, **kwargs):
     if kwargs.get('created', False):
         group = kwargs.get('instance')
         MembershipModel(group = group, subscriber = group.creator).save()
-    
+ 
