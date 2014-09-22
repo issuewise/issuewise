@@ -16,4 +16,4 @@ unexpected errors!
 
 from wiseuser import WiseUser
 
-__all__ = [WiseUser,] 
+__all__ = ['WiseUser'] 

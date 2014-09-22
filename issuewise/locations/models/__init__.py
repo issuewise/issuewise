@@ -16,4 +16,4 @@ unexpected errors!
 
 from wiselocations import WiseLocation
 
-__all__ = [WiseLocation]
+__all__ = ['WiseLocation']

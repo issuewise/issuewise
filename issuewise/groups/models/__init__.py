@@ -17,4 +17,4 @@ unexpected errors!
 from wisegroup import WiseGroup
 from relationships import Membership
 
-__all__ = [WiseGroup, Membership]
+__all__ = ['WiseGroup', 'Membership']

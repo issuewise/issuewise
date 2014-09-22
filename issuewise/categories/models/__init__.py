@@ -16,4 +16,4 @@ unexpected errors!
 
 from wisecategories import PublicCategory, GroupCategory
 
-__all__ = [PublicCategory, GroupCategory]
+__all__ = ['PublicCategory', 'GroupCategory']
