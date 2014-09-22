@@ -1,7 +1,6 @@
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
 from accounts.models.mixins import creatable_factory
-from core.models import uri_name_mixin_factory
+from core.models import Hierarchy, uri_name_mixin_factory
 from django.utils.translation import ugettext_lazy as _
 
 ## Get appropriate mixin classes from their respective 
@@ -18,7 +17,7 @@ LOCATION_TYPE_CHOICES = (
 )
 
 
-class BaseLocation(MPTTModel):
+class BaseLocation(Hierarchy):
     """
     ANY CUSTOM LOCATION MODEL SHOULD INHERIT FROM THIS MODEL
 
@@ -48,8 +47,6 @@ class BaseLocation(MPTTModel):
     name = models.CharField(_('location name'), max_length = 100)
     location_type = models.CharField(_('location type'), max_length = 50,
         choices = LOCATION_TYPE_CHOICES)
-    parent = TreeForeignKey('self', null = True, blank = True, 
-        related_name = 'children')
 
     
     class MPTTMeta:
