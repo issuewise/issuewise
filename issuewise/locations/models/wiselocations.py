@@ -57,7 +57,7 @@ class BaseWiseLocation(Hierarchy):
         abstract = True
 
 
-class WiseLocation(BaseLocation, CreatableClass, UriNameMixinClass):
+class WiseLocation(BaseWiseLocation, CreatableClass, UriNameMixinClass):
     """
     ISSUEWISE LOCATION CLASS
 
