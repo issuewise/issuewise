@@ -46,6 +46,8 @@ INSTALLED_APPS = (
     'userprofile',
     'groups',
     'categories',
+    'groupprofile',
+    'locations'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -110,6 +112,10 @@ GROUP_MEMBERSHIP_MODEL = 'groups.Membership'
 
 PUBLIC_CATEGORY_MODEL = 'categories.PublicCategory'
 GROUP_CATEGORY_MODEL = 'categories.GroupCategory'
+
+# Custom models for locations
+
+LOCATION_MODEL = 'locations.Location'
 
 
 
