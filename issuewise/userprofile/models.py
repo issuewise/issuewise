@@ -13,4 +13,4 @@ class UserProfile(models.Model):
         Denotes the user
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='profile',
-                                verbose_name=_("user"))
+                                verbose_name=_('user'))
