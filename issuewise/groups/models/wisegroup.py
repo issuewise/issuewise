@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from accounts.models.mixins import creatable_factory
 from core.models import uri_name_mixin_factory
+from groups.models.mixins import GroupHierarchy
 
 # Get appropriate mixin classes from their respective 
 # factory methods.
@@ -38,7 +39,7 @@ class BaseWiseGroup(CreatableClass):
         abstract=True
 
 
-class WiseGroup(BaseWiseGroup, UriNameMixinClass):
+class WiseGroup(GroupHierarchy, BaseWiseGroup, UriNameMixinClass):
     """ 
     ISSUEWISE GROUPS 
     
@@ -70,7 +71,7 @@ class WiseGroup(BaseWiseGroup, UriNameMixinClass):
         if not self.id:
             self.clean_name()
             self.uri_name = WiseGroup.uri_name_manager.get_uri_name(self.name)
-        super(WiseGroup,self).save(*args,**kwargs)
+        super(WiseGroup, self).save(*args,**kwargs)
 
     class Meta:
         app_label = 'groups'
