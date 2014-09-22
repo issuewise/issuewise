@@ -1,3 +1,4 @@
+import warnings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
@@ -16,5 +17,11 @@ def member_on_create(sender, **kwargs):
     """
     if kwargs.get('created', False):
         group = kwargs.get('instance')
-        MembershipModel(group = group, subscriber = group.creator).save()
+        if group.creator:
+            MembershipModel(group = group, subscriber = group.creator).save()
+        else:
+            warning_message = ('A group %s with id %s has been created ' 
+                               'without a creator!' % (group.name, group.id))
+            warnings.warn(warning_message)
+            
  
