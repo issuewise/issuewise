@@ -1,1 +1,3 @@
 *.pyc
+issuewise.db
+dev_DC_sqlite.py
