@@ -108,12 +108,16 @@ class Hierarchy(MPTTModel):
             - If you need to add additional fields and methods
               related to hierarchy, make a mixin class which
               inherits Hierarchy and define all other customization
-              in the mixin class. Then inherit the mixin as the 
-              first inherited class in your model M.
+              in the mixin class. Then inherit the mixin
+              in your model M. The mixin should precede any other 
+              models that inherit models.Model in the inheritance chain 
+              of M.
 
             - If no additional customization is required, and you 
               want to establish a bare basic hierarchy, simply inherit
-              Hierarchy as the first inherited class in your model M.
+              Hierarchy in your model M. Hierarchy should precede any 
+              other models that inherit models.Model in the inheritance 
+              chain of M.
     """
     parent = TreeForeignKey('self', null = True, blank = True,
         related_name = 'children')
