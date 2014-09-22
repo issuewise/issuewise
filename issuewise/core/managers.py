@@ -18,5 +18,6 @@ class UriNameManager(models.Manager):
         uri_name=urlquote(name)
         count=self.filter(uri_name=uri_name).count()
         if count!=0:
-            uri_name=urlquote(name+u'-'+unicode(count))
+            joined_name = u'-'.join([name, unicode(count)])
+            uri_name=urlquote(joined_name)
         return uri_name
