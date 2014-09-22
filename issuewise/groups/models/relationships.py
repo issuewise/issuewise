@@ -28,7 +28,9 @@ class Membership(SubscribableModel):
         group
     """
     group = models.ForeignKey(settings.SITE_GROUP_MODEL,
-        verbose_name=_("group"))
+        verbose_name=_('group'))
+
 
     class Meta:
         app_label = 'groups'
+    
