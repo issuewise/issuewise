@@ -25,6 +25,8 @@ class Migration(migrations.Migration):
                 ('owner', models.ForeignKey(related_name=b'category_set', verbose_name='group which owns this category', to='groups.WiseGroup')),
             ],
             options={
+                'verbose_name': 'group category',
+                'verbose_name_plural': 'group categories',
             },
             bases=(models.Model,),
         ),
@@ -38,6 +40,8 @@ class Migration(migrations.Migration):
                 ('creator', models.ForeignKey(related_name=b'categories_publiccategory_set', on_delete=django.db.models.deletion.SET_NULL, verbose_name='creator', to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={
+                'verbose_name': 'public category',
+                'verbose_name_plural': 'public categories',
             },
             bases=(models.Model,),
         ),
