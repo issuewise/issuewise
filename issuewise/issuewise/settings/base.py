@@ -115,7 +115,7 @@ GROUP_CATEGORY_MODEL = 'categories.GroupCategory'
 
 # Custom models for locations
 
-LOCATION_MODEL = 'locations.Location'
+LOCATION_MODEL = 'locations.WiseLocation'
 
 
 
