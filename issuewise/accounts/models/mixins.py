@@ -40,21 +40,6 @@ class BaseSubscribable(models.Model):
     auto : subscribed_at
         
         Denotes the time of subscription.
-
-    Additional info: 
-
-        You have to do the following to make a model M subscribable:
-
-        - Create a mixin model M' that has a ManyToManyField which
-          points to settings.AUTH_USER_MODEL.
-
-        - If the many to many relation requires additional fields,
-          then use "through" in the ManyToManyField to reference a
-          custom join model.
-
-        - Inherit Subscribable in the "through" model.
-
-        - Inherit the mixin model M' in the model M.
     """
     subscriber=models.ForeignKey(settings.AUTH_USER_MODEL, 
         related_name='%(app_label)s_%(class)s_set',
@@ -86,15 +71,16 @@ class Subscribable(BaseSubscribable):
         You have to do the following to make a model M subscribable:
 
         - Create a mixin model M' that has a ManyToManyField which
-          points to settings.AUTH_USER_MODEL.
+          points to settings.AUTH_USER_MODEL
 
         - If the many to many relation requires additional fields,
           then use "through" in the ManyToManyField to reference a
-          custom join model.
+          custom join model
 
-        - Inherit Subscribable in the "through" model.
+        - Inherit Subscribable in the "through" model using 
+          subscribable_factory
 
-        - Inherit the mixin model M' in the model M.
+        - Inherit the mixin model M' in the model M
     """
     
     class Meta:
@@ -139,7 +125,7 @@ class Creatable(BaseCreatable):
     Additional info:
 
         To make a model creatable, inherit this class in the model 
-        that requires a creator.
+        that requires a creator using creatable_factory
     """
     
     class Meta:

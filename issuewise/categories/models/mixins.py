@@ -57,16 +57,17 @@ class PublicCategoryPlug(BasePublicCategoryPlug):
 
         To label public objects with categories, do the following:
 
-          - Create a mixin model that has a ManyToManyField which
-            points to settings.PUBLIC_CATEGORY_MODEL.
+        - Create a mixin model that has a ManyToManyField which
+            points to settings.PUBLIC_CATEGORY_MODEL
 
-          - If the many to many relation requires additional fields,
+        - If the many to many relation requires additional fields,
             then use "through" in the ManyToManyField to reference a
-            custom join model.
+            custom join model
 
-          - Inherit PublicCategoryPlug in the "through" model.
+        - Inherit PublicCategoryPlug in the "through" model using
+          public_category_plug_factory
 
-          - Inherit the mixin model in the model that needs labeling.
+        - Inherit the mixin model in the model that needs labeling
     """
     
     class Meta:
@@ -106,16 +107,17 @@ class GroupCategoryPlug(BaseGroupCategoryPlug):
 
         To label group objects with categories, do the following:
 
-          - Create a mixin model that has a ManyToManyField which
-            points to settings.GROUP_CATEGORY_MODEL.
+        - Create a mixin model that has a ManyToManyField which
+            points to settings.GROUP_CATEGORY_MODEL
 
-          - If the many to many relation requires additional fields,
+        - If the many to many relation requires additional fields,
             then use "through" in the ManyToManyField to reference a
-            custom join model.
+            custom join model
 
-          - Inherit GroupCategoryPlug in the "through" model.
+        - Inherit GroupCategoryPlug in the "through" model using
+          group_category_plug_factory
 
-          - Inherit the mixin model in the model that needs labeling.
+        - Inherit the mixin model in the model that needs labeling
     """
 
     class Meta:
