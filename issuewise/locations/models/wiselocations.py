@@ -17,7 +17,7 @@ LOCATION_TYPE_CHOICES = (
 )
 
 
-class BaseLocation(Hierarchy):
+class BaseWiseLocation(Hierarchy):
     """
     ANY CUSTOM LOCATION MODEL SHOULD INHERIT FROM THIS MODEL
 
@@ -57,7 +57,7 @@ class BaseLocation(Hierarchy):
         abstract = True
 
 
-class Location(BaseLocation, CreatableClass, UriNameMixinClass):
+class WiseLocation(BaseLocation, CreatableClass, UriNameMixinClass):
     """
     ISSUEWISE LOCATION CLASS
 
