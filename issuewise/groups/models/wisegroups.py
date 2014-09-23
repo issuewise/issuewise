@@ -2,44 +2,19 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from accounts.models.mixins import creatable_factory
-from core.models import uri_name_mixin_factory
-from groups.models.mixins import GroupHierarchy
+
+from groups.models.base import BaseGroup, BaseMembership
+from core.utils import uri_name_mixin_factory
+from groups.utils import group_hierarchy_factory
 
 # Get appropriate mixin classes from their respective 
 # factory methods.
 
-CreatableClass = creatable_factory()
-UriNameMixinClass = uri_name_mixin_factory()
+UriNameMixinClass = uri_name_mixin_factory(version_label = 'latest')
+GroupHierarchyClass = group_hierarchy_factory(version_label = 'latest')
 
 
-class BaseWiseGroup(CreatableClass):
-    """
-    ANY CUSTOM GROUP CLASS SHOULD INHERIT THIS MODEL
-
-    Fields
-
-    required : name
-        
-        Name of the category. No assumptions about characters allowed in 
-        name.  Everything is allowed.
-
-    creator = NULL
-
-        User who created this group. Set to NULL when the user
-        is deleted.
-    """ 
-    name = models.CharField(max_length=200, help_text=_('Required. ' 
-        '200 characters or less.'), verbose_name=_('group name'))
-    members = models.ManyToManyField(settings.AUTH_USER_MODEL, 
-        through=settings.GROUP_MEMBERSHIP_MODEL, 
-        verbose_name=_('group members'))
-
-    class Meta:
-        abstract=True
-
-
-class WiseGroup(GroupHierarchy, BaseWiseGroup, UriNameMixinClass):
+class WiseGroup(GroupHierarchyClass, BaseGroup, UriNameMixinClass):
     """ 
     ISSUEWISE GROUPS 
     
@@ -53,13 +28,13 @@ class WiseGroup(GroupHierarchy, BaseWiseGroup, UriNameMixinClass):
 
     required : name
 
-        see BaseWiseGroup.name
+        see BaseGroup.name
         All trailing whitespaces are removed when the WiseGroup 
         object is saved to the database for the first time.
 
     creator = NULL
     
-        see BaseWiseGroup.creator
+        see BaseGroup.creator
     """
     
     def save(self,*args,**kwargs):
@@ -73,6 +48,28 @@ class WiseGroup(GroupHierarchy, BaseWiseGroup, UriNameMixinClass):
             self.uri_name = WiseGroup.uri_name_manager.get_uri_name(self.name)
         super(WiseGroup, self).save(*args,**kwargs)
 
+    class Meta:
+        app_label = 'groups'
+
+
+class WiseMembership(BaseMembership):
+    """
+    GROUP MEMBERSHIP CLASS
+    
+    Fields
+
+    required : group
+        Denotes the group. Subscription is deleted when the group 
+        deleted
+
+    required : subscriber
+        Denotes the member (user). Subscription is deleted when
+        the user gets deleted
+
+    auto : subscribed_at
+        Denotes the time at which the user became a member of the
+        group
+    """
     class Meta:
         app_label = 'groups'
 

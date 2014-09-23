@@ -14,6 +14,6 @@ might make errors in the schema declarations and even throw
 unexpected errors! 
 """
 
-from wiseuser import WiseUser
+from accounts.models.wiseusers import WiseUser
 
 __all__ = ['WiseUser'] 

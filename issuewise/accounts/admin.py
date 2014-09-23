@@ -6,7 +6,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import ugettext_lazy as _
 
 
-from accounts.models.wiseuser import WiseUser
+from accounts.models.wiseusers import WiseUser
 
 
 class UserCreationForm(forms.ModelForm):

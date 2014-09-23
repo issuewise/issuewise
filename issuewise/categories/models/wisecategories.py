@@ -1,45 +1,19 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from accounts.models.mixins import creatable_factory
-from core.models import uri_name_mixin_factory
-from groups.models.mixins import owned_by_group_factory
+
+from categories.models.base import BaseCategory
+from core.utils import uri_name_mixin_factory
+from groups.utils import owned_by_group_factory
 
 # Get appropriate mixin classes from their respective 
 # factory methods.
 
-CreatableClass = creatable_factory()
-UriNameMixinClass = uri_name_mixin_factory()
-OwnedByGroupClass = owned_by_group_factory()
+UriNameMixinClass = uri_name_mixin_factory(version_label = 'latest')
+OwnedByGroupClass = owned_by_group_factory(version_label = 'latest')
 
 
-class BaseCategory(CreatableClass):
-    """ 
-    CATEGORIES ARE USED TO LABEL OTHER OBJECTS.
-    ANY CUSTOM CATEGORY CLASS SHOULD INHERIT THIS MODEL  
-    
-    Field
-
-    required : name
-    
-        Name of the category. No assumptions about characters allowed in 
-        name.  Everything is allowed.
-
-    creator = NULL
-
-        User who created this category. Set to NULL when the user
-        is deleted.
-
-    auto : created_at
-        Time at which the group was created.
-    """ 
-    name = models.CharField(_('category name'), max_length=50)
-
-    class Meta:
-        abstract = True
-
-
-class PublicCategory(BaseCategory, UriNameMixinClass):
+class WisePublicCategory(BaseCategory, UriNameMixinClass):
     """ 
     THIS IS A CLASS FOR CATEGORIES IN THE PUBLIC DOMAIN
 
@@ -76,7 +50,7 @@ class PublicCategory(BaseCategory, UriNameMixinClass):
         if not self.id:
             self.clean_name()
             self.uri_name = PublicCategory.uri_name_manager.get_uri_name(self.name)
-        super(PublicCategory,self).save(*args,**kwargs)
+        super(WisePublicCategory,self).save(*args,**kwargs)
 
     class Meta: 
         app_label = 'categories'
@@ -84,7 +58,7 @@ class PublicCategory(BaseCategory, UriNameMixinClass):
         verbose_name_plural = 'public categories'
 
 
-class GroupCategory(BaseCategory, UriNameMixinClass, OwnedByGroupClass):
+class WiseGroupCategory(BaseCategory, UriNameMixinClass, OwnedByGroupClass):
     """ 
     THIS IS A CLASS FOR CATEGORIES OWNED BY GROUPS
 
@@ -126,7 +100,7 @@ class GroupCategory(BaseCategory, UriNameMixinClass, OwnedByGroupClass):
         if not self.id:
             self.clean_name()
             self.uri_name = GroupCategory.uri_name_manager.get_uri_name(self.name)
-        super(GroupCategory,self).save(*args,**kwargs)
+        super(WiseGroupCategory,self).save(*args,**kwargs)
 
     class Meta:
         app_label = 'categories'

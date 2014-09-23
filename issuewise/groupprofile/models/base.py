@@ -3,7 +3,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 
-class GroupProfile(models.Model):
+class BaseGroupProfile(models.Model):
     """ 
     GROUP PROFILE MODEL
         
@@ -14,3 +14,8 @@ class GroupProfile(models.Model):
     """
     group = models.OneToOneField(settings.SITE_GROUP_MODEL, related_name='profile',
                                 verbose_name=_('group'))
+
+
+    class Meta:
+        abstract = True
+        app_label = 'groupprofile'

@@ -14,6 +14,8 @@ might make errors in the schema declarations and even throw
 unexpected errors! 
 """
 
-from categories.models.wisecategories import WisePublicCategory, WiseGroupCategory
+from core.models.uri import UriNameMixin
+from core.models.hierarchy import Hierarchy
+from core.models.user import Creatable, Subscribable
 
-__all__ = ['WisePublicCategory', 'WiseGroupCategory']
+__all__ = ['UriNameMixin', 'Hierarchy', 'Creatable', 'Subscribable']

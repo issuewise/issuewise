@@ -14,6 +14,6 @@ might make errors in the schema declarations and even throw
 unexpected errors! 
 """
 
-from categories.models.wisecategories import WisePublicCategory, WiseGroupCategory
+from userprofile.models.wiseuserprofiles import WiseUserProfile
 
-__all__ = ['WisePublicCategory', 'WiseGroupCategory']
+__all__ = ['WiseUserProfile']

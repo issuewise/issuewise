@@ -1,5 +1,5 @@
 from django.contrib import admin
-from categories.models.wisecategories import PublicCategory, GroupCategory
+from categories.models.wisecategories import WisePublicCategory, WiseGroupCategory
 
-admin.site.register(PublicCategory)
-admin.site.register(GroupCategory)
+admin.site.register(WisePublicCategory)
+admin.site.register(WiseGroupCategory)

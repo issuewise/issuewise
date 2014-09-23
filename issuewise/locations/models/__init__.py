@@ -14,6 +14,6 @@ might make errors in the schema declarations and even throw
 unexpected errors! 
 """
 
-from wiselocations import WiseLocation
+from locations.models.wiselocations import WiseLocation
 
 __all__ = ['WiseLocation']

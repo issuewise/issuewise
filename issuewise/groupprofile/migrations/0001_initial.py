@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='GroupProfile',
+            name='WiseGroupProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('group', models.OneToOneField(related_name=b'profile', verbose_name='group', to='groups.WiseGroup')),

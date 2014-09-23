@@ -106,16 +106,24 @@ AUTH_USER_MODEL = 'accounts.WiseUser'
 # Custom models for groups
 
 SITE_GROUP_MODEL = 'groups.WiseGroup'
-GROUP_MEMBERSHIP_MODEL = 'groups.Membership'
+GROUP_MEMBERSHIP_MODEL = 'groups.WiseMembership'
 
 # Custom models for categories
 
-PUBLIC_CATEGORY_MODEL = 'categories.PublicCategory'
-GROUP_CATEGORY_MODEL = 'categories.GroupCategory'
+PUBLIC_CATEGORY_MODEL = 'categories.WisePublicCategory'
+GROUP_CATEGORY_MODEL = 'categories.WiseGroupCategory'
 
 # Custom models for locations
 
 LOCATION_MODEL = 'locations.WiseLocation'
+
+# Custom models for userprofile
+
+USER_PROFILE_MODEL = 'userprofile.WiseUserProfile'
+
+# Custom models for groupprofile
+
+GROUP_PROFILE_MODEL = 'groupprofile.WiseGroupProfile'
 
 
 

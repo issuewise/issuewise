@@ -2,7 +2,7 @@ import re
 from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
 
-class BaseWiseUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
     """
     Manager for the BaseWiseUser abstract class. Any class
     that extends BaseWiseUser will receive this Manager as
@@ -47,8 +47,8 @@ class BaseWiseUserManager(BaseUserManager):
                                  True, True, **extra_fields)
 
 
-class WiseUserManager(BaseWiseUserManager):
-    """ This is the custom Manager for WiseUser. Extends BaseUserManager"""
+class WiseUserManager(CustomUserManager):
+    """ This is the custom Manager for WiseUser. Extends CustomUserManager"""
     pass
     
 

@@ -1,63 +1,19 @@
 from django.db import models
-from accounts.models.mixins import creatable_factory
-from core.models import Hierarchy, uri_name_mixin_factory
 from django.utils.translation import ugettext_lazy as _
+
+from locations.models.base import BaseLocation
+from locations.utils import creatable_factory
+from core.utils import uri_name_mixin_factory
 
 ## Get appropriate mixin classes from their respective 
 # factory methods.
 
-CreatableClass = creatable_factory()
-UriNameMixinClass = uri_name_mixin_factory()
-
-LOCATION_TYPE_CHOICES = (
-    ('CO', 'Country'),
-    ('ST', 'State/Province'),
-    ('CI', 'City/Town/Village'),
-    ('GL', 'Global'),
-)
+CreatableClass = creatable_factory(accounts_version_label = 'latest',
+                                   core_version_label = 'latest')
+UriNameMixinClass = uri_name_mixin_factory(version_label = 'latest')
 
 
-class BaseWiseLocation(Hierarchy):
-    """
-    ANY CUSTOM LOCATION MODEL SHOULD INHERIT FROM THIS MODEL
-
-    Fields
-
-    required : name
-
-        Name of the category. No assumptions about characters allowed in 
-        name.  Everything is allowed.
-
-    required : location_type
-    
-        Political subdivision. Allowed values are
-        - 'Country'
-        - 'State/Province'
-        - 'City/Town/Village'
-        - 'Global' (means the planet Earth,
-                    this is not really a political subdivision yet) 
-
-    required : parent
-
-        Refers to the parent division e.g a 'City' should refer to 
-        a 'State', and a 'State' should refer to a 'Country'. Set to
-        NULL if location_type = 'Global'.
-    """
-    
-    name = models.CharField(_('location name'), max_length = 100)
-    location_type = models.CharField(_('location type'), max_length = 50,
-        choices = LOCATION_TYPE_CHOICES)
-
-    
-    class MPTTMeta:
-        order_insertion_by = ['name']
-
-
-    class Meta:
-        abstract = True
-
-
-class WiseLocation(BaseWiseLocation, CreatableClass, UriNameMixinClass):
+class WiseLocation(BaseLocation, CreatableClass, UriNameMixinClass):
     """
     ISSUEWISE LOCATION CLASS
 
@@ -103,7 +59,11 @@ class WiseLocation(BaseWiseLocation, CreatableClass, UriNameMixinClass):
         if not self.id:
             self.clean_name()
             self.uri_name = Location.uri_name_manager.get_uri_name(self.name)
-        super(Location,self).save(*args,**kwargs)
+        super(WiseLocation,self).save(*args,**kwargs)
+
+
+    class Meta:
+        app_label = 'locations'
 
     
     
