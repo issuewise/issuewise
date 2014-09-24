@@ -43,9 +43,7 @@ class WiseGroup(GroupHierarchyClass, BaseGroup, UriNameMixinClass):
         first time in the database. If yes, cleans the name field
         and populates the uri_name field based on the cleaned name.
         """
-        if not self.id:
-            self.clean_name()
-            self.uri_name = WiseGroup.uri_name_manager.get_uri_name(self.name)
+        UriNameMixinClass.pre_save_process(self)
         super(WiseGroup, self).save(*args,**kwargs)
 
     class Meta:

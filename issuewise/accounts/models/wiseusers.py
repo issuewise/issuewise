@@ -65,9 +65,8 @@ class WiseUser(BaseUser, UriNameMixinClass):
         normalizes email.
         """
         if not self.id:
-            self.clean_name()
-            self.uri_name = WiseUser.uri_name_manager.get_uri_name(self.name)
             self.email = WiseUser.objects.normalize_email(self.email)
+        UriNameMixinClass.pre_save_process(self)
         super(WiseUser,self).save(*args,**kwargs)
 
 

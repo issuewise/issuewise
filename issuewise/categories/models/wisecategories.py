@@ -47,9 +47,7 @@ class WisePublicCategory(BaseCategory, UriNameMixinClass):
         first time in the database. If yes, cleans the name field
         and populates the uri_name field based on the cleaned name
         """
-        if not self.id:
-            self.clean_name()
-            self.uri_name = PublicCategory.uri_name_manager.get_uri_name(self.name)
+        UriNameMixinClass.pre_save_process(self)
         super(WisePublicCategory,self).save(*args,**kwargs)
 
     class Meta: 
@@ -97,9 +95,7 @@ class WiseGroupCategory(BaseCategory, UriNameMixinClass, OwnedByGroupClass):
         first time in the database. If yes, cleans the name field
         and populates the uri_name field based on the cleaned name.
         """
-        if not self.id:
-            self.clean_name()
-            self.uri_name = GroupCategory.uri_name_manager.get_uri_name(self.name)
+        UriNameMixinClass.pre_save_process(self)
         super(WiseGroupCategory,self).save(*args,**kwargs)
 
     class Meta:
