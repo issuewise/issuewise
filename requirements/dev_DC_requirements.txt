@@ -1,4 +1,7 @@
 Django==1.7
 Unipath==1.0
+django-appconf==0.6
+django-imagekit==3.2.2
 django-mptt==0.6.1
 mysql-python==1.2.5
+pilkit==1.1.9
