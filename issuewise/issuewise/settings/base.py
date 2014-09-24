@@ -21,6 +21,16 @@ from unipath import Path
 
 BASE_DIR = Path(__file__).absolute().ancestor(3)
 
+# SECURITY WARNING: don't run with debug turned on in production!
+
+DEBUG = True
+
+TEMPLATE_DEBUG = True
+
+# SECURITY WARNING: keep the secret key used in production secret!
+
+SECRET_KEY = '4%hom^_1re&=f^e-0k9t5ribs^x+teukn(j_cj((7#wck$z4-8'
+
 # A list of strings representing the host/domain names that this 
 # Django site can serve. This is a security measure to prevent an 
 # attacker from poisoning caches and password reset emails with links 
@@ -30,6 +40,15 @@ BASE_DIR = Path(__file__).absolute().ancestor(3)
 # TRUE.
 
 ALLOWED_HOSTS = ['www.issuewise.org']
+
+# Database configuration. Set to use sqlite3.
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME' : BASE_DIR.child('issuewise.db'),
+    }
+}
 
 
 # Application definition
@@ -47,7 +66,8 @@ INSTALLED_APPS = (
     'groups',
     'categories',
     'groupprofile',
-    'locations'
+    'locations',
+    'avatars'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -124,6 +144,19 @@ USER_PROFILE_MODEL = 'userprofile.WiseUserProfile'
 # Custom models for groupprofile
 
 GROUP_PROFILE_MODEL = 'groupprofile.WiseGroupProfile'
+
+# All media files will stay under this directory
+
+MEDIA_ROOT = BASE_DIR.child('media')
+
+# Sub directory under MEDIA_ROOT/avatars for storing avatars of 
+# different models. Keys should be in lowercase only. 
+# ModelName should be written as modelname for example.
+
+MODEL_AVATAR_DIR = {
+    'accounts.wiseuser' : 'users',
+    'groups.wisegroup' : 'groups',
+    }
 
 
 
