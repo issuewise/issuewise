@@ -57,6 +57,11 @@ class WiseUser(BaseUser, UriNameMixinClass):
     class Meta(BaseUser.Meta):
         app_label = 'accounts'
 
+    def clean(self):
+        if not self.id:
+            self.email = WiseUser.objects.normalize_email(self.email)
+            UriNameMixinClass.clean(self)
+
     def save(self,*args,**kwargs):
         """
         Prior to saving, checks if the instance is being saved for the 
@@ -64,9 +69,7 @@ class WiseUser(BaseUser, UriNameMixinClass):
         populates the uri_name field based on the cleaned name and
         normalizes email.
         """
-        if not self.id:
-            self.email = WiseUser.objects.normalize_email(self.email)
-        UriNameMixinClass.pre_save_process(self)
+        WiseUser.full_clean(self)
         super(WiseUser,self).save(*args,**kwargs)
 
 

@@ -41,13 +41,17 @@ class WisePublicCategory(BaseCategory, UriNameMixinClass):
         see BaseCategory.created_at
     """
 
+    def clean(self):
+        if not self.id:
+            UriNameMixinClass.clean(self)
+
     def save(self,*args,**kwargs):
         """
         Prior to saving, checks if the instance is being saved for the 
         first time in the database. If yes, cleans the name field
         and populates the uri_name field based on the cleaned name
         """
-        UriNameMixinClass.pre_save_process(self)
+        WisePublicCtegory.full_clean(self)
         super(WisePublicCategory,self).save(*args,**kwargs)
 
     class Meta: 
@@ -89,13 +93,17 @@ class WiseGroupCategory(BaseCategory, UriNameMixinClass, OwnedByGroupClass):
         see BaseCategory.created_at
     """
 
+    def clean(self):
+        if not self.id:
+            UriNameMixinClass.clean(self)
+
     def save(self,*args,**kwargs):
         """
         Prior to saving, checks if the instance is being saved for the 
         first time in the database. If yes, cleans the name field
         and populates the uri_name field based on the cleaned name.
         """
-        UriNameMixinClass.pre_save_process(self)
+        WiseGroupCategory.full_clean(self)
         super(WiseGroupCategory,self).save(*args,**kwargs)
 
     class Meta:

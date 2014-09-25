@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from locations.models.base import BaseLocation
+from locations.models.base import BaseLocation, BaseSuperLocation
 from locations.utils import creatable_factory
 from core.utils import uri_name_mixin_factory
 
@@ -50,14 +50,38 @@ class WiseLocation(BaseLocation, CreatableClass, UriNameMixinClass):
         object is saved to the database for the first time.
     """
 
+    def clean(self):
+        if not self.id:
+            UriNameMixinClass.clean(self)
+
     def save(self,*args,**kwargs):    
         """
         Prior to saving, checks if the instance is being saved for the 
         first time in the database. If yes, cleans the name field
         and populates the uri_name field based on the cleaned name.
         """
-        UriNameMixinClass.pre_save_process(self)
+        WiseLocation.full_clean(self)
         super(WiseLocation,self).save(*args,**kwargs)
+
+
+    class Meta:
+        app_label = 'locations'
+
+
+class WiseSuperLocation(BaseSuperLocation, CreatableClass, UriNameMixinClass):
+
+    def clean(self):
+        if not self.id:
+            UriNameMixinClass.clean(self)
+    
+    def save(self,*args,**kwargs):    
+        """
+        Prior to saving, checks if the instance is being saved for the 
+        first time in the database. If yes, cleans the name field
+        and populates the uri_name field based on the cleaned name.
+        """
+        WiseSuperLocation.pre_save_process(self)
+        super(WiseSuperLocation,self).save(*args,**kwargs)
 
 
     class Meta:

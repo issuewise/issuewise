@@ -36,6 +36,10 @@ class WiseGroup(GroupHierarchyClass, BaseGroup, UriNameMixinClass):
     
         see BaseGroup.creator
     """
+
+    def clean(self):
+        if not self.id:
+            UriNameMixinClass.clean(self)
     
     def save(self,*args,**kwargs):
         """
@@ -43,7 +47,7 @@ class WiseGroup(GroupHierarchyClass, BaseGroup, UriNameMixinClass):
         first time in the database. If yes, cleans the name field
         and populates the uri_name field based on the cleaned name.
         """
-        UriNameMixinClass.pre_save_process(self)
+        WiseGroup.full_clean(self)
         super(WiseGroup, self).save(*args,**kwargs)
 
     class Meta:
