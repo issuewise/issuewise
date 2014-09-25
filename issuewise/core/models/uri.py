@@ -41,8 +41,8 @@ class UriNameMixin(models.Model):
             - set uri_name using
               M.uri_name_manager.get_uri_name(name)
     """
-    uri_name = models.TextField(_('encoded uri name'), null = True)
-    degeneracy = models.PositiveIntegerField()
+    uri_name = models.TextField(_('encoded uri name'), null = True, blank =True)
+    degeneracy = models.PositiveIntegerField(null=True, blank=True)
 
     uri_name_manager=UriNameManager()
 
@@ -65,13 +65,11 @@ class UriNameMixin(models.Model):
             uri_name=urlquote(joined_name)
         self.uri_name = uri_name
 
-    @classmethod
-    def pre_save_process(cls, instance):
-        if not instance.id:
-            instance.clean_name()
-            max_degeneracy = instance.__class__.uri_name_manager.get_name_max_degeneracy(instance.name)
-            instance.get_uri_name(max_degeneracy)
-            instance.degeneracy = max_degeneracy + 1
+    def clean(self):
+        self.clean_name()
+        max_degeneracy = self.__class__.uri_name_manager.get_name_max_degeneracy(self.name)
+        self.get_uri_name(max_degeneracy)
+        self.degeneracy = max_degeneracy + 1
             
             
             
