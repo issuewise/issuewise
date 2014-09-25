@@ -158,6 +158,11 @@ MODEL_AVATAR_DIR = {
     'groups.wisegroup' : 'groups',
     }
 
+# Avatar thumbnail size settings
+
+THUMBNAIL_HEIGHT = 40
+THUMBNAIL_WIDTH = 40
+
 
 
 
