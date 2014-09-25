@@ -6,13 +6,15 @@ from core.utils import hierarchy_factory
 ## Get appropriate mixin classes from their respective 
 # factory methods.
 
-HierarchyClass=hierarchy_factory(version_label = 'latest')
+HierarchyClass = hierarchy_factory(version_label = 'latest') 
 
 LOCATION_TYPE_CHOICES = (
-    ('CO', 'Country'),
-    ('ST', 'State/Province'),
-    ('CI', 'City/Town/Village'),
-    ('GL', 'Global'),
+    ('COU', 'Country'),
+    ('AD1', 'Primary administrative division'),
+    ('AD2', 'Secondary administrative division'),
+    ('AD3', 'Tertiary administrative division'),
+    ('CIT', 'Major populated region like cities/towns/villages'),
+    ('SUB', 'Suburban regions'), 
 )
 
 
@@ -44,8 +46,12 @@ class BaseLocation(HierarchyClass):
     """
     
     name = models.CharField(_('location name'), max_length = 100)
-    location_type = models.CharField(_('location type'), max_length = 50,
-        choices = LOCATION_TYPE_CHOICES)
+    location_type = models.CharField(_('offcial location type defined '
+                                       'by geographic databases'), 
+                                     max_length = 50,
+                                     choices = LOCATION_TYPE_CHOICES)
+    colloquial_location_type = models.CharField(('colloquial location type'),
+                                                max_length = 50)
 
     
     class MPTTMeta:
@@ -55,5 +61,36 @@ class BaseLocation(HierarchyClass):
     class Meta:
         app_label = 'locations'
         abstract = True
+
+
+SUPERLOCATION_TYPE_CHOICES = (
+    ('CON', 'Continents'),
+    ('MIL', 'Military'),
+    ('ECO', 'Economic'),
+    ('HEA', 'Healthcare'),
+    ('ENV', 'Environmental'),
+    ('EDU', 'Educational'),
+    ('LAN', 'Language'),
+    ('PEA', 'Peace/Conflict Resolution'),
+    ('REG', 'Regional'),
+    ('CUL', 'Cultural'),
+    ('ETH', 'Ethnic'),
+    ('REL', 'Religious'),
+    ('HIS', 'Historical'),
+    ('AID', 'Humanitarian Aid'),
+    ('OTH', 'Others'),
+)
+
+
+class BaseSuperLocation(models.Model):
+
+    name = models.CharField(_('superlocation name'), max_length = 200)
+    alliance_type = models.CharField(_('alliance type'), 
+                                     max_length = 60, null = True, blank = True,
+                                     choices = SUPERLOCATION_TYPE_CHOICES)
+
+    class Meta:
+        abstract = True
+        app_label = 'locations'
     
     
