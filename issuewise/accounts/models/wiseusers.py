@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.core import validators
 
-from core.utils import uri_name_mixin_factory
+from core.utils import uri_name_mixin_factory, activity_mixin_factory
 from accounts.models.base import BaseUser
 from accounts.managers import WiseUserManager
 
@@ -12,9 +12,10 @@ from accounts.managers import WiseUserManager
 # factory methods.
 
 UriNameMixinClass = uri_name_mixin_factory(version_label = 'latest')
+ActivityMixinClass = activity_mixin_factory(version_label = 'latest')
 
 
-class WiseUser(BaseUser, UriNameMixinClass):
+class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
     """
     ISSUEWISE USERS
 
@@ -48,9 +49,16 @@ class WiseUser(BaseUser, UriNameMixinClass):
         - account deleted
         - account banned etc. 
     """
-    is_active = models.BooleanField(_('active'), default=False,
-        help_text=_('Designates whether this user should be treated as '
-                    'active. Unselect this instead of deleting accounts.'))
+    ACTIVITY_STATUS = (
+        ('I', 'inactive'), #default
+        ('A', 'active'),
+    )
+
+    ACTIVITY_STATUS_EXPLANATION = (
+        ('NV', 'not verified'), #default
+        ('AB', 'account blocked'),
+        ('AD', 'account deleted'),
+    )
 
     wise_user_manager=WiseUserManager()
     

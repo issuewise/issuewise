@@ -72,7 +72,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = WiseUser
-        fields = ('email', 'password', 'is_active', 'is_staff', 'is_superuser')
+        fields = ('email', 'password', 'activity_status', 'is_staff', 'is_superuser')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -90,13 +90,13 @@ class WiseUserAdmin(UserAdmin):
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
     list_display = ('name', 'email', 'is_staff')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    list_filter = ('is_staff', 'is_superuser', 'activity_status', 'groups')
     search_fields = ('name', 'email')
     ordering = ('name',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('name','uri_name')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+        (_('Permissions'), {'fields': ('activity_status', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login',)}),
     )
