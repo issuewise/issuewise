@@ -6,6 +6,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.core.files import File
+from django.core.exceptions import ValidationError
 
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
@@ -54,14 +56,10 @@ def thumbnail_upload_path(instance, filename):
     return path
     
     
-class WiseAvatar(models.Model):
+class BaseAvatar(models.Model):
     
-    avatar = models.ImageField(_('avatar'),max_length = 300,
-        upload_to = avatar_upload_path)
-    thumbnail = ProcessedImageField(max_length = 300, 
-                                    upload_to=thumbnail_upload_path,
-                                    processors=[ResizeToFill(100, 100)],
-                                    options={'quality': 60}) 
+    avatar = models.ImageField(_('avatar'), max_length = 300,
+        upload_to = avatar_upload_path) 
     content_type = models.ForeignKey(ContentType,
         verbose_name = _('model type'))
     object_id = models.PositiveIntegerField(_('model primary key'))
@@ -69,5 +67,37 @@ class WiseAvatar(models.Model):
     is_primary = models.BooleanField(_('is this the primary avatar?'),
         default = True)
     uploaded_at = models.DateTimeField(_('uploaded at'), auto_now_add = True)
+
+
+    class Meta:
+        abstract = True
+
+
+class WiseAvatar(BaseAvatar):
+
+    THUMBNAIL_HEIGHT = settings.THUMBNAIL_HEIGHT
+    THUMBNAIL_WIDTH = settings.THUMBNAIL_WIDTH
+
+    thumbnail = ProcessedImageField(max_length = 300, 
+                                    upload_to=thumbnail_upload_path,
+                                    processors=[ResizeToFill(THUMBNAIL_HEIGHT,
+                                                             THUMBNAIL_WIDTH)],
+                                    options={'quality': 60},
+                                    blank = True, null = True) 
+
+    def clean(self):
+        filestream = self.avatar.file
+        file_object = File(filestream)
+        self.thumbnail = file_object
+
+    def save(self, *args, **kwargs):
+        WiseAvatar.full_clean(self)
+        super(WiseAvatar,self).save(*args, **kwargs)
+        
+        
+            
+            
+            
+    
 
 
