@@ -33,3 +33,31 @@ class BaseLocationPlug(models.Model):
     class Meta:
         app_label = 'locations'
         abstract = True
+
+
+class BaseAddressPlug(models.Model):
+    
+    location = models.ForeignKey(settings.LOCATION_MODEL,
+        related_name = '%(app_label)s_%(class)s_set', 
+        verbose_name = _('belongs to location'))
+    line_1 = models.CharField(_('address line 1'), max_length = 50)
+    line_2 = models.CharField(_('address line 2'), max_length = 50
+        null = True, blank = True)
+    line_3 = models.CharField(_('address line 3'), max_length = 50
+        null = True, blank = True)
+    zipcode = models.Charfield(_('postal code'), max_length = 15)
+
+
+    class Meta:
+        abstract = True
+        app_label = 'locations'
+
+
+class BaseSuperLocationPlug(models.Model):
+
+    location = models.ForeignKey(settings.SUPERLOCATION_MODEL,
+        related_name = '%(app_label)s_%(class)s_set',
+        verbose_name = _('superlocation'))
+
+    class Meta:
+        abstract = True
