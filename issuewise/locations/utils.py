@@ -23,13 +23,26 @@ def location_plug_factory(version_label):
     otherwise things will break
     """
     if version_label == 'latest':
-        version_label = 'issuewise-1'
+        version_label = 'default-1'
     
     if version_label == 'default-1':
         from locations.models.basemixins import BaseLocationPlug
         return BaseLocationPlug
 
-    if version_label == 'issuewise-1':
-        from locations.models.mixins import WiseLocationPlug
-        return WiseLocationPlug
+def superlocation_plug_factory(version_label):
     
+    if version_label == 'latest':
+        version_label = 'default-1'
+    
+    if version_label == 'default-1':
+        from locations.models.basemixins import BaseSuperLocationPlug
+        return BaseSuperLocationPlug
+
+def address_plug_factory(version_label):
+    
+    if version_label == 'latest':
+        version_label = 'default-1'
+    
+    if version_label == 'default-1':
+        from locations.models.basemixins import BaseAddressPlug
+        return BaseAddressPlug 

@@ -8,25 +8,6 @@ from core.utils import hierarchy_factory
 HierarchyClass = hierarchy_factory(version_label = 'latest')
 
 
-class OwnedByWiseGroup(BaseOwnedByGroup):
-    """
-    THIS IS USED TO CREATE A GROUP OWNER LIKE RELATIONSHIP
-
-    Fields
-    
-    required : owner
-        see BaseOwnedByGroup.owner
-    
-    Usage:
-
-        To make a model ownable by groups, inherit this class in 
-        the model using owned_by_group_factory('issuewise')
-    """
-    class Meta:
-        app_label = 'groups'
-        abstract = True
-
-
 class WiseGroupHierarchy(HierarchyClass):
     """
     A GROUP HIERARCHY MIXIN.
@@ -44,6 +25,8 @@ class WiseGroupHierarchy(HierarchyClass):
         model should precede any other models that inherit models.Model
         in the inheritance chain of your group model
     """
+    is_spokesgroup = models.BooleanField(_('represents the parent group'),
+        default = False) 
     
     class Meta:
         app_label = 'groups'

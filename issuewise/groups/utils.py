@@ -40,15 +40,11 @@ def owned_by_group_factory(version_label):
     """
 
     if version_label == 'latest':
-        version_label = 'issuewise-1'
+        version_label = 'default-1'
    
     if version_label == 'default-1':
         from groups.models.basemixins import BaseOwnedByGroup
         return BaseOwnedByGroup
-
-    if version_label == 'issuewise-1':
-        from groups.models.mixins import OwnedByWiseGroup
-        return OwnedByWiseGroup
 
 def group_hierarchy_factory(version_label):
     """

@@ -23,15 +23,11 @@ def public_category_plug_factory(version_label):
     BasePublicCategoryPlug, otherwise things will break
     """
     if version_label == 'latest':
-        version_label = 'issuewise-1'
+        version_label = 'default-1'
 
     if version_label == 'default-1':
         from categories.models.basemixins import BasePublicCategoryPlug
         return BasePublicCategoryPlug
-
-    if version_label == 'issuewise-1':
-        from categories.models.mixins import WisePublicCategoryPlug
-        return WisePublicCategoryPlug
 
 def group_category_plug_factory(version_label):
     """
@@ -43,12 +39,8 @@ def group_category_plug_factory(version_label):
     BaseGroupCategoryPlug, otherwise things will break
     """
     if version_label == 'latest':
-        version_label = 'issuewise-1'
+        version_label = 'default-1'
 
     if version_label == 'default-1':
         from categories.models.basemixins import BaseGroupCategoryPlug
         return BaseGroupCategoryPlug
-
-    if version_label == 'issuewise-1':
-        from categories.models.mixins import WiseGroupCategoryPlug
-        return WiseGroupCategoryPlug
