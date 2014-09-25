@@ -50,4 +50,31 @@ def hierarchy_factory(version_label):
         from core.models.hierarchy import Hierarchy
         return Hierarchy
 
+def activity_mixin_factory(version_label):
+    
+    if version_label == 'latest':
+        version_label = 'core-1'
+
+    if version_label == 'core-1':
+        from core.models.activity import ActivityMixin
+        return ActivityMixin
+
+def phone_number_factory(version_label):
+    
+    if version_label == 'latest':
+        version_label = 'core-1'
+
+    if version_label == 'core-1':
+        from core.models.phone import PhoneNumberMixin
+        return PhoneNumberMixin
+
+def social_link_factory(version_label):
+    
+    if version_label == 'latest':
+        version_label = 'core-1'
+
+    if version_label == 'core-1':
+        from core.models.sociallink import SocialLinkMixin
+        return SocialLinkMixin
+
 
