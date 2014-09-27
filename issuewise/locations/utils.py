@@ -1,11 +1,11 @@
-def creatable_factory(accounts_version_label, core_version_label):
+def user_as_creator_factory(accounts_version_label, core_version_label):
     try:
-        from accounts.models import creatable_factory as accounts_creatable_factory
-        return accounts_creatable_factory(version_label = accounts_version_label)
+        from accounts.utils import user_as_creator_factory as accounts_user_as_creator_factory
+        return accounts_user_as_creator_factory(accounts_version_label)
     except:
         try:
-            from core.utils import creatable_factory as core_creatable_factory
-            return core_creatable_factory(version_label = core_version_label)
+            from core.utils import user_as_creator_factory as core_user_as_creator_factory
+            return core_user_as_creator_factory(core_version_label)
         except:
             message = ("Unsatisfied requirements for the 'groups' app. Requires "
                        "'core.models.creatable_factory'. Either the 'core' app "
@@ -13,7 +13,7 @@ def creatable_factory(accounts_version_label, core_version_label):
                        "is missing.") 
             raise ImportError(message)
 
-def location_plug_factory(version_label):
+def location_as_tag_factory(version_label):
     """
     Factory method for the LocationPlug model. If you extend the
     LocationPlug model and want all your models to use the
@@ -26,23 +26,23 @@ def location_plug_factory(version_label):
         version_label = 'default-1'
     
     if version_label == 'default-1':
-        from locations.models.basemixins import BaseLocationPlug
-        return BaseLocationPlug
+        from locations.models.basemixins import LocationAsTag
+        return LocationAsTag
 
-def superlocation_plug_factory(version_label):
+def location_group_as_tag_factory(version_label):
     
     if version_label == 'latest':
         version_label = 'default-1'
     
     if version_label == 'default-1':
-        from locations.models.basemixins import BaseSuperLocationPlug
-        return BaseSuperLocationPlug
+        from locations.models.basemixins import LocationGroupAsTag
+        return LocationGroupAsTag
 
-def address_plug_factory(version_label):
+def location_as_address_factory(version_label):
     
     if version_label == 'latest':
         version_label = 'default-1'
     
     if version_label == 'default-1':
-        from locations.models.basemixins import BaseAddressPlug
-        return BaseAddressPlug 
+        from locations.models.basemixins import LocationAsAddress
+        return LocationAsAddress

@@ -1,11 +1,11 @@
-def creatable_factory(accounts_version_label, core_version_label):
+def user_as_creator_factory(accounts_version_label, core_version_label):
     try:
-        from accounts.models import creatable_factory as accounts_creatable_factory
-        return accounts_creatable_factory(accounts_version_label)
+        from accounts.utils import user_as_creator_factory as accounts_user_as_creator_factory
+        return accounts_user_as_creator_factory(accounts_version_label)
     except:
         try:
-            from core.utils import creatable_factory as core_creatable_factory
-            return core_creatable_factory(core_version_label)
+            from core.utils import user_as_creator_factory as core_user_as_creator_factory
+            return core_user_as_creator_factory(core_version_label)
         except:
             message = ("Unsatisfied requirements for the 'groups' app. Requires "
                        "'core.models.creatable_factory'. Either the 'core' app "
@@ -13,7 +13,7 @@ def creatable_factory(accounts_version_label, core_version_label):
                        "is missing.") 
             raise ImportError(message)
 
-def public_category_plug_factory(version_label):
+def public_category_as_tag_factory(version_label):
     """
     Factory method for the PublicCategoryPlug model. If you extend the
     PublicCategoryPlug model and want all your models to use the
@@ -26,10 +26,10 @@ def public_category_plug_factory(version_label):
         version_label = 'default-1'
 
     if version_label == 'default-1':
-        from categories.models.basemixins import BasePublicCategoryPlug
-        return BasePublicCategoryPlug
+        from categories.models.mixins import PublicCategoryAsTag
+        return PublicCategoryAsTag
 
-def group_category_plug_factory(version_label):
+def group_category_as_tag_factory(version_label):
     """
     Factory method for the GroupCategoryPlug model. If you extend the
     GroupCategoryPlug model and want all your models to use the
@@ -42,5 +42,5 @@ def group_category_plug_factory(version_label):
         version_label = 'default-1'
 
     if version_label == 'default-1':
-        from categories.models.basemixins import BaseGroupCategoryPlug
-        return BaseGroupCategoryPlug
+        from categories.models.basemixins import GroupCategoryAsTag
+        return GroupCategoryAsTag

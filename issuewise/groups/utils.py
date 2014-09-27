@@ -1,12 +1,11 @@
-def creatable_factory(accounts_version_label, core_version_label):
+def user_as_creator_factory(accounts_version_label, core_version_label):
     try:
-        from accounts.models import creatable_factory as accounts_creatable_factory
-        return accounts_creatable_factory(version_label = accounts_version_label)
+        from accounts.utils import user_as_creator_factory as accounts_user_as_creator_factory
+        return accounts_user_as_creator_factory(accounts_version_label)
     except:
-        #pdb.set_trace()
         try:
-            from core.utils import creatable_factory as core_creatable_factory
-            return core_creatable_factory(version_label = core_version_label)
+            from core.utils import user_as_creator_factory as core_user_as_creator_factory
+            return core_user_as_creator_factory(core_version_label)
         except:
             message = ("Unsatisfied requirements for the 'groups' app. Requires "
                        "'core.models.creatable_factory'. Either the 'core' app "
@@ -14,22 +13,22 @@ def creatable_factory(accounts_version_label, core_version_label):
                        "is missing.") 
             raise ImportError(message)
 
-def subscribable_factory(accounts_version_label, core_version_label):
+def user_as_member_factory(accounts_version_label, core_version_label):
     try:
-        from accounts.models import subscribable_factory as accounts_subscribable_factory
-        return accounts_subscribable_factory(version_label = accounts_version_label)
+        from accounts.utils import user_as_member_factory as accounts_user_as_member_factory
+        return accounts_user_as_member_factory(accounts_version_label)
     except:
         try:
-            from core.utils import subscribable_factory as core_subscribable_factory
-            return core_subscribable_factory(version_label = core_version_label)
+            from core.utils import user_as_member_factory as core_user_as_member_factory
+            return core_user_as_member_factory(core_version_label)
         except:
             message = ("Unsatisfied requirements for the 'groups' app. Requires "
-                       "'core.models.subscribable_factory'. Either the 'core' app "
-                       "has not been installed or 'core.models.subscribable_factory' "
+                       "'core.models.creatable_factory'. Either the 'core' app "
+                       "has not been installed or 'core.models.creatable_factory' "
                        "is missing.") 
-            raise ImportError(message)  
+            raise ImportError(message)
 
-def owned_by_group_factory(version_label):
+def group_as_owner_factory(version_label):
     """
     Factory method for the OwnedByGroup model. If you extend the
     OwnedByGroup model and want all your models to use the
@@ -43,8 +42,8 @@ def owned_by_group_factory(version_label):
         version_label = 'default-1'
    
     if version_label == 'default-1':
-        from groups.models.basemixins import BaseOwnedByGroup
-        return BaseOwnedByGroup
+        from groups.models.basemixins import GroupAsOwner
+        return GroupAsOwner
 
 def group_hierarchy_factory(version_label):
     """
