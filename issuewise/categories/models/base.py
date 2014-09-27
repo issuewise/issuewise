@@ -2,16 +2,16 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from categories.utils import creatable_factory
+from categories.utils import user_as_creator_factory
 
 # Get appropriate mixin classes from their respective 
 # factory methods.
 
-CreatableClass = creatable_factory(accounts_version_label = 'latest',
-                                   core_version_label = 'latest')
+UserAsCreatorClass = user_as_creator_factory(accounts_version_label = 'latest',
+                                             core_version_label = 'latest')
 
 
-class BaseCategory(CreatableClass):
+class BaseCategory(UserAsCreatorClass):
     """ 
     CATEGORIES ARE USED TO LABEL OTHER OBJECTS.
     ANY CUSTOM CATEGORY CLASS SHOULD INHERIT THIS MODEL  
