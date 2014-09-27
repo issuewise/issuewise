@@ -67,7 +67,8 @@ INSTALLED_APPS = (
     'categories',
     'groupprofile',
     'locations',
-    'avatars'
+    'avatars',
+    'pages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -126,7 +127,7 @@ AUTH_USER_MODEL = 'accounts.WiseUser'
 # Custom models for groups
 
 SITE_GROUP_MODEL = 'groups.WiseGroup'
-GROUP_MEMBERSHIP_MODEL = 'groups.WiseMembership'
+GROUP_MEMBERSHIP_MODEL = 'groups.Membership'
 
 # Custom models for categories
 
@@ -136,6 +137,8 @@ GROUP_CATEGORY_MODEL = 'categories.WiseGroupCategory'
 # Custom models for locations
 
 LOCATION_MODEL = 'locations.WiseLocation'
+LOCATION_GROUP_MODEL = 'locations.WiseLocationGroup'
+LOCATION_GROUP_MEMBERSHIP_MODEL = 'locations.LocationGroupMembership'
 
 # Custom models for userprofile
 
@@ -144,6 +147,14 @@ USER_PROFILE_MODEL = 'userprofile.WiseUserProfile'
 # Custom models for groupprofile
 
 GROUP_PROFILE_MODEL = 'groupprofile.WiseGroupProfile'
+
+# Custom models for pages
+
+PAGE_MODEL = 'pages.WisePage'
+
+# Many to many relationship models (join tables)
+
+BATCH_MODEL = 'accounts.Batch'
 
 # All media files will stay under this directory
 
