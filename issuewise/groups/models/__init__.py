@@ -14,6 +14,6 @@ might make errors in the schema declarations and even throw
 unexpected errors! 
 """
 
-from groups.models.wisegroups import WiseGroup
+from groups.models.wisegroups import WiseGroup, Membership
 
-__all__ = ['WiseGroup', 'WiseMembership']
+__all__ = ['WiseGroup', 'Membership']

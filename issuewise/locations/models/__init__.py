@@ -14,6 +14,10 @@ might make errors in the schema declarations and even throw
 unexpected errors! 
 """
 
-from locations.models.wiselocations import WiseLocation
+from locations.models.wiselocations import (WiseLocation,
+                                            WiseLocationGroup,
+                                            LocationGroupMembership)
 
-__all__ = ['WiseLocation']
+__all__ = ['WiseLocation', 
+           'WiseLocationGroup', 
+           'LocationGroupMembership']

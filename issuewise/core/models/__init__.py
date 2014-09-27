@@ -16,15 +16,20 @@ unexpected errors!
 
 from core.models.uri import UriNameMixin
 from core.models.hierarchy import Hierarchy
-from core.models.user import Creatable, Subscribable
+from core.models.user import (UserAsFollower, UserAsCreator,
+                              UserAsFollowee, UserAsMember,
+                              UserAsAutobiographer)
 from core.models.activity import ActivityMixin
 from core.models.phone import PhoneNumberMixin
 from core.models.sociallink import SocialLinkMixin
 
 __all__ = ['UriNameMixin', 
            'Hierarchy', 
-           'Creatable', 
-           'Subscribable', 
+           'UserAsFollower',
+           'UserAsCreator',
+           'UserAsFollowee',
+           'UserAsAutobiographer',
+           'UserAsMember',
            'ActivityMixin',
            'PhoneNumberMixin',
            'SocialLinkMixin']
