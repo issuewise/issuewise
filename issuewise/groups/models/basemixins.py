@@ -3,7 +3,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 
-class BaseOwnedByGroup(models.Model):
+class GroupAsOwner(models.Model):
     """
     ANY CUSTOM OWNEDBYGROUP MODEL SHOULD INHERIT FROM THIS CLASS
 
@@ -16,7 +16,7 @@ class BaseOwnedByGroup(models.Model):
     """
     owner = models.ForeignKey(settings.SITE_GROUP_MODEL,
         related_name='%(app_label)s_%(class)s_owner',
-        verbose_name=_('group which owns this category')) 
+        verbose_name=_('owner')) 
     
     class Meta:
         app_label = 'groups'

@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 
-class BasePublicCategoryPlug(models.Model):
+class PublicCategoryAsTag(models.Model):
     """ 
     ANY CUSTOM PUBLICCATEGORYPLUG MODEL SHOULD INHERIT FROM
     THIS MODEL
@@ -21,7 +21,7 @@ class BasePublicCategoryPlug(models.Model):
         abstract = True
 
 
-class BaseGroupCategoryPlug(models.Model):
+class GroupCategoryAsTag(models.Model):
     """ 
     ANY CUSTOM GROUPCATEGORYPLUG MODEL SHOULD INHERIT FROM
     THIS MODEL
@@ -32,9 +32,9 @@ class BaseGroupCategoryPlug(models.Model):
 
         Denotes the category
     """
-    category = models.ForeignKey(settings.GROUP_CATEGORY_MODEL,
+    group_category = models.ForeignKey(settings.GROUP_CATEGORY_MODEL,
         related_name='%(app_label)_%(class)_set',
-        verbose_name=_('category'))
+        verbose_name=_('group_category'))
 
     class Meta:
         abstract = True

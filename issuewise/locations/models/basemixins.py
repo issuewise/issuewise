@@ -3,7 +3,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 
-class BaseLocationPlug(models.Model):
+class LocationAsTag(models.Model):
     """
     ANY CUSTOM LOCATIONPLUG MODEL SHOULD INHERIT THIS MODEL
 
@@ -35,17 +35,17 @@ class BaseLocationPlug(models.Model):
         abstract = True
 
 
-class BaseAddressPlug(models.Model):
+class LocationAsAddress(models.Model):
     
     location = models.ForeignKey(settings.LOCATION_MODEL,
         related_name = '%(app_label)s_%(class)s_set', 
         verbose_name = _('belongs to location'))
     line_1 = models.CharField(_('address line 1'), max_length = 50)
-    line_2 = models.CharField(_('address line 2'), max_length = 50
+    line_2 = models.CharField(_('address line 2'), max_length = 50,
         null = True, blank = True)
-    line_3 = models.CharField(_('address line 3'), max_length = 50
+    line_3 = models.CharField(_('address line 3'), max_length = 50,
         null = True, blank = True)
-    zipcode = models.Charfield(_('postal code'), max_length = 15)
+    zipcode = models.CharField(_('postal code'), max_length = 15)
 
 
     class Meta:
@@ -53,11 +53,11 @@ class BaseAddressPlug(models.Model):
         app_label = 'locations'
 
 
-class BaseSuperLocationPlug(models.Model):
+class LocationGroupAsTag(models.Model):
 
-    location = models.ForeignKey(settings.SUPERLOCATION_MODEL,
+    location_group = models.ForeignKey(settings.LOCATION_GROUP_MODEL,
         related_name = '%(app_label)s_%(class)s_set',
-        verbose_name = _('superlocation'))
+        verbose_name = _('location group'))
 
     class Meta:
         abstract = True

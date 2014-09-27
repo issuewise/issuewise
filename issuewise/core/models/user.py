@@ -3,7 +3,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 
-class Subscribable(models.Model):
+class UserAsFollower(models.Model):
     """
     THIS IS USED TO CREATE A SUBSCRIPTION LIKE RELATIONSHIP WITH
     THE USER MODEL
@@ -35,17 +35,17 @@ class Subscribable(models.Model):
 
         - Inherit the mixin model M' in the model M
     """
-    subscriber=models.ForeignKey(settings.AUTH_USER_MODEL, 
-        related_name='%(app_label)s_%(class)s_set',
-        verbose_name=_('user'))
-    subscribed_at=models.DateTimeField(_('time subscribed'), 
+    follower=models.ForeignKey(settings.AUTH_USER_MODEL, 
+        related_name='%(app_label)s_%(class)s_follower',
+        verbose_name=_('follower'))
+    folllowed_at=models.DateTimeField(_('time followed'), 
         auto_now_add=True)
     
     class Meta:
         abstract = True
 
 
-class Creatable(models.Model):
+class UserAsCreator(models.Model):
     """
     THIS IS USED TO CREATE A CREATOR LIKE RELATIONSHIP WITH
     THE USER MODEL.
@@ -65,10 +65,44 @@ class Creatable(models.Model):
         that requires a creator using creatable_factory
     """
     creator=models.ForeignKey(settings.AUTH_USER_MODEL, 
-        related_name='%(app_label)s_%(class)s_set', 
-        verbose_name=_('creator'), null=True, on_delete=models.SET_NULL)
+        related_name = '%(app_label)s_%(class)s_set', 
+        verbose_name =_('creator'), null=True, on_delete=models.SET_NULL)
     created_at=models.DateTimeField(_('time created'), 
         auto_now_add=True)
+
+    
+    class Meta:
+        abstract = True
+
+
+class UserAsAutobiographer(models.Model):
+    
+    autobiographer = models.ForeignKey(settings.AUTH_USER_MODEL,
+        related_name = '%(app_label)s_%(class)s_set', 
+        verbose_name =_('autobiographer'))
+
+    
+    class Meta:
+        abstract = True
+
+
+class UserAsFollowee(models.Model):
+
+    followee = models.ForeignKey(settings.AUTH_USER_MODEL,
+        related_name = '%(app_label)s_%(class)s_followee', 
+        verbose_name =_('followee'))
+
+    
+    class Meta:
+        abstract = True
+
+
+class UserAsMember(models.Model):
+
+    member = models.ForeignKey(settings.AUTH_USER_MODEL,
+        related_name = '%(app_label)s_%(class)s_set', 
+        verbose_name =_('member'))
+
     
     class Meta:
         abstract = True
