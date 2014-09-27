@@ -18,13 +18,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('avatar', models.ImageField(upload_to=avatars.models.avatar_upload_path, max_length=300, verbose_name='avatar')),
-                ('thumbnail', imagekit.models.fields.ProcessedImageField(max_length=300, upload_to=avatars.models.thumbnail_upload_path)),
                 ('object_id', models.PositiveIntegerField(verbose_name='model primary key')),
                 ('is_primary', models.BooleanField(default=True, verbose_name='is this the primary avatar?')),
                 ('uploaded_at', models.DateTimeField(auto_now_add=True, verbose_name='uploaded at')),
+                ('thumbnail', imagekit.models.fields.ProcessedImageField(max_length=300, null=True, upload_to=avatars.models.thumbnail_upload_path, blank=True)),
                 ('content_type', models.ForeignKey(verbose_name='model type', to='contenttypes.ContentType')),
             ],
             options={
+                'abstract': False,
             },
             bases=(models.Model,),
         ),
