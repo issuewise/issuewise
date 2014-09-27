@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from core.utils import hierarchy_factory
@@ -62,8 +63,7 @@ class BaseLocation(HierarchyClass):
         app_label = 'locations'
         abstract = True
 
-
-SUPERLOCATION_TYPE_CHOICES = (
+LOCATION_GROUP_TYPE_CHOICES = (
     ('CON', 'Continents'),
     ('MIL', 'Military'),
     ('ECO', 'Economic'),
@@ -82,15 +82,17 @@ SUPERLOCATION_TYPE_CHOICES = (
 )
 
 
-class BaseSuperLocation(models.Model):
+class BaseLocationGroup(models.Model):
 
-    name = models.CharField(_('superlocation name'), max_length = 200)
+    name = models.CharField(_('location group name'), max_length = 200)
     alliance_type = models.CharField(_('alliance type'), 
                                      max_length = 60, null = True, blank = True,
-                                     choices = SUPERLOCATION_TYPE_CHOICES)
+                                     choices = LOCATION_GROUP_TYPE_CHOICES)
+
 
     class Meta:
         abstract = True
         app_label = 'locations'
+
     
     
