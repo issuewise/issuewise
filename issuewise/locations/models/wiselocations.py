@@ -1,19 +1,20 @@
 from django.db import models
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from locations.models.base import BaseLocation, BaseSuperLocation
-from locations.utils import creatable_factory
+from locations.models.base import BaseLocation, BaseLocationGroup
+from locations.utils import user_as_creator_factory
 from core.utils import uri_name_mixin_factory
 
 ## Get appropriate mixin classes from their respective 
 # factory methods.
 
-CreatableClass = creatable_factory(accounts_version_label = 'latest',
-                                   core_version_label = 'latest')
+UserAsCreatorClass = user_as_creator_factory(accounts_version_label = 'latest',
+                                             core_version_label = 'latest')
 UriNameMixinClass = uri_name_mixin_factory(version_label = 'latest')
+                                                               
 
-
-class WiseLocation(BaseLocation, CreatableClass, UriNameMixinClass):
+class WiseLocation(BaseLocation, UserAsCreatorClass, UriNameMixinClass):
     """
     ISSUEWISE LOCATION CLASS
 
@@ -68,7 +69,7 @@ class WiseLocation(BaseLocation, CreatableClass, UriNameMixinClass):
         app_label = 'locations'
 
 
-class WiseSuperLocation(BaseSuperLocation, CreatableClass, UriNameMixinClass):
+class WiseLocationGroup(BaseLocationGroup, UserAsCreatorClass, UriNameMixinClass):
 
     def clean(self):
         if not self.id:
@@ -80,8 +81,21 @@ class WiseSuperLocation(BaseSuperLocation, CreatableClass, UriNameMixinClass):
         first time in the database. If yes, cleans the name field
         and populates the uri_name field based on the cleaned name.
         """
-        WiseSuperLocation.pre_save_process(self)
-        super(WiseSuperLocation,self).save(*args,**kwargs)
+        WiseLocationGroup.pre_save_process(self)
+        super(WiseLocationGroup,self).save(*args,**kwargs)
+
+
+    class Meta:
+        app_label = 'locations'
+
+
+class LocationGroupMembership(models.Model):
+
+    location_group = models.ForeignKey(settings.LOCATION_GROUP_MODEL,
+        related_name = 'members', verbose_name = _('location group'))
+
+    member = models.ForeignKey(settings.LOCATION_MODEL,
+        related_name = 'location_group', verbose_name = _('member locations'))
 
 
     class Meta:
