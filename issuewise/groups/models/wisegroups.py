@@ -3,14 +3,17 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from groups.models.base import BaseGroup, BaseMembership
+from groups.models.base import BaseGroup
 from core.utils import uri_name_mixin_factory
-from groups.utils import group_hierarchy_factory
+from groups.utils import group_hierarchy_factory, user_as_member_factory
 
 # Get appropriate mixin classes from their respective 
 # factory methods.
 
 UriNameMixinClass = uri_name_mixin_factory(version_label = 'latest')
+UserAsMemberClass = user_as_member_factory(accounts_version_label = 'latest',
+                                           core_version_label = 'latest')
+
 GroupHierarchyClass = group_hierarchy_factory(version_label = 'latest')
 
 
@@ -54,7 +57,7 @@ class WiseGroup(GroupHierarchyClass, BaseGroup, UriNameMixinClass):
         app_label = 'groups'
 
 
-class WiseMembership(BaseMembership):
+class Membership(UserAsMemberClass):
     """
     GROUP MEMBERSHIP CLASS
     
@@ -72,6 +75,11 @@ class WiseMembership(BaseMembership):
         Denotes the time at which the user became a member of the
         group
     """
+
+    group = models.ForeignKey(settings.SITE_GROUP_MODEL, 
+        related_name = 'members' , verbose_name = 'group')
+
+
     class Meta:
         app_label = 'groups'
 
