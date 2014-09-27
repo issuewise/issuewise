@@ -4,13 +4,13 @@ from django.utils.translation import ugettext_lazy as _
 
 from categories.models.base import BaseCategory
 from core.utils import uri_name_mixin_factory
-from groups.utils import owned_by_group_factory
+from groups.utils import group_as_owner_factory
 
 # Get appropriate mixin classes from their respective 
 # factory methods.
 
 UriNameMixinClass = uri_name_mixin_factory(version_label = 'latest')
-OwnedByGroupClass = owned_by_group_factory(version_label = 'latest')
+GroupAsOwnerClass = group_as_owner_factory(version_label = 'latest')
 
 
 class WisePublicCategory(BaseCategory, UriNameMixinClass):
@@ -60,7 +60,7 @@ class WisePublicCategory(BaseCategory, UriNameMixinClass):
         verbose_name_plural = 'public categories'
 
 
-class WiseGroupCategory(BaseCategory, UriNameMixinClass, OwnedByGroupClass):
+class WiseGroupCategory(BaseCategory, UriNameMixinClass, GroupAsOwnerClass):
     """ 
     THIS IS A CLASS FOR CATEGORIES OWNED BY GROUPS
 
