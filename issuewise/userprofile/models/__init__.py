@@ -14,6 +14,16 @@ might make errors in the schema declarations and even throw
 unexpected errors! 
 """
 
-from userprofile.models.wiseuserprofiles import WiseUserProfile
+from userprofile.models.wiseuserprofiles import (WiseUserProfile,
+                                                 EducationalInstitutions,
+                                                 Batch, Work, UserPhone,
+                                                 UserSocialLink,
+                                                 UserAddress)
 
-__all__ = ['WiseUserProfile']
+__all__ = ['WiseUserProfile', 
+           'EducationalInstitutions', 
+           'Batch',
+           'Work', 
+           'UserPhone',
+           'UserSocialLink',
+           'UserAddress']
