@@ -15,8 +15,21 @@ class GroupAsOwner(models.Model):
         group will be deleted when the group is deleted  
     """
     owner = models.ForeignKey(settings.SITE_GROUP_MODEL,
-        related_name='%(app_label)s_%(class)s_owner',
-        verbose_name=_('owner')) 
+        related_name = '%(app_label)s_%(class)s_set',
+        verbose_name = _('owner'))
+
+    
+    class Meta:
+        app_label = 'groups'
+        abstract = True
+
+
+class GroupAsAutobiographer(models.Model):
+
+    autobiographer = models.ForeignKey(settings.SITE_GROUP_MODEL,
+        related_name = '%(app_label)s_%(class)s_set',
+        verbose_name = _('group'))
+
     
     class Meta:
         app_label = 'groups'

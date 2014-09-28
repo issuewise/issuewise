@@ -45,6 +45,25 @@ def group_as_owner_factory(version_label):
         from groups.models.basemixins import GroupAsOwner
         return GroupAsOwner
 
+def group_as_autobiographer_factory(version_label):
+    """
+    Factory method for the OwnedByGroup model. If you extend the
+    OwnedByGroup model and want all your models to use the
+
+    extended version, return it instead of OwnedByGroup
+
+    Any extension of OwnedByGroup should extend from BaseOwnedByGroup,
+
+    otherwise things will break
+    """
+
+    if version_label == 'latest':
+        version_label = 'default-1'
+   
+    if version_label == 'default-1':
+        from groups.models.basemixins import GroupAsAutobiographer
+        return GroupAsAutobiographer
+
 def group_hierarchy_factory(version_label):
     """
     Factory method for the GroupHierarchy model. If you extend the
@@ -61,5 +80,7 @@ def group_hierarchy_factory(version_label):
     if version_label == 'issuewise-1':
         from groups.models.mixins import WiseGroupHierarchy
         return WiseGroupHierarchy
+
+
     
         
