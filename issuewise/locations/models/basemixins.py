@@ -46,6 +46,8 @@ class LocationAsAddress(models.Model):
     line_3 = models.CharField(_('address line 3'), max_length = 50,
         null = True, blank = True)
     zipcode = models.CharField(_('postal code'), max_length = 15)
+    is_primary_address = models.BooleanField(_('is this the primary address?'),
+        default = False)
 
 
     class Meta:
