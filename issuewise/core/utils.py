@@ -91,7 +91,7 @@ def activity_mixin_factory(version_label):
         from core.models.activity import ActivityMixin
         return ActivityMixin
 
-def phone_number_factory(version_label):
+def phone_number_mixin_factory(version_label):
     
     if version_label == 'latest':
         version_label = 'core-1'
