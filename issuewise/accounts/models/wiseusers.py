@@ -3,11 +3,11 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from model_utils.models import TimeFramedModel
+
 
 from core.utils import (uri_name_mixin_factory, activity_mixin_factory,
                         user_as_follower_factory, user_as_followee_factory,
-                        user_as_autobiographer_factory)
+                        user_as_autobiographer_factory, social_link_factory)
 from accounts.models.base import BaseUser
 from accounts.managers import WiseUserManager
 from pages.utils import page_as_reference_factory
@@ -18,10 +18,10 @@ from pages.utils import page_as_reference_factory
 
 UriNameMixinClass = uri_name_mixin_factory(version_label = 'latest')
 ActivityMixinClass = activity_mixin_factory(version_label = 'latest')
+SocialLinkClass = social_link_factory(version_label = 'latest')
 UserAsFollowerClass = user_as_follower_factory(version_label = 'latest')
 UserAsFolloweeClass = user_as_followee_factory(version_label = 'latest')
-UserAsAutobiographerClass = user_as_autobiographer_factory(version_label = 'latest')
-PageAsReferenceClass = page_as_reference_factory(version_label = 'latest')
+
 
 class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
     """
@@ -87,35 +87,6 @@ class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
         """
         WiseUser.full_clean(self)
         super(WiseUser,self).save(*args,**kwargs)
-
-
-class EducationalInstitutions(UserAsAutobiographerClass, 
-                              TimeFramedModel,
-                              PageAsReferenceClass):
-
-    batch = models.OneToOneField(settings.BATCH_MODEL,
-        related_name = 'academic institution', 
-        verbose_name = _('class of'),
-        null = True, blank = True)
-
-    class Meta:
-        app_label = 'accounts'
-
-class Batch(UserAsAutobiographerClass, PageAsReferenceClass):
-
-    class Meta:
-        app_label = 'accounts'
-
-
-class Work(UserAsAutobiographerClass, 
-           TimeFramedModel,
-           PageAsReferenceClass):
-
-    designation = models.CharField(_('official position held by user'),
-        max_length = 100, null = True, blank = True)
-
-    class Meta:
-        app_label = 'accounts'
 
 
 class UserFollowUser(UserAsFollowerClass, UserAsFolloweeClass):
