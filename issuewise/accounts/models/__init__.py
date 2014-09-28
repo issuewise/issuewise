@@ -14,11 +14,7 @@ might make errors in the schema declarations and even throw
 unexpected errors! 
 """
 
-from accounts.models.wiseusers import (WiseUser, EducationalInstitutions, 
-                                       Batch, Work, UserFollowUser)
+from accounts.models.wiseusers import (WiseUser, UserFollowUser)
 
-__all__ = ['WiseUser', 
-           'EducationalInstitutions', 
-           'Batch',
-           'Work', 
+__all__ = ['WiseUser',  
            'UserFollowUser'] 
