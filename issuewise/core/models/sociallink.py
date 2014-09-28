@@ -57,7 +57,7 @@ class SocialLinkMixin(models.Model):
 )
     
     url = models.URLField(_('social link'), max_length = 300)
-    website = models.CharField(_('link to website'), 
+    website = models.CharField(_('name of website'), max_length = 3, 
         choices = WEBSITE_CHOICES)
     link_type = models.CharField(_('this link goes to a'), max_length =3,
         choices = LINK_TYPE_CHOICES)
