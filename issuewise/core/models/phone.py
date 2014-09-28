@@ -13,7 +13,9 @@ class PhoneNumberMixin(models.Model):
         )
 
     phone = PhoneNumberField(_('phone number'), null = True, blank = True)
-    label = StatusField(_('what kind of phone'), choices_name = 'PHONE_NUMBER_LABEL')
+    phone_label = StatusField(_('what kind of phone'), choices_name = 'PHONE_NUMBER_LABEL')
+    is_primary_phone = models.BooleanField(_('is this the primary phone?'),
+        default = False)
 
     class Meta:
         abstract = True
