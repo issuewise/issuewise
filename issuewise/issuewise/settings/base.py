@@ -154,7 +154,7 @@ PAGE_MODEL = 'pages.WisePage'
 
 # Many to many relationship models (join tables)
 
-BATCH_MODEL = 'accounts.Batch'
+BATCH_MODEL = 'userprofile.Batch'
 
 # All media files will stay under this directory
 
