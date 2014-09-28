@@ -1,10 +1,19 @@
 from django.db import models
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from groupprofile.models.base import BaseGroupProfile
+from core.utils import social_link_factory, phone_number_mixin_factory
+from groups.utils import group_as_autobiographer_factory
+from locations.utils import location_as_address_factory
 
+SocialLinkClass = social_link_factory(version_label = 'latest')
+PhoneNumberMixinClass = phone_number_mixin_factory(version_label = 'latest')
+GroupAsAutobiographerClass = group_as_autobiographer_factory(version_label = 'latest')
+LocationAsAddressClass = location_as_address_factory(version_label = 'latest')
 
-class WiseGroupProfile(BaseGroupProfile):
+class WiseGroupProfile(GroupAsAutobiographerClass):
+
+    GroupAsAutobiographerClass.autobiographer.unique = True
 
     GROUP_TYPE_LIST = (
         ('MUS', 'Museums'), 
@@ -51,3 +60,29 @@ class WiseGroupProfile(BaseGroupProfile):
     
     class Meta:
         app_label = 'groupprofile'
+
+
+class GroupSocialLink(GroupAsAutobiographerClass, SocialLinkClass):
+
+    
+    class Meta:
+        app_label = 'groupprofile'
+
+
+class GroupContact(GroupAsAutobiographerClass, PhoneNumberMixinClass,
+                   LocationAsAddressClass):
+
+    contact_person = models.ForeignKey(settings.AUTH_USER_MODEL,
+        related_name = 'group_for_contact_person',
+        verbose_name = _('contact person'), null = True, blank = True)
+
+    contact_person_is_user = models.BooleanField(_('is the contact person'
+        'an Issuewise user?'), default = False, blank = True)
+
+    contact_person_name = models.CharField(_('name of the contact person'),
+        max_length = 200, null = True, blank = True)
+
+    
+    class Meta:
+        app_label = 'groupprofile'
+    
