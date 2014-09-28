@@ -18,7 +18,7 @@ def member_on_create(sender, **kwargs):
     if kwargs.get('created', False):
         group = kwargs.get('instance')
         if group.creator:
-            MembershipModel(group = group, subscriber = group.creator).save()
+            MembershipModel(group = group, member = group.creator).save()
         else:
             warning_message = ('A group %s with id %s has been created ' 
                                'without a creator!' % (group.name, group.id))
