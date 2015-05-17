@@ -31,7 +31,7 @@ to the cloud**).
     
  If you are using highly secure emailing services like gmail, you may need to 
  activate 2 step authentication and request a one time password for this 
- django app to use. For gmail, instructions can be found [here](https://support.google.com/accounts/answer/185833?hl=en)
+ django app to use. For gmail, instructions can be found [here](https://support.google.com/accounts/answer/185833?hl=en).
  
 7. Export the environment variables in your terminal session by running
 
