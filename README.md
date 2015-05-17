@@ -36,14 +36,18 @@ to the cloud**).
 7. Export the environment variables in your terminal session by running
 
         source *path to env_vars.sh*
-
+        
 8. Now go inside the django project root issuewise directly below the repository
-root. run the following commands to set up a sqlite database (for testing).
+root. Run the following command to clear existing migration files.
+
+        python clean_migrations.py
+
+9. Run the following commands to set up a sqlite database (for testing).
 
         python manage.py makemigrations
         python manage.py migrate
     
-9. Once the database has been set up successfully, start the development 
+10. Once the database has been set up successfully, start the development 
 server using
 
         python manage.py runserver
@@ -54,18 +58,18 @@ will become available at 127.0.0.1:8000
 When you finish working on issuewise, you might want to run this command 
 to get out of the virtualenv and back to where you were before
 
-        deactivate
+    deactivate
     
 Also note that at the moment, we only have frontend available for 
 HTTP BasicAuthentication. If you want to use Token Authentication 
 instead, please uncomment the following lines in the settings file 
 (which can be found at repository_root/issuewise/issuewise/base.py)
 
-        REST_FRAMEWORK = {
-        DEFAULT_AUTHENTICATION_CLASSES': (
-         'rest_framework.authentication.TokenAuthentication',
-        )
-        }
+    REST_FRAMEWORK = {
+    DEFAULT_AUTHENTICATION_CLASSES': (
+     'rest_framework.authentication.TokenAuthentication',
+    )
+    }
     
 The API documentation is also coming up soon. But before it does, 
 shoot any questions to dibyachakravorty@gmail.com.
