@@ -1,49 +1,49 @@
 ### INSTALLATION INSTRUCTIONS
 
 
-1. install virtualenv using
+1. Install virtualenv using
 
         pip install virtualenv
     
-2. create a folder called envs below the repository root 
+2. Create a folder called envs below the repository root 
 
         mkdir envs && cd envs
     
-3. create a virtualenv
+3. Create a virtualenv
 
         virtualenv my_env
     
-4. run the following command to activate the virtualenv
+4. Run the following command to activate the virtualenv
 
         source my_env/bin/activate
     
-5. install requirements by running the following command in the activated vitualenv
-( the requirement file is located at requirements/dev_DC_requirements.txt)
+5. Install requirements by running the following command in the activated vitualenv
+(the requirement file is located at requirements/dev_DC_requirements.txt)
 
         pip install -r *path to requirements file*
     
-6. create a shell script env_vars.sh and put it somewhere safe (NOT in the
-repository because this contains sensitive info and should not be commited
-to the cloud)
+6. Create a shell script env_vars.sh and put it somewhere safe (**not in the
+repository** because this contains sensitive info and **should not be commited
+to the cloud**).
 
         export MY_EMAIL_PASSWORD='blablabla'
         export MY_EMAIL_ID='something@somewhere.com'
     
- if you are using highly secure emailing services like gmail, you may need to 
+ If you are using highly secure emailing services like gmail, you may need to 
  activate 2 step authentication and request a one time password for this 
- django app to use. For gmail, instructions can be found    <a href=https://support.google.com/accounts/answer/185833?hl=en>here</a>
+ django app to use. For gmail, instructions can be found [here!][https://support.google.com/accounts/answer/185833?hl=en]
  
-7. export the environment variables in your terminal session by running
+7. Export the environment variables in your terminal session by running
 
         source *path to env_vars.sh*
 
-8. now go inside the django project root issuewise directly below the repository
+8. Now go inside the django project root issuewise directly below the repository
 root. run the following commands to set up a sqlite database (for testing).
 
         python manage.py makemigrations
         python manage.py migrate
     
-9. once the database has been set up successfully, start the development 
+9. Once the database has been set up successfully, start the development 
 server using
 
         python manage.py runserver
