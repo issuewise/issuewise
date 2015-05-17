@@ -152,6 +152,7 @@ LOCATION_GROUP_MEMBERSHIP_MODEL = 'locations.LocationGroupMembership'
 # Custom models for userprofile
 
 USER_PROFILE_MODEL = 'userprofile.WiseUserProfile'
+SOCIAL_LINK_MODEL = 'userprofile.UserSocialLink'
 
 # Custom models for groupprofile
 
@@ -193,6 +194,11 @@ PROFILE_PERMISSION_VIEW_CLASSES = (
                                     'EduInsListCreate',
                                     'ActivationLinkCheck',
                                     'ActivationLinkCreate',
+                                    'SocialLinkList',
+                                    'SocialLinkDetail',
                                     )
-
-
+                                    
+FRIENDSHIP_PERMISSION_VIEW_CLASSES = (
+                                        'FriendshipList',
+                                        'AcceptRejectFriend',
+                                        )
