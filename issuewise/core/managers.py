@@ -18,4 +18,4 @@ class UriNameManager(models.Manager):
             max_degeneracy = degeneracy_set.aggregate(models.Max('degeneracy'))['degeneracy__max']
         else:
             max_degeneracy = -1
-        return max_degeneracy
+        return max_degeneracy

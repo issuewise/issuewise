@@ -17,14 +17,17 @@ SECRET_KEY = get_environment_variable('ISSUEWISE_SECRET_KEY')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME' : 'issuewise',
-        'USER' : 'root',
-        'PASSWORD' : get_environment_variable('MYSQL_ROOT_PASSWORD'),
-        'HOST' : '127.0.0.1',
-        'PORT': '3306',
+        'USER' : 'dibya',
+        'PASSWORD' : get_environment_variable('POSTGRES_USER_PASSWORD'),
+        'HOST' : 'localhost',
+        'PORT': '',
     }
 }
+
+
+
 
 # All media files will stay under this directory
 
@@ -38,3 +41,11 @@ MODEL_AVATAR_DIR = {
     'accounts.wiseuser' : 'accounts/wiseusers',
     'groups.wisegroup' : 'groups/wisegroups',
     }
+    
+    
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'    
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'dibyachakravorty@gmail.com'
+EMAIL_HOST_PASSWORD = get_environment_variable('MY_GMAIL_PASSWORD')
+EMAIL_PORT = 587

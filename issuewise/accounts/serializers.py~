@@ -1,0 +1,19 @@
+from rest_framework import serializers
+
+from accounts.models import WiseUser
+
+
+class WiseUserSerializer(serializers.ModelSerializer):
+
+    def create(self, validated_data):
+        return WiseUser.objects.create_user(activity_status = 'I', explanation = 'NV', **validated_data)    
+
+    class Meta:
+        model = WiseUser
+        fields = ('name', 'email', 'password', 'uri_name')
+        read_only_fields = ('uri_name',)
+        extra_kwargs = {
+            'password': {
+                'write_only': True,
+            },
+        }

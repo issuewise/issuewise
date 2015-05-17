@@ -64,6 +64,10 @@ class UserAsCreator(models.Model):
         To make a model creatable, inherit this class in the model 
         that requires a creator using creatable_factory
     """
+    
+    def owner(self):
+        return self.creator
+    
     creator=models.ForeignKey(settings.AUTH_USER_MODEL, 
         related_name = '%(app_label)s_%(class)s_set', 
         verbose_name =_('creator'), null=True, on_delete=models.SET_NULL)
@@ -80,6 +84,9 @@ class UserAsAutobiographer(models.Model):
     autobiographer = models.ForeignKey(settings.AUTH_USER_MODEL,
         related_name = '%(app_label)s_%(class)s_set', 
         verbose_name =_('autobiographer'))
+        
+    def owner(self):
+        return self.autobiographer
 
     
     class Meta:
@@ -106,3 +113,14 @@ class UserAsMember(models.Model):
     
     class Meta:
         abstract = True
+
+
+class UserAsModerator(models.Model):
+
+    moderator = models.ForeignKey(settings.AUTH_USER_MODEL,
+        related_name = '%(app_label)s_%(class)s_set', 
+        verbose_name =_('moderator'))
+
+    
+    class Meta:
+        abstract = True

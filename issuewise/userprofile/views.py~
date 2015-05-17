@@ -1,0 +1,49 @@
+from django.http import Http404
+from django.shortcuts import get_object_or_404
+
+from rest_framework import generics
+from rest_framework import permissions
+
+from core.views import PermissionMixin
+from accounts.models import WiseUser
+from userprofile.models import WiseUserProfile
+from userprofile.serializers import WiseUserProfileSerializer
+
+
+class PersonalInfo(PermissionMixin, generics.RetrieveUpdateAPIView):
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    serializer_class = WiseUserProfileSerializer
+        
+
+    # define the object by overriding get_object
+    
+    def get_object(self):
+        wiseuser = get_object_or_404(WiseUser, uri_name = self.kwargs['uri_name'])
+        obj = get_object_or_404(WiseUserProfile, autobiographer = wiseuser)
+        self.obj = obj
+        return super(PersonalInfo, self).get_object()
+        
+        
+#class EduInsListCreate(PermissionMixin, generics.ListCreateAPIView):
+#
+#   permission_classes = (permissions.IsAuthenticated,)
+#   
+#    serializer_class = EducationalInstitutionsSerializer
+    
+    
+    
+    
+    
+
+    
+        
+    
+        
+        
+        
+    
+        
+
+    

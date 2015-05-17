@@ -10,3 +10,11 @@ class ActivityMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class LastModifiedMixin(models.Model):
+
+    last_modified = models.DateTimeField(auto_now = True)
+    
+    class Meta:
+        abstract = True

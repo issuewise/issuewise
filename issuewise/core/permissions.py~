@@ -1,0 +1,25 @@
+from django.conf import settings
+
+from rest_framework import permissions
+
+from accounts.models import WiseFriendship
+
+def permission_factory(view):
+
+    if view in settings.PROFILE_PERMISSION_VIEW_CLASSES:
+        return ProfilePermissions
+
+
+class ProfilePermissions(object):
+
+    @classmethod
+    def is_permitted(cls, request, model, obj, url_capture):
+        
+        owner = obj.owner()
+        if request.method in permissions.SAFE_METHODS:
+            if obj.privacy == 'A':  
+                return True
+            friends = WiseFriendship.objects.check_friendship(request.user,owner)
+            if friends:
+                return True
+        return owner == request.user

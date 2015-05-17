@@ -19,7 +19,7 @@ from core.models.hierarchy import Hierarchy
 from core.models.user import (UserAsFollower, UserAsCreator,
                               UserAsFollowee, UserAsMember,
                               UserAsAutobiographer)
-from core.models.activity import ActivityMixin
+from core.models.activity import ActivityMixin, LastModifiedMixin
 from core.models.phone import PhoneNumberMixin
 from core.models.sociallink import SocialLinkMixin
 
@@ -30,6 +30,7 @@ __all__ = ['UriNameMixin',
            'UserAsFollowee',
            'UserAsAutobiographer',
            'UserAsMember',
-           'ActivityMixin',
+           'ActivityMixin', 
+           'LastModifiedMixin',
            'PhoneNumberMixin',
            'SocialLinkMixin']

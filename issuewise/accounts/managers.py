@@ -1,6 +1,10 @@
 import re
+from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import BaseUserManager
 from django.utils import timezone
+
+from userprofile.models import WiseUserProfile
 
 class CustomUserManager(BaseUserManager):
     """
@@ -49,6 +53,38 @@ class CustomUserManager(BaseUserManager):
 
 class WiseUserManager(CustomUserManager):
     """ This is the custom Manager for WiseUser. Extends CustomUserManager"""
-    pass
-    
 
+    def create_user(self, *args, **kwargs):
+        user = super(WiseUserManager, self).create_user(*args, **kwargs)
+        WiseUserProfile.objects.create(autobiographer = user, privacy = 'F')
+        return user
+        
+    def create_superuser(self, *args, **kwargs):
+        user = super(WiseUserManager, self).create_superuser(*args, **kwargs)
+        WiseUserProfile.objects.create(autobiographer = user, privacy = 'F')
+        return user
+        
+
+    
+    
+    
+class WiseFriendshipManager(models.Manager):
+
+    def check_friendship(self, userA, userB):
+        try:
+            self.get(follower = userA, followee = userB , status = 'F')
+            return True
+        except self.model.DoesNotExist:
+            pass
+        try: 
+            self.get(follower = userB, followee = userA , status = 'F')
+            return True
+        except self.model.DoesNotExist:
+            return False
+            
+    def get_friends_list(self, userA):
+        return self.filter(Q(follower = userA) | Q(followee = userA))
+            
+       
+    
+

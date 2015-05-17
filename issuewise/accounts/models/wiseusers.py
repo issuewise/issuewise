@@ -1,15 +1,18 @@
+from uuid import uuid4
+
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-
-
+from django.core.mail import send_mail
 
 from core.utils import (uri_name_mixin_factory, activity_mixin_factory,
                         user_as_follower_factory, user_as_followee_factory,
-                        user_as_autobiographer_factory, social_link_factory)
+                        user_as_creator_factory)
+
 from accounts.models.base import BaseUser
-from accounts.managers import WiseUserManager
+from accounts.managers import WiseUserManager, WiseFriendshipManager
+
 from pages.utils import page_as_reference_factory
 
 
@@ -18,9 +21,9 @@ from pages.utils import page_as_reference_factory
 
 UriNameMixinClass = uri_name_mixin_factory(version_label = 'latest')
 ActivityMixinClass = activity_mixin_factory(version_label = 'latest')
-SocialLinkClass = social_link_factory(version_label = 'latest')
 UserAsFollowerClass = user_as_follower_factory(version_label = 'latest')
 UserAsFolloweeClass = user_as_followee_factory(version_label = 'latest')
+UserAsCreatorClass = user_as_creator_factory(version_label = 'latest')
 
 
 class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
@@ -37,6 +40,11 @@ class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
         This name is automatically assigned when the WiseUser object 
         is saved to the database for the first time.
 
+    auto : degeneracy
+
+        Denotes the degeneracy for the given Full name in the 
+        database at the time of creation.  
+
     required : name
 
         see BaseUser.name 
@@ -49,30 +57,61 @@ class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
         Email is normalized when the WiseUser object 
         is saved to the database for the first time.
 
-    is_active = False
+    activity_status = 'inactive'
 
-        Denotes whether the user account is active or inactive. 
-        The account might be inactive for the following reasons:
-        - email not verified
-        - account deleted
-        - account banned etc. 
+        Denotes whether the user account is 'active' or 'inactive'.
+        For allowed options, see WiseUser.ACTIVITY_STATUS
+
+    activity_status_explanation = 'NV' ('not verified')
+     
+        Explanation for the current activity status. For allowed 
+        options, see WiseUser.ACTIVITY_STATUS_EXPLANATION
+
+    auto : status changed
+
+        Stores the date and time when the field activity_status 
+        last changed.
     """
+
     ACTIVITY_STATUS = (
         ('I', 'inactive'), #default
         ('A', 'active'),
     )
 
     ACTIVITY_STATUS_EXPLANATION = (
-        ('NV', 'not verified'), #default
+        ('NE', 'no explanation'),#default
+        ('NV', 'not verified'), 
         ('AB', 'account blocked'),
-        ('AD', 'account deleted'),
+        ('AD', 'account deactivated'),
     )
 
-    wise_user_manager=WiseUserManager()
+    objects=WiseUserManager()
     
-    class Meta(BaseUser.Meta):
-        app_label = 'accounts'
-
+    def owner(self):
+        return self
+    
+    
+    def send_activation_email(self):
+        unique_code = unicode(uuid4())
+        activation_link = ''.join(['http://127.0.0.1:8000/users/', self.uri_name])
+        activation_link = ''.join([activation_link, '/activation-links/'])
+        activation_link = ''.join([activation_link, unique_code])
+        send_mail('activate your issuewise account', 
+            ''.join(['your activation link is ' , activation_link]), 'dibyachakravorty@gmail.com',
+            [self.email], fail_silently=False)
+        WiseActivation.objects.create(uuid = unique_code, creator = self)
+        
+    def activate(self):
+        self.activity_status = 'A'
+        self.explanation = 'NE'
+        self.save()
+        for link in WiseActivation.objects.filter(creator = self):
+            link.delete()
+        
+        
+        
+        
+    
     def clean(self):
         if not self.id:
             self.email = WiseUser.objects.normalize_email(self.email)
@@ -89,12 +128,34 @@ class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
         super(WiseUser,self).save(*args,**kwargs)
 
 
-class UserFollowUser(UserAsFollowerClass, UserAsFolloweeClass):
+    class Meta(BaseUser.Meta):
+        app_label = 'accounts'
+        
+        
+STATUS_CHOICES = (
+    ('F', 'Friends'),
+    ('R', 'Friend Request Sent'),
+)        
 
 
+class WiseFriendship(UserAsFollowerClass, UserAsFolloweeClass):    
+    
+    objects = WiseFriendshipManager()
+    
+    status = models.CharField(_('friendship status'), max_length = 5,
+        choices = STATUS_CHOICES, null = True, blank = True)
+    
     class Meta:
         app_label = 'accounts'
+        
+        
     
+class WiseActivation(UserAsCreatorClass):
+    
+    uuid = models.CharField(_('unique id'), max_length = 100)
+    
+    class Meta:
+        app_label = 'accounts'
 
 
 

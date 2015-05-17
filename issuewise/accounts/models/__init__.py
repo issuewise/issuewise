@@ -1,4 +1,7 @@
 """
+Django expects to find an app's concrete models inside the 
+models.py file under the app.
+
 This app's models are in multiple files inside a models
 package instead of a single models.py file. This requires
 some special treatment. 
@@ -9,12 +12,12 @@ Whenever you add new concrete models to this app, you need to
 
 2. Add your model class to __all__  
 
-Please do this, otherwise Django will be confused when loading models,
-might make errors in the schema declarations and even throw
-unexpected errors! 
+If you miss this step, Django might not recognize your models and
+may issue inadequate sql statements leading to unexpected errors. 
 """
 
-from accounts.models.wiseusers import (WiseUser, UserFollowUser)
+from accounts.models.wiseusers import (WiseUser, WiseFriendship, WiseActivation)
 
 __all__ = ['WiseUser',  
-           'UserFollowUser'] 
+           'WiseFriendship',
+           'WiseActivation',] 

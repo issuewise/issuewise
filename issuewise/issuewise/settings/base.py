@@ -60,6 +60,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'accounts',
     'core',
     'userprofile',
@@ -80,6 +82,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+
+#REST_FRAMEWORK = {
+#    'DEFAULT_AUTHENTICATION_CLASSES': (
+#        'rest_framework.authentication.TokenAuthentication',
+#    )
+#}
 
 ROOT_URLCONF = 'issuewise.urls'
 
@@ -143,6 +152,7 @@ LOCATION_GROUP_MEMBERSHIP_MODEL = 'locations.LocationGroupMembership'
 # Custom models for userprofile
 
 USER_PROFILE_MODEL = 'userprofile.WiseUserProfile'
+SOCIAL_LINK_MODEL = 'userprofile.UserSocialLink'
 
 # Custom models for groupprofile
 
@@ -151,6 +161,11 @@ GROUP_PROFILE_MODEL = 'groupprofile.WiseGroupProfile'
 # Custom models for pages
 
 PAGE_MODEL = 'pages.WisePage'
+
+# Custom models for Quiki
+
+#QUIKI_MODEL = 'quiki.Quiki'
+#NOBIT_MODEL = 'quiki.Nobit'
 
 # Many to many relationship models (join tables)
 
@@ -174,8 +189,16 @@ MODEL_AVATAR_DIR = {
 THUMBNAIL_HEIGHT = 40
 THUMBNAIL_WIDTH = 40
 
-
-
-
-
-
+PROFILE_PERMISSION_VIEW_CLASSES = (
+                                    'PersonalInfo',
+                                    'EduInsListCreate',
+                                    'ActivationLinkCheck',
+                                    'ActivationLinkCreate',
+                                    'SocialLinkList',
+                                    'SocialLinkDetail',
+                                    )
+                                    
+FRIENDSHIP_PERMISSION_VIEW_CLASSES = (
+                                        'FriendshipList',
+                                        'AcceptRejectFriend',
+                                        )
