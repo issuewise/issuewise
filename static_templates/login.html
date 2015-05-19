@@ -1,18 +1,23 @@
 <html>
 <head>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,500|Open+Sans:400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="reset.css"/>
 	<link rel="stylesheet" type="text/css" href="base.css"/>
-	<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="sign-in.css"/>
 </head>
 <body>
-<div class='box'>
+<div class='sign-in-box'>
 	<span class='logo-text'>
 	<span class='logo-issue'>issue</span>
 	<span class='logo-wise'>wise</span>
 	</span>
+	<span class='validation-error'>Incorrect email or password.</span>
 	<form>
-		<input autofocus type="text" name="email" placeholder="e-mail"><br>
-		<input type="text" name="password" placeholder="password"><br>
+		<input autofocus type="email" name="email" placeholder="e-mail"><br>
+		<input type="password" name="password" placeholder="password"><br>
+		<span class='forgot-password'>
+			<a href='#'>Forgot password?</a>
+		</span>
 		<input id="login-button" type="submit" value="Log in">
 	</form>
 	<hr>

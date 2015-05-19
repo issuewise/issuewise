@@ -1,0 +1,40 @@
+.sign-in-box
+{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 15px;
+	text-align: center;
+	box-shadow: 0px 2px 7px #bbb;
+	border-radius: 7px;
+  }
+
+.sign-in-box hr
+{
+	margin:auto;
+	width: 70%;
+	padding: 0;
+}
+
+#login-button
+{
+	margin-bottom: 1.5em;
+}
+
+.validation-error
+{
+	display:block;
+	font-size: .8em;
+	color: #FF9955;
+	width:100%;
+	text-align:left;
+}
+
+.forgot-password
+{
+	display: block;
+	font-size: .8em;
+	width: 100%;
+	text-align: left;
+}
