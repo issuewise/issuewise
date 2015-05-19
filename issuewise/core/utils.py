@@ -55,6 +55,15 @@ def user_as_member_factory(version_label):
         from core.models.user import UserAsMember
         return UserAsMember
 
+def user_as_moderator_factory(version_label):
+
+    if version_label == 'latest':
+        version_label = 'core-1'
+
+    if version_label == 'core-1':
+        from core.models.user import UserAsModerator
+        return UserAsModerator
+
 
 def uri_name_mixin_factory(version_label):
     """
@@ -109,4 +118,26 @@ def social_link_factory(version_label):
         from core.models.sociallink import SocialLinkMixin
         return SocialLinkMixin
 
+def last_modified_mixin_factory(version_label):
 
+    if version_label == 'latest':
+        version_label = 'core-1'
+
+    if version_label == 'core-1':
+        from core.models.activity import LastModifiedMixin
+        return LastModifiedMixin
+        
+
+def privacy_mixin_factory(version_label):
+
+    if version_label == 'latest':
+        version_label = 'core-1'
+
+    if version_label == 'core-1':
+        from core.models.privacy import PrivacyMixin
+        return PrivacyMixin
+
+
+    
+
+

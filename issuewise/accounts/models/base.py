@@ -15,9 +15,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
 
     Required: email
 
-        Email is the unique identifying name for the user. No 
-        assumptions about characters allowed in email. 
-        Everything is allowed.
+        Email is the unique identifying name for the user.
 
     is_superuser = False , is_staff = False
 
@@ -30,7 +28,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
     Required : name
         
         Full name of an user. No assumptions about characters allowed 
-        in email. Everything is allowed.
+        in name. Everything is allowed.
         The full name information is a single field as naming 
         conventions very across the world. The patterns First name, 
         Lastname or First Name, Middle Name, Last name are not 
@@ -39,9 +37,7 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
 
     auto : date_joined
     
-        Users can join the website, either via registration or
-        via the admin interface. The time of joing is stored
-        automatically in date_joined.
+        The time of joining is stored automatically in date_joined.
 
     Additional information:
         
@@ -63,12 +59,6 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
 
     objects=CustomUserManager()
 
-    class Meta:
-        verbose_name = _('wise user')
-        verbose_name_plural = _('wise users')
-        abstract = True
-        app_label = 'accounts'
-
     def get_full_name(self):
         """
         Returns the full name for the user
@@ -84,6 +74,13 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         """
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+    class Meta:
+        verbose_name = _('wise user')
+        verbose_name_plural = _('wise users')
+        abstract = True
+        app_label = 'accounts'
 
 
 

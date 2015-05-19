@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeFramedModel
 
 from core.utils import (user_as_autobiographer_factory, social_link_factory,
-                        phone_number_mixin_factory)
+                        phone_number_mixin_factory, privacy_mixin_factory)
 from pages.utils import page_as_reference_factory
 from locations.utils import location_as_address_factory
 
@@ -14,20 +14,25 @@ SocialLinkClass = social_link_factory(version_label = 'latest')
 PhoneNumberMixinClass = phone_number_mixin_factory(version_label = 'latest')
 PageAsReferenceClass = page_as_reference_factory(version_label = 'latest')
 LocationAsAddressClass = location_as_address_factory(version_label = 'latest')
+PrivacyMixinClass = privacy_mixin_factory(version_label = 'latest')
 
 GENDER_CHOICES = (
     ('M', 'male'),
     ('F', 'female'),
 )
 
-class WiseUserProfile(UserAsAutobiographerClass):
+class WiseUserProfile(UserAsAutobiographerClass, PrivacyMixinClass):
 
     UserAsAutobiographerClass.autobiographer.unique = True
 
-    date_of_birth = models.DateTimeField(_('born on'))
+    date_of_birth = models.DateField(_('born on'), null = True, blank = True)
     gender = models.CharField(_('gender'), max_length = 50,
-        choices = GENDER_CHOICES)
-    description = models.TextField(_('bio'))
+        choices = GENDER_CHOICES, null = True, blank = True)
+    description = models.TextField(_('bio'), null = True, blank = True)
+    
+        
+    #def _str_(self):
+    #    return self.autobiographer.name
     
     class Meta:
         app_label = 'userprofile'
@@ -35,7 +40,8 @@ class WiseUserProfile(UserAsAutobiographerClass):
 
 class EducationalInstitutions(UserAsAutobiographerClass, 
                               TimeFramedModel,
-                              PageAsReferenceClass):
+                              PageAsReferenceClass,
+                              PrivacyMixinClass):
 
     batch = models.OneToOneField(settings.BATCH_MODEL,
         related_name = 'academic institution', 
@@ -54,7 +60,8 @@ class Batch(UserAsAutobiographerClass, PageAsReferenceClass):
 
 class Work(UserAsAutobiographerClass, 
            TimeFramedModel,
-           PageAsReferenceClass):
+           PageAsReferenceClass,
+           PrivacyMixinClass):
 
     designation = models.CharField(_('official position held by user'),
         max_length = 100, null = True, blank = True)
@@ -64,25 +71,28 @@ class Work(UserAsAutobiographerClass,
         app_label = 'userprofile'
 
 
-class UserSocialLink(UserAsAutobiographerClass, SocialLinkClass):
+class UserSocialLink(UserAsAutobiographerClass, SocialLinkClass, PrivacyMixinClass):
 
+    def save(self,*args,**kwargs):
+        self.link_type = self.get_website_type()
+        super(UserSocialLink,self).save(*args,**kwargs)
    
     class Meta:
         app_label = 'userprofile'
 
 
-class UserAddress(UserAsAutobiographerClass, LocationAsAddressClass):
+class UserAddress(UserAsAutobiographerClass, LocationAsAddressClass, PrivacyMixinClass):
 
 
     class Meta:
         app_label = 'userprofile'
 
 
-class UserPhone(UserAsAutobiographerClass, PhoneNumberMixinClass):
+class UserPhone(UserAsAutobiographerClass, PhoneNumberMixinClass, PrivacyMixinClass):
 
     
     class Meta:
         app_label = 'userprofile'
 
 
-
+

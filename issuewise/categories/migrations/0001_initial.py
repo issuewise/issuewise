@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='time created')),
                 ('name', models.CharField(max_length=50, verbose_name='category name')),
                 ('creator', models.ForeignKey(related_name=b'categories_wisegroupcategory_set', on_delete=django.db.models.deletion.SET_NULL, verbose_name='creator', to=settings.AUTH_USER_MODEL, null=True)),
-                ('owner', models.ForeignKey(related_name=b'categories_wisegroupcategory_owner', verbose_name='owner', to='groups.WiseGroup')),
+                ('owner', models.ForeignKey(related_name=b'categories_wisegroupcategory_set', verbose_name='owner', to='groups.WiseGroup')),
             ],
             options={
                 'verbose_name': 'group category',

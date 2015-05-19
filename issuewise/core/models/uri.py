@@ -54,11 +54,14 @@ class UriNameMixin(models.Model):
         Any trailing whitespaces at the beginning or end of name
         are stripped 
         """
-        self.name = re.sub(r"^\s+|\s+$",'',self.name)
+        self.name = self.name.strip()
+        
+    def prepare_name(self):
+        self.name=re.sub(r"\s+",'-',self.name)
+        
 
     def get_uri_name(self, max_degeneracy):
-        self.name=re.sub(r"\s+",'-',self.name)
-        uri_name=urlquote(self.name)
+        uri_name = urlquote(self.name)
         if max_degeneracy != -1:
             new_degeneracy_value = max_degeneracy + 1
             joined_name = u'-'.join([uri_name, unicode(new_degeneracy_value)])
@@ -67,6 +70,7 @@ class UriNameMixin(models.Model):
 
     def clean(self):
         self.clean_name()
+        self.prepare_name()
         max_degeneracy = self.__class__.uri_name_manager.get_name_max_degeneracy(self.name)
         self.get_uri_name(max_degeneracy)
         self.degeneracy = max_degeneracy + 1

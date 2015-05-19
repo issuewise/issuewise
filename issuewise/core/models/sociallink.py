@@ -62,6 +62,8 @@ class SocialLinkMixin(models.Model):
     link_type = models.CharField(_('this link goes to a'), max_length =3,
         choices = LINK_TYPE_CHOICES)
 
+    def get_website_type(self):
+        return 'PER'
 
     class Meta:
-        abstract = True
+        abstract = True
