@@ -31,18 +31,20 @@
 	</div>
 	<div class="middle-column">
 		<div class="achievements">Achievements and Points area</div>
-		<div class="tabs">
+		<div class="tabbed-content">
 			<div class="tab">
-				<input type="radio" id="tab-1" name="tab-group-1" checked>
-				<label for="tab-1">Manifestos</label>		   
-				<div class="content">
-					<select>
-						<option value="volvo">filter by</option>
-						<option value="volvo">common manifestos</option>
-						<option value="saab">happening right now</option>
-						<option value="mercedes">daily life issues</option>
-						<option value="audi">more...</option>
-					</select>
+				<input type="radio" id="tab-manifestos" name="tab-group-1" checked>
+				<label for="tab-manifestos">Manifestos</label>		   
+				<div class="tab-content">
+					<p style="text-align:right">
+						<select>
+							<option value="value">filter by</option>
+							<option value="value">common manifestos</option>
+							<option value="value">happening right now</option>
+							<option value="value">daily life issues</option>
+							<option value="value">more...</option>
+						</select>
+					</p>
 					<div class="manifesto">
 						<input type="search" name="compatibility" placeholder="Check compatibility with...">
 						<p>Mr. X published a manifesto</p>
@@ -56,22 +58,52 @@
 						<p>reason 3</p>
 						<p>more...</p>
 						<p>together with Y, Z and N other people.</p>
+						<textarea class="manifesto-comment" placeholder="say something..."></textarea>
 					</div>
 				</div> 
 			</div>
 			<div class="tab">
-			   <input type="radio" id="tab-2" name="tab-group-1">
-			   <label for="tab-2">Edits</label>			   
-			   <div class="content">
-			       stuff for tab 2
-			   </div> 
+				<input type="radio" id="tab-edits" name="tab-group-1">
+				<label for="tab-edits">Edits</label>			   
+				<div class="tab-content">
+					<div class="edit-event">
+						<span class="edit-event-time">yesterday at 5:28 PM</span>
+						<img class="edit-event-icon">
+						<div class="edit-event-details">
+							<span class="edit-event-text">X built an opinion.</span>
+							<span class="edit-event-issue-title">Issue Title</span>
+							<span class="edit-event-trend-title">Trend Title</span>
+							<span class="edit-event-reason-title">Reason Title</span>
+						</div>
+						<span class="edit-event-points">+10</span>
+					</div>
+					<div class="edit-event">
+						<span class="edit-event-time">yesterday at 3:17 PM</span>
+						<img class="edit-event-icon">
+						<div class="edit-event-details">
+							<span class="edit-event-text">X promoted an issue.</span>
+							<span class="edit-event-issue-title">Issue Title</span>
+						</div>
+						<span class="edit-event-points">+5</span>
+					</div>
+					<div class="edit-event">
+						<span class="edit-event-time">2 days back</span>
+						<img class="edit-event-icon">
+						<div class="edit-event-details">
+							<span class="edit-event-text">X set a trend.</span>
+							<span class="edit-event-issue-title">Issue Title</span>
+							<span class="edit-event-trend-title">Trend Title</span>
+						</div>
+						<span class="edit-event-points">+7</span>
+					</div>
+				</div> 
 			</div>
 			<div class="tab">
-			   <input type="radio" id="tab-3" name="tab-group-1">
-			   <label for="tab-3">Friends</label>			 
-			   <div class="content">
-			       stuff for tab 3
-			   </div> 
+				<input type="radio" id="tab-friends" name="tab-group-1">
+				<label for="tab-friends">Friends</label>			 
+				<div class="tab-content">
+					Friends and shit.
+				</div> 
 			</div>
 		</div>
 	</div>

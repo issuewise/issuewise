@@ -96,10 +96,10 @@ body, html
     height: 200px;
 }
 
-.tabs
+.tabbed-content
 {
-    border: solid;
     margin: 10px;
+    margin-top: 20px;
     height: calc(100% - 240px);
     /* Firefox */
     height: -moz-calc(100% - 240px);
@@ -109,47 +109,113 @@ body, html
     height: -o-calc(100% - 240px);
     /* Standard */
     height: calc(100% - 240px);
+    position: relative;   
+    min-height: 200px; /* This part sucks */
+    clear: both;
 }
 
-.tabs {
-  position: relative;   
-  min-height: 200px; /* This part sucks */
-  clear: both;
+.tab
+{
+    float: left;
 }
-.tab {
-  float: left;
-}
+
 .tab label {
-  background: #eee; 
-  padding: 10px; 
-  border: 1px solid #ccc; 
-  margin-left: -1px; 
-  position: relative;
-  left: 1px; 
+    background: #eee; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    margin-left: -1px; 
+    position: relative;
+    left: 1px; 
 }
-.tab [type=radio] {
-  display: none;   
+
+.tab [type=radio]
+{
+    display: none;   
 }
-.content {
-  position: absolute;
-  top: 28px;
-  left: 0;
-  background: white;
-  right: 0;
-  bottom: 0;
-  padding: 20px;
-  border: 1px solid #ccc; 
+.tab-content
+{
+    position: absolute;
+    top: 28px;
+    left: 0;
+    background: white;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    border: 1px solid #ccc; 
 }
-[type=radio]:checked ~ label {
-  background: white;
-  border-bottom: 1px solid white;
-  z-index: 2;
+
+[type=radio]:checked ~ label
+{
+    background: white;
+    border-bottom: 1px solid white;
+    z-index: 2;
 }
-[type=radio]:checked ~ label ~ .content {
-  z-index: 1;
+
+[type=radio]:checked ~ label ~ .tab-content
+{
+    z-index: 1;
 }
 
 .manifesto
 {
     border:solid;
+}
+
+.manifesto-comment
+{
+    width: 100%;
+}
+
+.edit-event
+{
+    border:solid;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.edit-event-time
+{
+    display: block;
+    margin-bottom: 10px;
+}
+
+.edit-event-icon
+{
+    border: solid;
+    width: 50px;
+    height: 50px;
+    display: inline;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+.edit-event-details
+{
+    display: inline-block;
+}
+
+.edit-event-text
+{
+    display: block;
+}
+
+.edit-event-issue-title
+{
+    display: block;
+}
+
+.edit-event-trend-title
+{
+    display: block;
+}
+
+.edit-event-reason-title
+{
+    display: block;
+}
+
+.edit-event-points
+{
+    display: inline;
+    float: right;
 }
