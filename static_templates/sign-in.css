@@ -17,6 +17,11 @@
 	padding: 0;
 }
 
+input[type="text"], input[type="email"], input[type="password"]
+{
+	text-align: center;
+}
+
 #login-button
 {
 	margin-bottom: 1.5em;
