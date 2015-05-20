@@ -13,6 +13,10 @@ urlpatterns = patterns('',
         include(admin.site.urls),
         ),
     url(
+        r'^docs',
+        include('rest_framework_swagger.urls', namespace = 'documentation')
+        ),
+    url(
         r'^', 
         include('rest_framework.urls', namespace = 'rest_framework'),
        ),
