@@ -127,8 +127,8 @@ def get_environment_variable(var_name):
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'    
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = get_environment_variable('MY_GMAIL_ID')
-EMAIL_HOST_PASSWORD = get_environment_variable('MY_GMAIL_PASSWORD')
+EMAIL_HOST_USER = get_environment_variable('MY_EMAIL_ID')
+EMAIL_HOST_PASSWORD = get_environment_variable('MY_EMAIL_PASSWORD')
 EMAIL_PORT = 587
 
 # Model declarations
