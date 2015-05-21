@@ -1,0 +1,221 @@
+body, html
+{
+    height:100%;
+}
+
+.container-box
+{
+    height: 90%;
+    width: 90%;
+    min-width: 900px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border:solid;
+}
+
+.header
+{
+    border: solid;
+    height: 50px;
+    margin: 10px;
+}
+
+.header-right
+{
+    float:right;
+}
+
+.main
+{
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 80px);
+}
+
+.left-column
+{
+    position: absolute;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    border: solid;
+    height: calc(100% - 20px);
+    margin:10px;
+}
+
+.middle-column
+{
+    height: 100%;
+    margin: 10px 220px;
+    border: solid;
+    height: calc(100% - 20px);
+}
+
+.right-column
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 200px;
+    height: 100%;
+    border: solid;
+    height: calc(100% - 20px);
+    margin:10px;
+}
+
+.photo
+{
+    border: solid;
+    margin: 10px;
+    height: 200px;
+}
+
+.personal
+{
+    border: solid;
+    margin: 10px;
+    height: calc(100% - 240px);
+    /* Firefox */
+    height: -moz-calc(100% - 240px);
+    /* WebKit */
+    height: -webkit-calc(100% - 240px);
+    /* Opera */
+    height: -o-calc(100% - 240px);
+    /* Standard */
+    height: calc(100% - 240px);
+}
+
+.achievements
+{
+    border: solid;
+    margin: 10px;
+    height: 200px;
+}
+
+.tabbed-content
+{
+    margin: 10px;
+    margin-top: 20px;
+    height: calc(100% - 240px);
+    /* Firefox */
+    height: -moz-calc(100% - 240px);
+    /* WebKit */
+    height: -webkit-calc(100% - 240px);
+    /* Opera */
+    height: -o-calc(100% - 240px);
+    /* Standard */
+    height: calc(100% - 240px);
+    position: relative;   
+    min-height: 200px; /* This part sucks */
+    clear: both;
+}
+
+.tab
+{
+    float: left;
+}
+
+.tab label {
+    background: #eee; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    margin-left: -1px; 
+    position: relative;
+    left: 1px; 
+}
+
+.tab [type=radio]
+{
+    display: none;   
+}
+.tab-content
+{
+    position: absolute;
+    top: 28px;
+    left: 0;
+    background: white;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    border: 1px solid #ccc; 
+}
+
+[type=radio]:checked ~ label
+{
+    background: white;
+    border-bottom: 1px solid white;
+    z-index: 2;
+}
+
+[type=radio]:checked ~ label ~ .tab-content
+{
+    z-index: 1;
+}
+
+.manifesto
+{
+    border:solid;
+}
+
+.manifesto-comment
+{
+    width: 100%;
+}
+
+.edit-event
+{
+    border:solid;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.edit-event-time
+{
+    display: block;
+    margin-bottom: 10px;
+}
+
+.edit-event-icon
+{
+    border: solid;
+    width: 50px;
+    height: 50px;
+    display: inline;
+    margin-right: 10px;
+    vertical-align: top;
+}
+
+.edit-event-details
+{
+    display: inline-block;
+}
+
+.edit-event-text
+{
+    display: block;
+}
+
+.edit-event-issue-title
+{
+    display: block;
+}
+
+.edit-event-trend-title
+{
+    display: block;
+}
+
+.edit-event-reason-title
+{
+    display: block;
+}
+
+.edit-event-points
+{
+    display: inline;
+    float: right;
+}
