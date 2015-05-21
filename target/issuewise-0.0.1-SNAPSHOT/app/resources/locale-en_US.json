@@ -1,0 +1,17 @@
+{
+    "login.textbox.username": "Username",
+    "login.textbox.password": "Password",
+    "login.validation.username":"Username is required",
+    "login.validation.password":"Password is required",
+    "login.button.login":"Login",
+    
+    "signup.textbox.username": "Username",
+    "signup.textbox.email": "Email",
+    "signup.textbox.password": "Password",
+    "signup.validation.username":"Username is required",
+    "signup.validation.email":"Email is required",
+    "signup.validation.error.email":"Email is not valid",
+    "signup.validation.password":"Password is required",
+    "signup.validation.password.twice":"Write again the password",
+    "signup.button.login":"Login"
+}
