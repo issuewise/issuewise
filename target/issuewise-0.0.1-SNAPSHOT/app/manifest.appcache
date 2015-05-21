@@ -1,5 +1,0 @@
-CACHE MANIFEST
-# Disable browser caching for all files.
-
-NETWORK:
-*
