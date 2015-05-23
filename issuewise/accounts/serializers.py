@@ -1,3 +1,5 @@
+from django.utils.translation import ugettext_lazy as _
+
 from rest_framework import serializers
 
 from accounts.models import WiseUser, WiseFriendship
@@ -21,8 +23,14 @@ class WiseUserSerializer(serializers.ModelSerializer):
         
 class WiseFriendshipSerializer(serializers.ModelSerializer):
 
-    follower = serializers.PrimaryKeyRelatedField(source = 'follower.name', read_only=True)   
-    followee = serializers. PrimaryKeyRelatedField(source = 'followee.name', read_only=True)
+    follower = serializers.PrimaryKeyRelatedField(source = 'follower.name', 
+        read_only=True, help_text = _('This is one of the users \
+        in the friendship relation. If the status of the friendship is R \
+        (request sent), this field indicates the person who sent the request'))   
+    followee = serializers. PrimaryKeyRelatedField(source = 'followee.name', 
+        read_only=True, help_text = _('This is one of the users \
+        in the friendship relation. If the status of the friendship is R \
+        (request sent), this field indicates the person who received the request'))
     
     class Meta:
         model = WiseFriendship

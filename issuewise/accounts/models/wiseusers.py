@@ -138,12 +138,23 @@ STATUS_CHOICES = (
 )        
 
 
-class WiseFriendship(UserAsFollowerClass, UserAsFolloweeClass):    
+class WiseFriendship(UserAsFollowerClass, UserAsFolloweeClass):  
+
+    UserAsFollowerClass.follower.help_text = _('This is one of the users \
+        in the friendship relation. If the status of the friendship is R \
+        (request sent), this field indicates the person who sent the request')
+    
+    UserAsFolloweeClass.followee.help_text = _('This is one of the users \
+        in the friendship relation. If the status of the friendship is R \
+        (request sent), this field indicates the person who received the request')
     
     objects = WiseFriendshipManager()
     
     status = models.CharField(_('friendship status'), max_length = 5,
-        choices = STATUS_CHOICES, null = True, blank = True)
+        choices = STATUS_CHOICES, null = True, blank = True,
+        help_text = _('Status of the friendship relation. This could be \
+        R denoting Request Sent or this could be F meaning that the users \
+        are already friends.'))
     
     class Meta:
         app_label = 'accounts'

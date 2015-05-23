@@ -16,19 +16,19 @@ PageAsReferenceClass = page_as_reference_factory(version_label = 'latest')
 LocationAsAddressClass = location_as_address_factory(version_label = 'latest')
 PrivacyMixinClass = privacy_mixin_factory(version_label = 'latest')
 
-GENDER_CHOICES = (
-    ('M', 'male'),
-    ('F', 'female'),
-)
 
 class WiseUserProfile(UserAsAutobiographerClass, PrivacyMixinClass):
 
     UserAsAutobiographerClass.autobiographer.unique = True
 
-    date_of_birth = models.DateField(_('born on'), null = True, blank = True)
-    gender = models.CharField(_('gender'), max_length = 50,
-        choices = GENDER_CHOICES, null = True, blank = True)
-    description = models.TextField(_('bio'), null = True, blank = True)
+    date_of_birth = models.DateField(_('born on'), null = True, blank = True,
+    help_text = _('Date of birth of the user expressed in the format \
+    yyyy-mm-dd'))
+    gender = models.CharField(_('gender'), max_length = 50, null = True, 
+        blank = True, help_text = _('Gender of the user. Can be any string \
+        not exceeding 50 characters'))
+    description = models.TextField(_('bio'), null = True, blank = True,
+        help_text = _('User bio. Can go on indefinitely'))
     
         
     #def _str_(self):

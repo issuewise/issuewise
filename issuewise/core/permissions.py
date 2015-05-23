@@ -47,7 +47,8 @@ class FriendshipPermissions(object):
             return owner == request.user
         if request.method == 'DELETE':
             return owner == request.user
-        return True
+        if request.method == 'POST':
+            return owner != request.user
            
             
          

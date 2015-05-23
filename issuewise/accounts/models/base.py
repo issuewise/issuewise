@@ -46,13 +46,16 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
         groups and can be given canonical Django permissions.
     """  
     name = models.CharField(_('full name'), max_length=200,
-        help_text=_('Required. 200 characters or fewer.'))
-    email = models.EmailField(_('email address'), unique=True)
+        help_text=_('Full name of the user. 200 characters or fewer.'))
+    email = models.EmailField(_('email address'), unique=True,
+        help_text=_('Email id of the user. Must be unique.'))
     is_staff = models.BooleanField(_('staff status'), default=False,
         help_text=_('Designates whether the user can log into this admin '
                     'site.'))
     date_joined = models.DateTimeField(_('date joined'), 
-        auto_now_add=True)
+        auto_now_add=True, help_text = _('Denotes the date and time the \
+        user registered on the website. Does not indicate date and time \
+        of activation of the account.'))
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']

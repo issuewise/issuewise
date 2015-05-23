@@ -23,10 +23,60 @@ class PersonalInfo(PermissionMixin, WiseRetrieveUpdateAPIView):
     # define the object by overriding get_object
     
     def get_object(self):
+        
         wiseuser = get_object_or_404(WiseUser, uri_name = self.kwargs['uri_name'])
         obj = get_object_or_404(WiseUserProfile, autobiographer = wiseuser)
         self.obj = obj
         return super(PersonalInfo, self).get_object()
+        
+    def get(self, request, *args, **kwargs):
+        """
+        
+        Function : Get personal details of an user.
+        
+        Permission : Authenticated user only. The user himself or his friends
+        are allowed access
+        
+        ---
+        
+        omit_parameters:
+            - path
+            
+        responseMessages:
+            - code : 404
+              message : This error occurs if the uri_name provided does not \
+              correspond to a valid user on the system.
+        
+        """
+        
+        return super(PersonalInfo, self).get(request, *args, **kwargs) 
+     
+    def put(self, request, *args, **kwargs):
+        """
+        
+        Function : Change personal details of an user.
+        
+        Permission : Authenticated user only. Only the user corresponding to 
+        uri_name is allowed access.
+        
+        ---
+        
+        omit_parameters:
+            - path
+            
+        responseMessages:
+            - code : 404
+              message : This error occurs if the uri_name provided does not \
+              correspond to a valid user on the system.
+            - code : 403
+              message : This error occurs if the user making the request \
+              is not the user corresponding to uri_name
+        
+        """
+        
+        return super(PersonalInfo, self).put(request, *args, **kwargs)
+        
+    
         
         
 class SocialLinkList(PermissionMixin, WiseListCreateAPIView):
@@ -46,6 +96,55 @@ class SocialLinkList(PermissionMixin, WiseListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(autobiographer=self.request.user)
         
+    def get(self, request, *args, **kwargs):
+        """
+        
+        Function : Lists the social media links of the user.  
+        
+        Permission : Authenticated user only. The user corresponding to the 
+        uri_name and friends of the user are always allowed access. For non
+        friends this node lists the social links that have privacy set to 
+        A or public.         
+        ---
+        
+        omit_parameters:
+            - path
+            
+        
+        responseMessages:
+            - code : 404
+              message : This error occurs if the uri_name provided does not \
+              correspond to a valid user on the system.
+        """
+        
+        return super(SocialLinkList, self).get(request, *args, **kwargs) 
+        
+    def post(self, request, *args, **kwargs):
+        """
+        
+        Function : Creates a new social media link for the user corresponding 
+        to the uri_name.  
+        
+        Permission : Authenticated user only. Only the user corresponding to 
+        uri_name is allowed access.     
+        ---
+        
+        omit_parameters:
+            - path
+            
+        
+        responseMessages:
+            - code : 404
+              message : This error occurs if the uri_name provided does not \
+              correspond to a valid user on the system.
+            - code : 403
+              message : This error occurs if the user making the request \
+              is the user corresponding to uri_name. 
+        """
+        
+        return super(SocialLinkList, self).post(request, *args, **kwargs) 
+        
+        
         
 
 class SocialLinkDetail(PermissionMixin, WiseRetrieveUpdateDestroyAPIView):
@@ -62,7 +161,88 @@ class SocialLinkDetail(PermissionMixin, WiseRetrieveUpdateDestroyAPIView):
         return super(SocialLinkDetail, self).get_object()  
     
     
-    
+    def get(self, request, *args, **kwargs):
+        """
+        
+        Function : Returns the social link corresponding to pk for the 
+        user corresponding to uri_name 
+        
+        Permission : Authenticated user only. The user corresponding to the 
+        uri_name and friends of the user are always allowed access. Non friends
+        have access only if privacy is set to A or public.     
+        ---
+        
+        omit_parameters:
+            - path
+            
+        
+        responseMessages:
+            - code : 404
+              message : This error occurs if the uri_name provided does not \
+              correspond to a valid user on the system or if the user \
+              corresponding to uri_name does not have a social link entry \
+              corresponding to pk.
+            - code : 403 
+              message : This error occurs if a non friend is trying to \
+              access a social link entry with privacy set to F
+        """
+        
+        return super(SocialLinkDetail, self).get(request, *args, **kwargs) 
+        
+    def put(self, request, *args, **kwargs):
+        """
+        
+        Function : Change the social link entry corresponding to pk of the 
+        user corresponding to uri_name. 
+        
+        Permission : Authenticated user only. Only the user corresponding to 
+        uri_name is allowed access.     
+        ---
+        
+        omit_parameters:
+            - path
+            
+        
+        responseMessages:
+            - code : 404
+              message : This error occurs if the uri_name provided does not \
+              correspond to a valid user on the system or if the user \
+              corresponding to uri_name does not have a social link entry \
+              corresponding to pk.
+            - code : 403
+              message : This error occurs if the user making the request \
+              is not the user corresponding to uri_name
+        """
+        
+        return super(SocialLinkDetail, self).post(request, *args, **kwargs) 
+     
+    def delete(self, request, *args, **kwargs):
+        """
+        
+        Function : Delete the social link entry corresponding to pk of the 
+        user corresponding to uri_name. 
+        
+        Permission : Authenticated user only. Only the user corresponding to 
+        uri_name is allowed access.     
+        ---
+        
+        omit_parameters:
+            - path
+            
+        
+        responseMessages:
+            - code : 404
+              message : This error occurs if the uri_name provided does not \
+              correspond to a valid user on the system or if the user \
+              corresponding to uri_name does not have a social link entry \
+              corresponding to pk.
+            - code : 403
+              message : This error occurs if the user making the request \
+              is not the user corresponding to uri_name
+        """
+        
+        return super(SocialLinkDetail, self).delete(request, *args, **kwargs)
+        
     
     
     

@@ -39,7 +39,8 @@ class UserAsFollower(models.Model):
         related_name='%(app_label)s_%(class)s_follower',
         verbose_name=_('follower'))
     folllowed_at=models.DateTimeField(_('time followed'), 
-        auto_now_add=True)
+        auto_now_add=True, help_text = _('date and time at which the \
+        relationship was initiated'))
     
     class Meta:
         abstract = True

@@ -10,12 +10,12 @@ urlpatterns = [
         name = 'accounts',
         ),
     url(
-        regex = r'^(?P<uri_name>.+)/activation-links/$',
+        regex = r'^activation-links/$',
         view = ActivationLinkCreate.as_view(),
         name = 'activationlinkcreate',
         ),
     url(
-        regex = r'^(?P<uri_name>.+)/activation-links/(?P<uuid>.+)/$',
+        regex = r'^activation-links/(?P<uuid>.+)/$',
         view = ActivationLinkCheck.as_view(),
         name = 'activationlinkcheck',
         ),

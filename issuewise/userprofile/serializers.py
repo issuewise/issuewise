@@ -8,4 +8,3 @@ class WiseUserProfileSerializer(serializers.ModelSerializer):
         model = WiseUserProfile
         exclude = ('autobiographer',)
 
-

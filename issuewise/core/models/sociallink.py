@@ -56,11 +56,18 @@ class SocialLinkMixin(models.Model):
         ('XAN', 'Xanga'),
 )
     
-    url = models.URLField(_('social link'), max_length = 300)
+    url = models.URLField(_('social link'), max_length = 300, 
+        help_text = _('url corresponding to a social link'))
     website = models.CharField(_('name of website'), max_length = 3, 
-        choices = WEBSITE_CHOICES)
+        choices = WEBSITE_CHOICES, help_text = _('the website corresponding \
+        to the link. The backend automatically tries to identify the website \
+        corresponding to the link and returns the identity of the website \
+        as a three character code. When this identification fails, PER is \
+        returned'))
     link_type = models.CharField(_('this link goes to a'), max_length =3,
-        choices = LINK_TYPE_CHOICES)
+        choices = LINK_TYPE_CHOICES, help_text = _('denotes the type of social \
+        link. SOC means Social Network, BLO means Blogs, PER means Personal \
+        website and ORG means organizational website'))
 
     def get_website_type(self):
         return 'PER'

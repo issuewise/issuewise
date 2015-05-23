@@ -63,8 +63,8 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_swagger',
-    'accounts',
     'core',
+    'accounts',
     'userprofile',
     'groups',
     'categories',
@@ -211,4 +211,3 @@ FRIENDSHIP_PERMISSION_VIEW_CLASSES = (
                                         'FriendshipList',
                                         'AcceptRejectFriend',
                                         )
-
