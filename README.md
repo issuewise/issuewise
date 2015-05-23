@@ -71,8 +71,8 @@ instead, please uncomment the following lines in the settings file
     )
     }
     
-The API documentation is now available at /docs. But it still needs some work. 
-Feel free to shoot any questions to dibyachakravorty@gmail.com.
+The API documentation is now available at /docs. Feel free to shoot any 
+questions to dibyachakravorty@gmail.com.
 
 Happy testing :) Cheers!
     
