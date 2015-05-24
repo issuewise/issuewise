@@ -1,1 +1,1 @@
-web: gunicorn issuewise.wsgi.heroku --log-file -
+web: sh -c 'cd issuewise && gunicorn issuewise.wsgi.heroku --log-file -'
