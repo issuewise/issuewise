@@ -1,0 +1,14 @@
+Django==1.7
+Pillow==2.6.1
+PyYAML==3.11
+Unipath==1.0
+django-appconf==0.6
+django-imagekit==3.2.2
+django-model-utils==2.2
+django-mptt==0.6.1
+django-phonenumber-field==0.6
+django-rest-swagger==0.2.9
+djangorestframework==3.1.1
+phonenumbers==6.2.0
+pilkit==1.1.9
+six==1.8.0
