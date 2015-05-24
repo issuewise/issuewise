@@ -1,0 +1,1 @@
+web: gunicorn issuewise.wsgi.heroku --log-file -
