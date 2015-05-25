@@ -1,11 +1,20 @@
 from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from core.permissions import permission_factory
 
 # Create your views here.
 
+class Welcome(APIView):
 
+    def get(self, request, *args, **kwargs):
+        data = {"name": "issuewise", "version": 0.1} 
+        return Response(data = data)
+    
+
+    
 
 class PermissionMixin(object):
     """

@@ -3,6 +3,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+from core.views import Welcome 
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'issuewise.views.home', name='home'),
@@ -15,6 +17,11 @@ urlpatterns = patterns('',
     url(
         r'^docs',
         include('rest_framework_swagger.urls', namespace = 'documentation')
+        ),
+    url(
+        regex = r'^$',
+        view = Welcome.as_view(),
+        name = 'welcome',
         ),
     url(
         r'^', 
