@@ -40,7 +40,7 @@ class Accounts(generics.CreateAPIView):
     
 class ActivationLinkCheck(APIView):
 
-    def get(self, request, uuid, uri_name, format = None):
+    def get(self, request, uuid, format = None):
         """
         
         Function : Activates the user associated with this resource. 
