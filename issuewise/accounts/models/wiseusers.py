@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
+from django.config import settings
 
 from core.utils import (uri_name_mixin_factory, activity_mixin_factory,
                         user_as_follower_factory, user_as_followee_factory,
@@ -93,7 +94,8 @@ class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
     
     def send_activation_email(self):
         unique_code = unicode(uuid4())
-        activation_link = ''.join(['http://127.0.0.1:8000/users/', self.uri_name])
+        activation_link = ''.join([settings.DOMAIN_NAME, '/users/'])
+        activation_link = ''.join([activation_link, self.uri_name])
         activation_link = ''.join([activation_link, '/activation-links/'])
         activation_link = ''.join([activation_link, unique_code])
         send_mail('activate your issuewise account', 
