@@ -28,4 +28,7 @@ ALLOWED_HOSTS = ['*']
 
 # debug is set to false on production mode
 
-DEBUG = False
+DEBUG = False
+# point to the correct WSGI application
+
+WSGI_APPLICATION = 'issuewise.wsgi.heroku.application'
