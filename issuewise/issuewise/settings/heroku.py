@@ -26,19 +26,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
 
-# debug is set to false on production mode
 
-#DEBUG = False
-# point to the correct WSGI application
-
-WSGI_APPLICATION = 'issuewise.wsgi.heroku.application'
-
-# Static asset configuration
-import os
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = 'staticfiles'
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# setting DEBUG to False leads to unexpected behavior for DJANGO REST 
+# FRAMEWORK's frontend

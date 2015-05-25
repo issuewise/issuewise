@@ -18,11 +18,11 @@ urlpatterns = patterns('',
         r'^docs',
         include('rest_framework_swagger.urls', namespace = 'documentation')
         ),
-    #url(
-    #    regex = r'^$',
-    #    view = Welcome.as_view(),
-    #    name = 'welcome',
-    #    ),
+    url(
+        regex = r'^$',
+        view = Welcome.as_view(),
+        name = 'welcome',
+        ),
     url(
         r'^', 
         include('rest_framework.urls', namespace = 'rest_framework'),
