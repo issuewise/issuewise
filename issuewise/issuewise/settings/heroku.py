@@ -26,6 +26,10 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
 
+# Set the domain name to the heroku app
+
+DOMAIN_NAME = 'https://limitless-caverns-8697.herokuapp.com'
+
 
 # setting DEBUG to False leads to unexpected behavior for DJANGO REST 
 # FRAMEWORK's frontend
