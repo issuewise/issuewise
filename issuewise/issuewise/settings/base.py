@@ -93,7 +93,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'issuewise.urls'
 
-WSGI_APPLICATION = 'issuewise.wsgi.application'
+WSGI_APPLICATION = 'issuewise.wsgi.base.application'
 
 
 # Internationalization
