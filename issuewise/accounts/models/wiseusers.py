@@ -5,7 +5,6 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
-from django.config import settings
 
 from core.utils import (uri_name_mixin_factory, activity_mixin_factory,
                         user_as_follower_factory, user_as_followee_factory,
