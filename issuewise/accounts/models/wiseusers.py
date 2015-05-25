@@ -94,7 +94,6 @@ class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
     def send_activation_email(self):
         unique_code = unicode(uuid4())
         activation_link = ''.join([settings.DOMAIN_NAME, '/users/'])
-        activation_link = ''.join([activation_link, self.uri_name])
         activation_link = ''.join([activation_link, '/activation-links/'])
         activation_link = ''.join([activation_link, unique_code])
         send_mail('activate your issuewise account', 
