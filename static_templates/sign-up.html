@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Sign in</title>
+	<title>Sign up</title>
 	<link rel="icon" href="issuewise-logo.png"/>
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,500|Open+Sans:400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="reset.css"/>
@@ -13,18 +13,15 @@
 		<span class='logo-issue'>issue</span>
 		<span class='logo-wise'>wise</span>
 	</span>
-	<span class='validation-error'>Incorrect email or password.</span>
+	<h1>Sign up</h1>
+	<br>
+	<span class='validation-error'>Invalid email/password.</span>
 	<form>
-		<input autofocus type="email" name="email" placeholder="e-mail"><br>
-		<input type="password" name="password" placeholder="password"><br>
-		<span class='forgot-password'>
-			<a href='#'>Forgot password?</a>
-		</span>
-		<input id="login-button" type="submit" value="Log in">
-	</form>
-	<hr>
-	<form>
-		<input id="signup-button" type="submit" value="or Sign up">
+		<input autofocus type="text" name="name" placeholder="name"><br>
+		<input type="email" name="email" placeholder="e-mail"><br>
+		<input type="password" name="password1" placeholder="password"><br>
+		<input type="password" name="password2" placeholder="retype password"><br>
+		<input id="signup-button" type="submit" value="Sign up">
 	</form>
 </div>
 </body>
