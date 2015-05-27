@@ -88,6 +88,5 @@ input[type="submit"]
 
 .dialog-box h1
 {
-	font-family: 'Ubuntu', sans-serif;
-	font-size: 1.3em;
+	font: normal 1.4em 'Ubuntu', sans-serif;
 }
