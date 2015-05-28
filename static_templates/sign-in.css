@@ -10,10 +10,16 @@ padding: 15px;
 	padding: 0;
 }
 
+.logo-text
+{	
+	margin-bottom: .5em;
+}
+
 input[type="text"], input[type="email"], input[type="password"]
 {
 	#text-align: center;
 }
+
 
 #login-button
 {

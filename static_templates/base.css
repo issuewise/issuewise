@@ -48,19 +48,18 @@ input[type="submit"]
 {
 	background-color: #2C9BAB;
 	border: none;
-	padding: 5px 9px;
+	padding: 5px 8px 7px 8px;
 	border-radius: 15px;
 	margin: .7em 0 .7em 0;
 	color: white;
-	font-weight: bold;
+	font-family: 'Ubuntu';
+	font-size: 1em;
 }
 
 .logo-text
 {
 	font-family: 'Ubuntu', sans-serif;
 	font-size: 2.2em;
-	margin-bottom: .5em;
-	display: block;
 }
 
 .logo-issue

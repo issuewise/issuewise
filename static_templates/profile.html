@@ -10,12 +10,17 @@
 <body>
 <div class="container-box">
 <div class="header">
-	issuewise
-	<input type="search" name="search" placeholder="Search">
+	<span class='logo-text'>
+		<span class='logo-issue'>issue</span>
+		<span class='logo-wise'>wise</span>
+	</span>
+    <input type="search" class="site-search" placeholder="Search"></input>
 	<span class="header-right">
-		<a href='#'>Home</a>
-		<a href='#'>Profile</a>
-		<a href='#'>Notifications</a>
+		<a class="home-link" href='#'><img src="home.png"></a>
+		<a class="profile-link" href='#'><img src="profile-pic.jpg">
+		<span class="points">2,048</span>
+		</a>
+		<a class="notification-link" href='#'><img src="bell.png"></a>
 	</span>
 </div>
 <div class="main">
@@ -68,6 +73,15 @@
 				<input type="radio" id="tab-edits" name="tab-group-1">
 				<label for="tab-edits">Edits</label>			   
 				<div class="tab-content">
+					<p style="text-align:right">
+						<select>
+							<option value="value">filter by role</option>
+							<option value="value">promoter</option>
+							<option value="value">trendsetter</option>
+							<option value="value">opinion builder</option>
+							<option value="value">more...</option>
+						</select>
+					</p>
 					<div class="edit-event">
 						<span class="edit-event-time">yesterday at 5:28 PM</span>
 						<img class="edit-event-icon">
@@ -104,7 +118,28 @@
 				<input type="radio" id="tab-friends" name="tab-group-1">
 				<label for="tab-friends">Friends</label>			 
 				<div class="tab-content">
-					Friends and shit.
+					<input style="display:block" type="search" name="friend-search" placeholder="Find a friend">
+					<br>
+					<div class="friend-tile">
+						<img class="friend-photo">
+						<span class="friend-name">Lorem Ipsum</span>
+					</div>
+					<div class="friend-tile">
+						<img class="friend-photo">
+						<span class="friend-name">Lorem Ipsum</span>
+					</div>
+					<div class="friend-tile">
+						<img class="friend-photo">
+						<span class="friend-name">Lorem Ipsum</span>
+					</div>
+					<div class="friend-tile">
+						<img class="friend-photo">
+						<span class="friend-name">Lorem Ipsum</span>
+					</div>
+					<div class="friend-tile">
+						<img class="friend-photo">
+						<span class="friend-name">Lorem Ipsum</span>
+					</div>
 				</div> 
 			</div>
 		</div>
