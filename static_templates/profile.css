@@ -169,14 +169,24 @@ input[type="search"], select
 {
     font-size: .9em;
     list-style-type: none;
-    line-height: 1.8em;
-    text-align: justify;
+    line-height: 2em;
+}
+
+.contact-icons
+{
+    margin-top: 7px;
 }
 
 .contact-icons img
 {
-    height: 17px;
-    margin-right: 7px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.bio-text
+{
+    font-size: small;
+    color: grey;
 }
 
 .achievements
@@ -269,8 +279,7 @@ input[type="search"], select
 
 .other-people
 {
-    font-size: small;
-    color: grey;
+    font-size: .9em;
     display: block;
     margin-bottom: 15px;
 }
@@ -327,25 +336,26 @@ input[type="search"], select
 .event-issue-title
 {
     display: block;
-    font-size: 1.3em;
+    font-size: 22px;
     font-weight: 600;
 }
 
 .event-trend-title
 {
     display: block;
-    font-size: 1.1em;
+    font-size: 20px;
     margin-left: 20px;
     font-weight: 600;
-    margin-top: .2em;
+    margin-top: 5px;
 }
 
 .event-reason-title
 {
     display: block;
     margin-left: 40px;
+    font-size: 16px;
     font-weight: 600;
-    margin-top: .2em;
+    margin-top: 5px;
 }
 
 .edit-event-points
