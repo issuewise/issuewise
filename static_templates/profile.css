@@ -177,10 +177,11 @@ input[type="search"], select
     margin-top: 7px;
 }
 
-.contact-icons img
+.personal-list img
 {
-    height: 20px;
-    margin-right: 5px;
+    height: 22px;
+    margin-right: 4px;
+    vertical-align: middle;
 }
 
 .bio-text
@@ -223,13 +224,14 @@ input[type="search"], select
 
 .tab label
 {
-    padding: 5px 10px;
+    padding: 6px 10px;
     position: relative;
     left: 1px;
     margin-right: 10px;
     margin-left: 4px;
     cursor: pointer;
     font: 1.1em 'Ubuntu', sans-serif;
+    color: #2C9BAB;
     line-height: 1.5em;
     font-weight: 500;
 }
@@ -248,6 +250,7 @@ input[type="search"], select
     bottom: 0;
     padding: 20px;
     border: 1px solid #ccc;
+    border-top: 3px solid #eee;
     border-radius: 5px;
     overflow-y: auto;
 }
@@ -257,6 +260,7 @@ input[type="search"], select
     background: white;
     border-bottom: 3px solid #FF9955;
     z-index: 2;
+    color: #FF9955;
 }
 
 [type=radio]:checked ~ label ~ .tab-content
