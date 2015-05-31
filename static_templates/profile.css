@@ -252,7 +252,6 @@ input[type="search"], select
     bottom: 0;
     padding: 20px;
     border: 1px solid #ccc;
-    border-top: 3px solid #eee;
     border-radius: 5px;
     overflow-y: auto;
 }
@@ -260,7 +259,7 @@ input[type="search"], select
 [type=radio]:checked ~ label
 {
     background: white;
-    border-bottom: 3px solid #FF9955;
+    border-bottom: 1px solid #FF9955;
     z-index: 2;
     color: #FF9955;
 }
