@@ -15,9 +15,10 @@ padding: 15px;
 	margin-bottom: .5em;
 }
 
-input[type="text"], input[type="email"], input[type="password"]
+input[type="text"], input[type="email"], input[type="password"], input[type="search"]
 {
-	#text-align: center;
+	height: 2.5em;
+	margin: .7em 0 .7em 0;
 }
 
 
