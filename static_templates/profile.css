@@ -235,7 +235,6 @@ input[type="search"], select
     font: 1.1em 'Ubuntu', sans-serif;
     color: #2C9BAB;
     line-height: 1.5em;
-    font-weight: 500;
 }
 
 .tab [type=radio]
@@ -343,7 +342,6 @@ input[type="search"], select
 {
     display: block;
     font-size: 22px;
-    font-weight: 600;
 }
 
 .event-trend-title
@@ -351,7 +349,6 @@ input[type="search"], select
     display: block;
     font-size: 20px;
     margin-left: 20px;
-    font-weight: 600;
     margin-top: 5px;
 }
 
@@ -360,7 +357,6 @@ input[type="search"], select
     display: block;
     margin-left: 40px;
     font-size: 16px;
-    font-weight: 600;
     margin-top: 5px;
 }
 
