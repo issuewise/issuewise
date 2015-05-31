@@ -298,8 +298,9 @@ input[type="search"], select
 
 .manifesto-comment
 {
-    width: calc(100% - 29px);
+    width: calc(100% - 30px);
     border-radius: 4px;
+    resize: none;
 }
 
 .edit-event
@@ -318,7 +319,7 @@ input[type="search"], select
     color: grey;
 }
 
-.edit-event-icon
+.event-icon
 {
     width: 40px;
     height: 40px;
@@ -327,7 +328,7 @@ input[type="search"], select
     vertical-align: top;
 }
 
-.edit-event-details
+.event-details
 {
     display: inline-block;
 }
