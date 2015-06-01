@@ -33,3 +33,12 @@ DOMAIN_NAME = 'https://limitless-caverns-8697.herokuapp.com'
 
 # setting DEBUG to False leads to unexpected behavior for DJANGO REST 
 # FRAMEWORK's frontend
+
+# adding CORS support
+
+INSTALLED_APPS+=('corsheaders',)
+
+MIDDLEWARE_CLASSES=('corsheaders.middleware.CorsMiddleware',) + MIDDLEWARE_CLASSES
+
+CORS_ORIGIN_ALLOW_ALL = True
+
