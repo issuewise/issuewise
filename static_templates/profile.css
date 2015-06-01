@@ -173,12 +173,19 @@ input[type="search"], select
     margin-top: 20px;
 }
 
+.personal-location img, .personal-education img
+{
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
 .contact-icons
 {
     margin-top: 7px;
 }
 
-.personal-list img
+.contact-icons img
 {
     height: 22px;
     margin-right: 4px;
@@ -189,7 +196,7 @@ input[type="search"], select
 {
     font-size: small;
     color: grey;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .achievements
@@ -233,6 +240,7 @@ input[type="search"], select
     margin-left: 4px;
     cursor: pointer;
     font: 1.1em 'Ubuntu', sans-serif;
+    font-weight: 500;
     color: #2C9BAB;
     line-height: 1.5em;
 }
