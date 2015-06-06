@@ -11,8 +11,8 @@ from rest_framework.exceptions import PermissionDenied
 
 from core.views import PermissionMixin, WiseListCreateAPIView
 from accounts.models import WiseUser, WiseActivation, WiseFriendship
-from serializers import WiseUserSerializer, WiseFriendshipSerializer
-from exceptions import UserNotActive
+from accounts.serializers import WiseUserSerializer, WiseFriendshipSerializer
+from accounts.exceptions import UserNotActive
 
 
 class Accounts(generics.CreateAPIView):
@@ -123,6 +123,16 @@ class ObtainTokenForActivatedUsers(ObtainAuthToken):
               required : true
               type : string
               paramType: form
+        type:
+            token:
+                required: true
+                type: string
+                description: token used for http Token Authentication
+            uri_name:
+                required: true
+                type: string
+                description: uri friendly name of the user. all nodes with \
+                {uri_node} needs to include this string in place of {uri_name}.
               
         responseMessages:
             - code : 400
@@ -142,7 +152,8 @@ class ObtainTokenForActivatedUsers(ObtainAuthToken):
         if user.activity_status == 'I':
             raise UserNotActive(explanation = user.explanation)
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        uri_name = user.uri_name
+        return Response({'token': token.key, 'uri_name' : uri_name})
         
         
 class FriendshipList(PermissionMixin, WiseListCreateAPIView):
