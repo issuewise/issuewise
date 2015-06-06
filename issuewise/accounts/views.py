@@ -8,6 +8,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
+from rest_framework import renderers
 
 from core.views import PermissionMixin, WiseListCreateAPIView
 from accounts.models import WiseUser, WiseActivation, WiseFriendship
@@ -39,6 +40,8 @@ class Accounts(generics.CreateAPIView):
     
     
 class ActivationLinkCheck(APIView):
+    
+    renderer_classes = (renderers.JSONRenderer,)
 
     def get(self, request, uuid, format = None):
         """
@@ -54,8 +57,11 @@ class ActivationLinkCheck(APIView):
         
         """ 
         obj = get_object_or_404(WiseActivation, uuid = uuid)
-        obj.creator.activate()
-        return Response() 
+        user = obj.creator
+        user.activate()
+        token, created = Token.objects.get_or_create(user=user)
+        uri_name = user.uri_name
+        return Response({'token': token.key, 'uri_name' : uri_name})
         
         
 class ActivationLinkCreate(APIView):
@@ -83,6 +89,17 @@ class ActivationLinkCreate(APIView):
         omit_parameters:
             - path
             
+        type:
+            token:
+                required: true
+                type: string
+                description: token used for http Token Authentication
+            uri_name:
+                required: true
+                type: string
+                description: uri friendly name of the user. all nodes with \
+                {uri_node} needs to include this string in place of {uri_name}.
+            
         responseMessages:
             - code: 403
               message: This error occurs if an user tries to activate \
@@ -96,8 +113,6 @@ class ActivationLinkCreate(APIView):
         
         """ 
         user = request.user
-        #if not self.permit(self.request, self.__class__.__name__, None , user, self.kwargs):
-        #    raise PermissionDenied
         user.send_activation_email()
         return Response()
         
