@@ -1,6 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from accounts.models import WiseUser, WiseFriendship
 
@@ -18,7 +19,33 @@ class WiseUserSerializer(serializers.ModelSerializer):
             'password': {
                 'write_only': True,
             },
+            'name': {
+                'error_messages' : {
+                    'blank': _("Don't forget to tell us your name"),
+                    'max_length': _("Your name is too long. Tell us your nickname instead. \
+Make sure it is less than 200 characters long"),
+                },
+            },
+            'email': {
+                'error_messages' : {
+                    'blank': _("Don't tell us you don't have an email? We can't \
+believe that..."),
+                    'invalid': _("That certainly doesn't look like an email id"),
+                },
+                'validators' : [UniqueValidator(queryset=WiseUser.objects.all(),
+                    message = _("Someone has signed up already using this email \
+id. If you are not that someone, maybe you should get worried."))],
+            },
+            'password': {
+                'error_messages' : {
+                    'blank': _("Don't be so trustworthy. Give your account a password"),
+                },
+            },
         }
+       
+            
+  
+        
         
         
 class WiseFriendshipSerializer(serializers.ModelSerializer):
