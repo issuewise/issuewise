@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Issuewise</title>
+<link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="reset.css"/>
+<link rel="stylesheet" type="text/css" href="base.css"/>
+<link rel="stylesheet" type="text/css" href="landing.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+function slideOpen()
+{
+	$('#steps').css('height','630px');
+	$('#steps').css('opacity','1');
+	$('#landing-text').css('margin-top','50px');	
+}
+</script>
+</head>
+<body>
+<div id='landing-text'>
+	<img class='hourglass' src="hourglass.png">
+	<div class="icon-text">
+	    <p style="font-size: 2em; vertical-align: middle;">
+		    We're building
+		    <span class='logo-text'>
+				<span class='logo-issue'>issue</span>
+				<span class='logo-wise'>wise</span>
+			</span>.
+		</p>
+		<p class="links">
+			<a style="margin-left:0" href="https://www.facebook.com/groups/issuewise">facebook</a>&middot;
+			<a href="http://blog.issuewise.org">blog</a>&middot;
+			<a href="http://guidelines.issuewise.org">guidelines</a>
+		</p>
+	</div>
+    <br><br>
+	<p>An open platform for generating collaborative answers to socio-political issues.</p>
+    <br><br>
+    <p style="font-weight: 400;"><a onclick="slideOpen();">How does it work?</a></p>
+    <br><br>
+    <div id="steps">
+		<p><span class="number">1</span>&ensp;Ask a question about a real world political or social issue.</p>
+		<br>
+    	<img style="height: 4em" src="question.png">
+    	<br><br>
+		<p><span class="number">2</span>&ensp;Collaborate on solutions, viewpoints and their reasons.</p>
+		<br>
+    	<img style="height: 12em" src="answers.png">
+    	<br><br>
+		<p><span class="number">3</span>&ensp;Make the world a wiser place.</p>
+	</div><br>
+    <p>Leave your e-mail to be notified when we take off.</p><br>
+    <form>
+		<input id="email" type="email" placeholder="e-mail">
+		<input id="submit-email" type="submit" value="Submit">
+	</form>
+</div>
+</body>
+</html>

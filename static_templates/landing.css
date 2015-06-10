@@ -1,0 +1,95 @@
+body
+{
+	background-color: white;
+	font: 1.44em 'Ubuntu', sans-serif;
+	font-weight: 300;
+  	color: grey;
+}
+
+a
+{
+	cursor: pointer;
+	transition: box-shadow 0.5s;
+	-moz-transition: all 0.5s; /* Firefox 4 */
+	-webkit-transition: text-shadow 0.5s; /* Safari and Chrome */
+	-o-transition: all 0.5s; /* Opera */
+	-ms-transition: all 0.5s; /* Explorer 10 */
+}
+
+a:hover
+{
+	text-shadow: 0px 1px 1px #aaa;
+}
+
+#landing-text
+{
+	margin-top: 250px;
+	margin-bottom: 50px;
+	text-align: center;
+	transition: all 2s ease-in-out;
+	-webkit-transition: all 2s ease-in-out;
+	-moz-transition: all 2s ease-in-out;
+	-o-transition: all 2s ease-in-out;
+}
+
+.hourglass
+{
+	height: 3.7em;
+	margin-right: 1em;
+	vertical-align: top;
+}
+
+.icon-text
+{
+	display: inline-block;
+}
+
+.logo-text
+{
+	font-size: 1em;
+	margin-right: -10px;
+}
+
+.number
+{
+	font-weight: 400;
+	color: #666;
+	font-size: 1.5em;
+	vertical-align: -10%;
+}
+
+#email
+{
+	height: 30px;
+	text-align: center;
+	border-radius: 15px;
+	margin-right: 1em;
+}
+
+#submit-email
+{
+	font-size: .7em;
+}
+
+#steps
+{
+	opacity: 0;
+	height: 0;
+	overflow: hidden;
+	transition: all 2s ease-in-out;
+	-webkit-transition: all 2s ease-in-out;
+	-moz-transition: all 2s ease-in-out;
+	-o-transition: all 2s ease-in-out;
+}
+
+.links
+{
+	text-align: left;
+}
+
+.links a
+{
+	font-size: smaller;
+	margin-right: .5em;
+	margin-left: .3em;
+}
