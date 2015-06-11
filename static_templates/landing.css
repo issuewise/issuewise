@@ -9,9 +9,9 @@ body
 a
 {
 	cursor: pointer;
-	transition: box-shadow 0.5s;
+	transition: all 0.5s;
 	-moz-transition: all 0.5s; /* Firefox 4 */
-	-webkit-transition: text-shadow 0.5s; /* Safari and Chrome */
+	-webkit-transition: all 0.5s; /* Safari and Chrome */
 	-o-transition: all 0.5s; /* Opera */
 	-ms-transition: all 0.5s; /* Explorer 10 */
 }
@@ -21,10 +21,20 @@ a:hover
 	text-shadow: 0px 1px 1px #aaa;
 }
 
+a:hover img
+{	
+	box-shadow: 0px 1px 1px #aaa;
+}
+
 #landing-text
 {
-	margin-top: 250px;
-	margin-bottom: 50px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	height: 400px;
 	text-align: center;
 	transition: all 2s ease-in-out;
 	-webkit-transition: all 2s ease-in-out;
@@ -44,9 +54,32 @@ a:hover
 	display: inline-block;
 }
 
+#right-arrow
+{
+	height: 1.5em;
+	margin-top: .5em;
+	border-radius: .75em;
+	/* Firefox */
+	-moz-transition: transform .1s ease-in-out, box-shadow .5s;
+	/* WebKit */
+	-webkit-transition: transform .1s ease-in-out, box-shadow .5s;
+	/* Opera */
+	-o-transition: transform .1s ease-in-out, box-shadow .5s;
+	/* Standard */
+	transition: transform .1s ease-in-out, box-shadow .5s;
+}
+
+.right-arrow-rotated
+{
+	-ms-transform: rotate(90deg); /* IE 9 */
+	-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+	transform: rotate(90deg);
+}
+
 .logo-text
 {
 	font-size: 1em;
+	font-weight: 400;
 	margin-right: -10px;
 }
 
@@ -62,13 +95,20 @@ a:hover
 {
 	height: 30px;
 	text-align: center;
-	border-radius: 15px;
+	border-radius: 5px;
 	margin-right: 1em;
+	font: .8em 'Ubuntu', sans-serif;
+	font-weight: 400;
+	width: 200px;
 }
 
 #submit-email
 {
-	font-size: .7em;
+	font-size: .8em;
+	border-radius: 5px;
+	padding-top: 0;
+	padding-bottom: 0;
+	height: 30px;
 }
 
 #steps
@@ -85,6 +125,7 @@ a:hover
 .links
 {
 	text-align: left;
+	font-weight:400;
 }
 
 .links a

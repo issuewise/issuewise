@@ -7,12 +7,44 @@
 <link rel="stylesheet" type="text/css" href="landing.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
+var stepsopen=false;
+
 function slideOpen()
 {
-	$('#steps').css('height','630px');
+	$('#steps').css('height','1450px');
 	$('#steps').css('opacity','1');
-	$('#landing-text').css('margin-top','50px');	
+	$('#landing-text').css('height','90%');	
+	$('#right-arrow').addClass('right-arrow-rotated');
+	stepsopen=true;
 }
+
+function slideClose()
+{
+	$('#steps').css('height','0');
+	$('#steps').css('opacity','0');
+	$('#landing-text').css('height','400px');	
+	$('#right-arrow').removeClass('right-arrow-rotated');
+	stepsopen=false;
+}
+
+function slideToggle()
+{
+	if(stepsopen)
+		slideClose();
+	else
+		slideOpen();
+}
+
+$(document).ready(function () {
+    $("#submit-email").click(function () {
+    	$("#email").val('');
+        $("#email-message").fadeOut(function () {
+            $("#email-message").text('E-mail submitted.');
+            $("#email-message").css('color','#ff9955').fadeIn();
+        })
+    })
+});
+
 </script>
 </head>
 <body>
@@ -35,24 +67,23 @@ function slideOpen()
     <br><br>
 	<p>An open platform for generating collaborative answers to socio-political issues.</p>
     <br><br>
-    <p style="font-weight: 400;"><a onclick="slideOpen();">How does it work?</a></p>
-    <br><br>
+    <p style="font-weight: 400;"><a style="display:block" onclick="slideToggle();">How does it work?<br><img id="right-arrow" src="right-arrow.png"></a></p>
+    <br>
     <div id="steps">
 		<p><span class="number">1</span>&ensp;Ask a question about a real world political or social issue.</p>
-		<br>
-    	<img style="height: 4em" src="question.png">
-    	<br><br>
+		<br><br>
+    	<img style="width: 3em" src="question.png">
+    	<br><br><br>
 		<p><span class="number">2</span>&ensp;Collaborate on solutions, viewpoints and their reasons.</p>
-		<br>
-    	<img style="height: 12em" src="answers.png">
-    	<br><br>
+		<br><br>
+    	<img style="width: 13em" src="answers.png">
+    	<br><br><br>
 		<p><span class="number">3</span>&ensp;Make the world a wiser place.</p>
 	</div><br>
-    <p>Leave your e-mail to be notified when we take off.</p><br>
-    <form>
-		<input id="email" type="email" placeholder="e-mail">
-		<input id="submit-email" type="submit" value="Submit">
-	</form>
+    <p id='email-message'>Leave your e-mail to be notified when we take off.</p>
+	<input id="email" type="email" placeholder="e-mail">
+	<input id="submit-email" type="submit" value="Submit">
+	<br><br><br>
 </div>
 </body>
 </html>
