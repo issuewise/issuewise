@@ -11,19 +11,17 @@ var stepsopen=false;
 
 function slideOpen()
 {
-	$('#steps').css('height','1450px');
-	$('#steps').css('opacity','1');
+	$('.steps').addClass('steps-open');
 	$('#landing-text').css('height','90%');	
-	$('#right-arrow').addClass('right-arrow-rotated');
+	$('#arrow').addClass('arrow-rotated');
 	stepsopen=true;
 }
 
 function slideClose()
 {
-	$('#steps').css('height','0');
-	$('#steps').css('opacity','0');
-	$('#landing-text').css('height','400px');	
-	$('#right-arrow').removeClass('right-arrow-rotated');
+	$('.steps').removeClass('steps-open');
+	$('#landing-text').css('height','570px');	
+	$('#arrow').removeClass('arrow-rotated');
 	stepsopen=false;
 }
 
@@ -49,38 +47,49 @@ $(document).ready(function () {
 </head>
 <body>
 <div id='landing-text'>
-	<img class='hourglass' src="hourglass.png">
 	<div class="icon-text">
-	    <p style="font-size: 2em; vertical-align: middle;">
+	    <p class='main-text'>
 		    We're building
 		    <span class='logo-text'>
 				<span class='logo-issue'>issue</span>
 				<span class='logo-wise'>wise</span>
 			</span>.
 		</p>
-		<p class="links">
-			<a style="margin-left:0" href="https://www.facebook.com/groups/issuewise">facebook</a>&middot;
-			<a href="http://blog.issuewise.org">blog</a>&middot;
-			<a href="http://guidelines.issuewise.org">guidelines</a>
-		</p>
+		<p class="description">An open platform for generating collaborative answers<br>to socio-political issues.</p>
 	</div>
-    <br><br>
-	<p>An open platform for generating collaborative answers to socio-political issues.</p>
-    <br><br>
-    <p style="font-weight: 400;"><a style="display:inline-block" onclick="slideToggle();">How does it work?<br><img id="right-arrow" src="right-arrow.png"></a></p>
-    <br>
-    <div id="steps">
-		<p><span class="number">1</span>&ensp;Ask a question about a real world political or social issue.</p>
+	<p class="links">
+		<a href="https://www.facebook.com/groups/issuewise">facebook</a>&middot;
+		<a href="http://blog.issuewise.org">blog</a>&middot;
+		<a href="http://guidelines.issuewise.org">guidelines</a>
+	</p>
+    <br><br><br>
+    <p class='top-opener'><span>How does<br>it work?</span></p>
+    <div class="steps">
+		<p><span class="number">1</span>&ensp;Ask a question about a real world<br>political or social issue.</p>
 		<br><br>
     	<img style="width: 3em" src="question.png">
     	<br><br><br>
-		<p><span class="number">2</span>&ensp;Collaborate on solutions, viewpoints and their reasons.</p>
+		<p><span class="number">2</span>&ensp;Individuals offer varying opinions.</p>
 		<br><br>
-    	<img style="width: 13em" src="answers.png">
-    	<br><br><br>
-		<p><span class="number">3</span>&ensp;Make the world a wiser place.</p>
-	</div><br>
-    <p id='email-message'>Leave your e-mail to be notified when we take off.</p>
+		<img style="width: 13em" src="answer1.png">
+		<br><br><br>
+		<p><span class="number">3</span>&ensp;Similar viewpoints cluster.</p>
+		<br><br>
+		<img style="width: 13em" src="answer2.png">
+		<br><br><br>
+		<p><span class="number">4</span>&ensp;Collaboration creates rich,<br>interconnected solutions.</p>
+		<br><br>
+		<img style="width: 13em" src="answer3.png">
+		<br><br><br>
+		<p><span class="number">5</span>&ensp;The world becomes a wiser place.</p>		
+	</div>
+    <div class="bottom-opener">
+    	<div class='arrow-button'>
+    		<img onclick="slideToggle();" id="arrow" src="arrow1.png">
+    	</div>
+    </div>
+    <br><br><br>
+    <p id='email-message'>Want to stay updated? Leave your e-mail.</p>
 	<input id="email" type="email" placeholder="e-mail">
 	<input id="submit-email" type="submit" value="Submit">
 	<br><br><br>

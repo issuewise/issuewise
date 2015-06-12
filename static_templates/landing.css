@@ -1,9 +1,8 @@
 body
 {
-	background-color: white;
 	font: 1.44em 'Ubuntu', sans-serif;
 	font-weight: 300;
-  	color: grey;
+  	color: #555;
 }
 
 a
@@ -34,12 +33,24 @@ a:hover img
 	left: 0;
 	right: 0;
 	margin: auto;
-	height: 400px;
+	height: 570px;
 	text-align: center;
 	transition: all 2s ease-in-out;
 	-webkit-transition: all 2s ease-in-out;
 	-moz-transition: all 2s ease-in-out;
 	-o-transition: all 2s ease-in-out;
+}
+
+.main-text
+{
+	font-size: 2.2em;
+	vertical-align: middle;
+}
+
+.description
+{
+	line-height: 1.6em;
+	margin-top: .5em;
 }
 
 .hourglass
@@ -54,11 +65,50 @@ a:hover img
 	display: inline-block;
 }
 
-#right-arrow
+.top-opener
 {
-	height: 1.5em;
-	margin-top: .5em;
-	border-radius: .75em;
+	background-color: #2c9bab;
+	margin: auto;
+	border-radius: 75px 75px 0 0;
+	width: 150px;
+	height: 75px;
+}
+
+.top-opener span
+{
+	color: white;
+	font-weight: 400;
+	font-size: 20px;
+	display: block;
+	top: 25px;
+	position: relative;
+	text-shadow: 0px 2px 3px #666;
+}
+
+.bottom-opener
+{
+	background-color: #2c9bab;
+	margin: auto;
+	border-radius: 0 0 75px 75px;
+	width: 150px;
+	height: 75px;
+	box-shadow: 0px 4px 3px -2px #1C656F;
+}
+
+.arrow-button
+{
+	background-image: url('arrow.png');
+	background-size: cover;
+	text-align: center;
+	display: inline-block;
+	height: 55px;
+}
+
+#arrow
+{
+	height: 55px;
+	margin-top: 3px;
+	cursor: pointer;
 	/* Firefox */
 	-moz-transition: transform .1s ease-in-out, box-shadow .5s;
 	/* WebKit */
@@ -69,11 +119,11 @@ a:hover img
 	transition: transform .1s ease-in-out, box-shadow .5s;
 }
 
-.right-arrow-rotated
+.arrow-rotated
 {
-	-ms-transform: rotate(90deg); /* IE 9 */
-	-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
-	transform: rotate(90deg);
+	-ms-transform: rotate(180deg); /* IE 9 */
+	-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+	transform: rotate(180deg);
 }
 
 .logo-text
@@ -86,7 +136,7 @@ a:hover img
 .number
 {
 	font-weight: 400;
-	color: #666;
+	color: #ff9955;
 	font-size: 1.5em;
 	vertical-align: -10%;
 }
@@ -111,26 +161,37 @@ a:hover img
 	height: 30px;
 }
 
-#steps
+.steps
 {
+	background-color: white;
 	opacity: 0;
 	height: 0;
-	overflow: hidden;
-	transition: all 2s ease-in-out;
-	-webkit-transition: all 2s ease-in-out;
-	-moz-transition: all 2s ease-in-out;
-	-o-transition: all 2s ease-in-out;
+	overflow-y: hidden;
+	display: inline-block;
+	border-radius: 15px;
+	transition: all 1.5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+	-webkit-transition: all 1.5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+	-moz-transition: all 1.5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+	-o-transition: all 1.5s cubic-bezier(0.860, 0.000, 0.070, 1.000);
+}
+
+.steps-open
+{
+	height: 1620px;
+	opacity: 1;
+	padding: 50px;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
 }
 
 .links
 {
-	text-align: left;
-	font-weight:400;
+	margin-top: 1em;
+	color: #bbb;
+	font-size: .78em;
 }
 
 .links a
 {
-	font-size: smaller;
 	margin-right: .5em;
 	margin-left: .3em;
 }
