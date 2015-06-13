@@ -35,22 +35,16 @@ function slideToggle()
 
 $(function() {
     $('#email-form').submit(function() {
-        // show a hidden div to indicate progression
-        $("#email-message").fadeOut(function () {
-            $("#email-message").text('E-mail submitted.');
-            $("#email-message").css('color','#ff9955').fadeIn();
-        });
-
         // kick off AJAX
         $.ajax({
-            url: this.action,
+            url: this.action, //CHANGE THIS. However, changing this may cause the page to reload and the success message to not show.
             type: this.method,
-            data: $(this).serialize(),
+            data: $(this).find('input[name="email"]').val(),
             success: function() {
-                // AJAX request finished, handle the results and hide progress
+                // AJAX request finished, return success message
 		        $("#email-message").fadeOut(function () {
-		            $("#email-message").text('Want to stay updated? Leave your e-mail.');
-		            $("#email-message").css('color','#555').fadeIn();
+		            $("#email-message").text('E-mail submitted.');
+		            $("#email-message").css('color','#ff9955').fadeIn();
 		        });
             }
         });
