@@ -33,14 +33,29 @@ function slideToggle()
 		slideOpen();
 }
 
-$(document).ready(function () {
-    $("#submit-email").click(function () {
-    	$("#email").val('');
+$(function() {
+    $('#email-form').submit(function() {
+        // show a hidden div to indicate progression
         $("#email-message").fadeOut(function () {
             $("#email-message").text('E-mail submitted.');
             $("#email-message").css('color','#ff9955').fadeIn();
-        })
-    })
+        });
+
+        // kick off AJAX
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize(),
+            success: function() {
+                // AJAX request finished, handle the results and hide progress
+		        $("#email-message").fadeOut(function () {
+		            $("#email-message").text('Want to stay updated? Leave your e-mail.');
+		            $("#email-message").css('color','#555').fadeIn();
+		        });
+            }
+        });
+        return false;
+    });
 });
 
 </script>
@@ -90,8 +105,10 @@ $(document).ready(function () {
     </div>
     <br><br><br>
     <p id='email-message'>Want to stay updated? Leave your e-mail.</p>
-	<input id="email" type="email" placeholder="e-mail">
-	<input id="submit-email" type="submit" value="Submit">
+    <form id="email-form" action="">
+		<input id="email" name ="email" type="email" placeholder="e-mail">
+		<input type="submit" value="Submit">
+	</form>
 	<br><br><br>
 </div>
 </body>
