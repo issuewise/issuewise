@@ -23,11 +23,7 @@ urlpatterns = [
         regex = r'^tokens/$',
         view = ObtainTokenForActivatedUsers.as_view(),
         name = 'obtaintoken',
-        ),
-    url(
-        r'^(?P<uri_name>.+)/profile/', 
-        include('userprofile.urls', namespace = 'userprofile'),
-        ),   
+        ),  
     url(
         regex = r'^(?P<uri_name>.+)/friendships/$',
         view = FriendshipList.as_view(),
