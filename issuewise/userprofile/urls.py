@@ -9,17 +9,17 @@ urlpatterns =[
     url(
         regex = r'^personal-info/$',
         view = PersonalInfo.as_view(),
-        name = 'personal_info'
+        name = 'personal-info'
         ),
     url(
         regex = r'^social-links/$',
         view = SocialLinkList.as_view(),
-        name = 'social_link_list',
+        name = 'social-link-list',
         ),
     url(
         regex = r'^social-links/(?P<pk>.+)$',
         view = SocialLinkDetail.as_view(),
-        name = 'social_link_detail',
+        name = 'social-link-detail',
         )
     
 ]
