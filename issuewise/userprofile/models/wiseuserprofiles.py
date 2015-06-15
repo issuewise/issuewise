@@ -1,5 +1,8 @@
+from datetime import date
+
 from django.db import models
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from model_utils.models import TimeFramedModel
@@ -20,7 +23,7 @@ PrivacyMixinClass = privacy_mixin_factory(version_label = 'latest')
 class WiseUserProfile(UserAsAutobiographerClass, PrivacyMixinClass):
 
     UserAsAutobiographerClass.autobiographer.unique = True
-
+    
     date_of_birth = models.DateField(_('born on'), null = True, blank = True,
     help_text = _('Date of birth of the user expressed in the format \
     yyyy-mm-dd'))
@@ -34,6 +37,18 @@ class WiseUserProfile(UserAsAutobiographerClass, PrivacyMixinClass):
     #def _str_(self):
     #    return self.autobiographer.name
     
+    def calculate_age(self):
+        born = self.date_of_birth
+        if born:
+            today = date.today()
+            return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+        return 0
+    
+    def get_absolute_url(self):
+        uri_name = self.autobiographer.uri_name
+        return reverse('userprofile:personal-info', kwargs = {'uri_name' : uri_name})
+        
+        
     class Meta:
         app_label = 'userprofile'
 
@@ -73,9 +88,16 @@ class Work(UserAsAutobiographerClass,
 
 class UserSocialLink(UserAsAutobiographerClass, SocialLinkClass, PrivacyMixinClass):
 
-    def save(self,*args,**kwargs):
-        self.link_type = self.get_website_type()
-        super(UserSocialLink,self).save(*args,**kwargs)
+    #def save(self,*args,**kwargs):
+    #    self.link_type = self.get_website_type()
+    #    super(UserSocialLink,self).save(*args,**kwargs)
+    
+    def get_absolute_url(self):
+        uri_name = self.autobiographer.uri_name
+        pk = self.id
+        return reverse('userprofile:social-link-detail', 
+            kwargs = {'uri_name' : uri_name, 'pk' : pk})
+        
    
     class Meta:
         app_label = 'userprofile'
