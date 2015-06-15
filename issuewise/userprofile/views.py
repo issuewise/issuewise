@@ -40,7 +40,7 @@ class PersonalInfo(PermissionMixin, WiseRetrieveUpdateAPIView):
         ---
         
         omit_parameters:
-            - path
+            - path 
             
         responseMessages:
             - code : 404
