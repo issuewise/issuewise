@@ -38,7 +38,7 @@ class UserAsFollower(models.Model):
     follower=models.ForeignKey(settings.AUTH_USER_MODEL, 
         related_name='%(app_label)s_%(class)s_follower',
         verbose_name=_('follower'))
-    folllowed_at=models.DateTimeField(_('time followed'), 
+    followed_at=models.DateTimeField(_('time followed'), 
         auto_now_add=True, help_text = _('date and time at which the \
         relationship was initiated'))
     
