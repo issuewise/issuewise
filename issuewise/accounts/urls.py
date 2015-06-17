@@ -1,7 +1,8 @@
 from django.conf.urls import url, include
 
 from views import (Accounts, ActivationLinkCheck, ActivationLinkCreate, 
-            ObtainTokenForActivatedUsers, FriendshipList, AcceptRejectFriend)                 
+            ObtainTokenForActivatedUsers, AcceptRejectFriend, PasswordResetLinkCreate,
+            Password,)                 
 
 urlpatterns = [
     url(
@@ -25,13 +26,19 @@ urlpatterns = [
         name = 'obtaintoken',
         ),  
     url(
-        regex = r'^(?P<uri_name>.+)/friendships/$',
-        view = FriendshipList.as_view(),
-        name = 'friendshiplist',
-        ),
-    url(
-        regex = r'^(?P<uri_name>.+)/friendships/(?P<pk>.+)/$',
+        regex = r'^friendships/(?P<pk>.+)/$',
         view = AcceptRejectFriend.as_view(),
         name = 'acceptrejectfriend',
         ),
+    url(
+        regex = r'^password-reset-links',
+        view = PasswordResetLinkCreate.as_view(),
+        name = 'password-reset-link-create',
+        ),
+    url(
+        regex = r'^(?P<uri_name>.+)/password/$',
+        view = Password.as_view(),
+        name = 'password',
+        ),
+        
 ]
