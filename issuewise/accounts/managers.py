@@ -72,18 +72,35 @@ class WiseFriendshipManager(models.Manager):
 
     def check_friendship(self, userA, userB):
         try:
-            self.get(follower = userA, followee = userB , status = 'F')
-            return True
-        except self.model.DoesNotExist:
-            pass
-        try: 
-            self.get(follower = userB, followee = userA , status = 'F')
+            self.get(followee = userA, follower = userB, status = 'F')
             return True
         except self.model.DoesNotExist:
             return False
             
-    def get_friends_list(self, userA):
-        return self.filter(Q(follower = userA) | Q(followee = userA))
+    def get_friend_list(self, user):
+        return self.filter(followee = user, status = 'F')
+        
+    def get_total_friends(self, user):
+        return self.filter(followee = user, status = 'F').count()
+        
+    def is_mutual_friend(self, userA, userB, userC):
+        '''
+        userC is the mutual friend of userA and userB
+        '''
+        if self.check_friendship(userA, userC) and self.check_friendship(userB, userC):
+            return True
+        return False
+        
+    def get_total_mutual_friends(self, userA, userB):
+        friendlist = self.get_friend_list(userA)
+        l = []
+        for entry in friendlist:
+            if self.is_mutual_friend(userA, userB, entry.follower):
+                l.append(entry.id)
+        return len(l)
+        
+        
+    
             
        
     
