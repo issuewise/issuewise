@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
 
 from core.utils import (uri_name_mixin_factory, activity_mixin_factory,
                         user_as_follower_factory, user_as_followee_factory,
@@ -96,10 +97,21 @@ class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
         activation_link = ''.join([settings.DOMAIN_NAME, '/users'])
         activation_link = ''.join([activation_link, '/activation-links/'])
         activation_link = ''.join([activation_link, unique_code])
+        # why is my email id in this line?
         send_mail('activate your issuewise account', 
             ''.join(['your activation link is ' , activation_link]), 'dibyachakravorty@gmail.com',
             [self.email], fail_silently=False)
         WiseActivation.objects.create(uuid = unique_code, creator = self)
+        
+    def send_password_reset_email(self):
+        unique_code = unicode(uuid4())
+        activation_link = ''.join([settings.DOMAIN_NAME, '/users'])
+        activation_link = ''.join([activation_link, '/password-rest-links/'])
+        activation_link = ''.join([activation_link, unique_code])
+        send_mail('your password reset link', 
+            ''.join(['your password reset link is ' , activation_link]), 'dibyachakravorty@gmail.com',
+            [self.email], fail_silently=False)
+        WisePasswordReset.objects.create(uuid = unique_code, creator = self)
         
     def activate(self):
         self.activity_status = 'A'
@@ -140,6 +152,8 @@ STATUS_CHOICES = (
 
 class WiseFriendship(UserAsFollowerClass, UserAsFolloweeClass):  
 
+    objects = WiseFriendshipManager()
+
     UserAsFollowerClass.follower.help_text = _('This is one of the users \
         in the friendship relation. If the status of the friendship is R \
         (request sent), this field indicates the person who sent the request')
@@ -148,26 +162,41 @@ class WiseFriendship(UserAsFollowerClass, UserAsFolloweeClass):
         in the friendship relation. If the status of the friendship is R \
         (request sent), this field indicates the person who received the request')
     
-    objects = WiseFriendshipManager()
-    
     status = models.CharField(_('friendship status'), max_length = 5,
         choices = STATUS_CHOICES, null = True, blank = True,
         help_text = _('Status of the friendship relation. This could be \
         R denoting Request Sent or this could be F meaning that the users \
         are already friends.'))
+        
+        
+    def get_follower_profile_url(self):
+        uri_name = self.follower.uri_name
+        return reverse('userprofile:profile', kwargs = {'uri_name' : uri_name})
     
     class Meta:
         app_label = 'accounts'
+        unique_together = (('follower', 'followee'),)
         
         
     
-class WiseActivation(UserAsCreatorClass):
+class Activation(UserAsCreatorClass):
     
     uuid = models.CharField(_('unique id'), max_length = 100)
     
     class Meta:
         app_label = 'accounts'
+        abstract = True
+     
+class WiseActivation(Activation):
 
+     class Meta:
+        app_label = 'accounts'
+        
+        
+class WisePasswordReset(Activation):
+
+     class Meta:
+        app_label = 'accounts'
 
 
 
