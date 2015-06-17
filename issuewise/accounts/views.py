@@ -1,11 +1,12 @@
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 
 from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import renderers
@@ -14,6 +15,7 @@ from core.views import PermissionMixin, WiseListCreateAPIView
 from accounts.models import WiseUser, WiseActivation, WiseFriendship
 from accounts.serializers import WiseUserSerializer, WiseFriendshipSerializer
 from accounts.exceptions import UserNotActive
+from issuewise.utils import get_model_from_settings
 
 
 class Accounts(generics.CreateAPIView):
@@ -40,8 +42,6 @@ class Accounts(generics.CreateAPIView):
     
     
 class ActivationLinkCheck(APIView):
-    
-    renderer_classes = (renderers.JSONRenderer,)
 
     def get(self, request, uuid, format = None):
         """
@@ -62,6 +62,68 @@ class ActivationLinkCheck(APIView):
         token, created = Token.objects.get_or_create(user=user)
         uri_name = user.uri_name
         return Response({'token': token.key, 'uri_name' : uri_name})
+        
+        
+class PasswordResetLinkCreate(APIView):
+
+    usermodel = get_model_from_settings(settings.AUTH_USER_MODEL)
+
+    def post(self, request, *args, **kwargs):
+        email = request.data['email']
+        user = self.usermodel.objects.get(email = email)
+        user.send_password_reset_email()    
+        return Response({'message' : 'the password reset link was sent to your email'})
+        
+        
+class PasswordResetLinkCheck(APIView):
+
+    def get(self, request, *args, **kwargs):
+    
+        password_reset_link_model = settings.PASSWORD_RESET_LINK_MODEL
+
+        obj = get_object_or_404(password_reset_link_model, uuid = uuid)
+        user = obj.creator
+        uri_name = user.uri_name
+        token, created = Token.objects.get_or_create(user=user)
+        obj.delete()
+        return Response({
+                        'token': token.key, 
+                        'link' : reverse('accounts:password',
+                            kwargs = {'uri_name' : uri_name}), 
+                        'method' : 'post',
+                        }
+                        )
+    
+        
+    
+class Password(APIView):
+
+    authentication_classes = (TokenAuthentication,)
+    usermodel = get_model_from_settings(settings.AUTH_USER_MODEL)
+
+    def post(self, request, *args, **kwargs):
+        requesting_user = request.user
+        owner = self.usermodel.objects.get(uri_name = self.kwargs['uri_name'])
+        if requesting_user == owner:
+            password = request.data['password']
+            owner.set_password(password)
+            owner.save()
+            return Response({'message' : 'password was successfully changed'})
+        else:
+            return PermissionDenied(detail="you are trying to change someone else's password")
+            
+            
+        
+        
+    
+
+        
+    
+    
+
+    
+
+    
         
         
 class ActivationLinkCreate(APIView):
@@ -171,86 +233,6 @@ class ObtainTokenForActivatedUsers(ObtainAuthToken):
         return Response({'token': token.key, 'uri_name' : uri_name})
         
         
-class FriendshipList(PermissionMixin, WiseListCreateAPIView):
-
-    permission_classes = (IsAuthenticated,)
-    
-    serializer_class = WiseFriendshipSerializer
-    
-    def get_queryset(self):
-        wiseuser = get_object_or_404(WiseUser, uri_name = self.kwargs['uri_name'])
-        friend_list = WiseFriendship.objects.filter(follower = wiseuser, status = 'F')
-        self.qs = friend_list
-        return super(FriendshipList, self).get_queryset()
-    
-    def perform_create(self, serializer):
-        followee = get_object_or_404(WiseUser, uri_name = self.kwargs['uri_name'])
-        follower = self.request.user
-        serializer.save(follower = follower, followee = followee, status = 'R')
-        
-    def get(self, request, *args, **kwargs):
-        """
-        
-        Function : Lists the friends of the user.  
-        
-        Permission : Authenticated user only. The user corresponding to the 
-        uri_name and friends of the user are allowed access.
-               
-        ---
-        
-        omit_parameters:
-            - path
-            
-        
-        responseMessages:
-            - code : 404
-              message : This error occurs if the uri_name provided does not \
-              correspond to a valid user on the system.
-        """
-        
-        return super(FriendshipList, self).get(request, *args, **kwargs) 
-        
-    def post(self, request, uri_name, *args, **kwargs):
-        """
-        
-        Function : Sends a friend request to the user corresponding to uri_name 
-        
-        Permission : Authenticated user only. Anyone other than the user 
-        corresponding to uri_name is allowed access.     
-        ---
-        
-        omit_parameters:
-            - path
-            - body
-            
-        
-        responseMessages:
-            - code : 404
-              message : This error occurs if the uri_name provided does not \
-              correspond to a valid user on the system.
-            - code : 403
-              message : This error occurs if the user making the request \
-              is the user corresponding to uri_name. Basically someone trying \
-              to send themselves a friend request.
-              
-        
-        
-        """
-    
-        wiseuser = get_object_or_404(WiseUser, uri_name = uri_name)
-        permit = self.permit(self.request, self.__class__.__name__,
-            None, wiseuser, self.kwargs)
-        if not permit:
-            raise PermissionDenied(detail = 'you cannot send yourself a \
-                friend request')
-        
-     
-        
-        return super(FriendshipList, self).post(request, uri_name, *args, **kwargs) 
-        
-        
-        
-    
         
         
 class AcceptRejectFriend(PermissionMixin, APIView):
@@ -258,15 +240,28 @@ class AcceptRejectFriend(PermissionMixin, APIView):
     
     permission_classes = (IsAuthenticated,)
     
+    
+    
     def get_object(self):
         obj = get_object_or_404(WiseFriendship, id = self.kwargs['pk'])
         return obj
+        
+    @property    
+    def owner(self):
+        try:
+            return self._owner
+        except AttributeError:
+            obj = get_object_or_404(WiseFriendship, id = self.kwargs['pk'])
+            self._owner = obj.followee
+            return self._owner
      
     def check_permission(self, obj):
-        permit = self.permit(self.request, self.__class__.__name__,
-            None, obj, self.kwargs)
+        permit = self.permit(request = self.request, view = self.__class__.__name__,
+            obj = obj, owner = self.owner)
         if not permit:
-            raise PermissionDenied
+            error_key = self.get_request_type(request = self.request, view = self.__class__.__name__, 
+                obj = obj, owner = self.owner)
+            raise PermissionDenied(detail = self.error_dict[error_key])
     
     def put(self, request, format = None, *args, **kwargs):
     
@@ -295,10 +290,13 @@ class AcceptRejectFriend(PermissionMixin, APIView):
         
         
         """
+        self.error_dict = {'friend' : 'you cannot accept a friend request for \
+someone else' , 'stranger' : 'you cannot accept a friend request for someone else'} 
         obj = self.get_object()
         self.check_permission(obj)
         if obj.status == 'R':
             obj.status = 'F'
+            obj.save()
             WiseFriendship.objects.create(follower = obj.followee, followee = obj.follower, status ='F')
         return Response()
         
@@ -329,13 +327,16 @@ class AcceptRejectFriend(PermissionMixin, APIView):
               
         
         
-        """    
+        """   
+        self.error_dict = {'friend' : 'you cannot delete a friend request for \
+someone else' , 'stranger' : 'you cannot delete a friend request for someone else'} 
         obj = self.get_object()
         self.check_permission(obj)
         if obj.status == 'F':
             obj.delete()
-            WiseFriendship.objects.get(follower = obj.followee, followee = obj.follower).delete()
-        obj.delete()
+            WiseFriendship.objects.get(follower = obj.followee, followee = obj.follower).delete() 
+        else:
+            obj.delete()
         return Response()
         
         
