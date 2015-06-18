@@ -50,7 +50,7 @@ DATABASES = {
     }
 }
 
-DOMAIN_NAME = 'http://127.0.0.1'
+DOMAIN_NAME = 'http://127.0.0.1:8000'
 
 
 # Application definition
@@ -143,6 +143,9 @@ EMAIL_PORT = 587
 # Custom models for users
 
 AUTH_USER_MODEL = 'accounts.WiseUser'
+FRIENDSHIP_MODEL = 'accounts.WiseFriendship'
+PASSWORD_RESET_LINK_MODEL = 'accounts.WisePasswordReset'
+ACTIVATION_LINK_MODEL = 'accounts.WiseActivation'
 
 # Custom models for groups
 
@@ -207,6 +210,7 @@ PROFILE_PERMISSION_VIEW_CLASSES = (
                                     'ActivationLinkCreate',
                                     'SocialLinkList',
                                     'SocialLinkDetail',
+                                    'Profile',
                                     )
                                     
 FRIENDSHIP_PERMISSION_VIEW_CLASSES = (
