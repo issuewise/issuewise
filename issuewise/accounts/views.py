@@ -110,7 +110,7 @@ class Password(APIView):
             owner.save()
             return Response({'message' : 'password was successfully changed'})
         else:
-            return PermissionDenied(detail="you are trying to change someone else's password")
+            raise PermissionDenied(detail="you are trying to change someone else's password")
             
             
         
