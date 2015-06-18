@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 
 from views import (Accounts, ActivationLinkCheck, ActivationLinkCreate, 
             ObtainTokenForActivatedUsers, AcceptRejectFriend, PasswordResetLinkCreate,
-            Password,)                 
+            Password, PasswordResetLinkCheck)                 
 
 urlpatterns = [
     url(
