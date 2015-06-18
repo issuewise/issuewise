@@ -36,6 +36,11 @@ urlpatterns = [
         name = 'password-reset-link-create',
         ),
     url(
+        regex = r'^password-reset-links/(?P<uuid>.+)/$',
+        view = PasswordResetLinkCheck.as_view(),
+        name = 'password-reset-link-create',
+        ),
+    url(
         regex = r'^(?P<uri_name>.+)/password/$',
         view = Password.as_view(),
         name = 'password',
