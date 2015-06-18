@@ -39,21 +39,31 @@ class PermissionMixin(object):
     methods in the permission class is then called to determine 
     with the same arguments as the authorize function to return 
     
+    any detail view class that inherits this mixin must define an attribute self.error_dict
+    
+    any class that inherits this must define a get_owner() method
+    
      
     """
     
-    
-    def permit(self, request, view, model, obj, url_capture):
+    def permit(self, request, view, obj, owner):
         permission_class = self.get_permission_class(view)
-        return permission_class.is_permitted(request, model, obj, url_capture)
+        return permission_class.is_permitted(request, obj, owner)
+        
+    def get_request_type(self, request, view, obj, owner):
+        permission_class = self.get_permission_class(view)
+        return permission_class.request_type(request, obj, owner)
         
     def get_object(self):
         if not self.obj:
             obj = super(PermissionMixin, self).get_object()
         obj = self.obj
-        permit = self.permit(self.request, self.__class__.__name__, self.serializer_class.Meta.model, obj, self.kwargs)
+        permit = self.permit(request = self.request, view = self.__class__.__name__, 
+            obj = obj, owner = self.owner)
         if not permit:
-            raise PermissionDenied
+            error_key = self.get_request_type(request = self.request, view = self.__class__.__name__, 
+                obj = obj, owner = self.owner)
+            raise PermissionDenied(detail = self.error_dict[error_key])
         return obj 
         
     def get_queryset(self):
@@ -62,7 +72,8 @@ class PermissionMixin(object):
         qs = self.qs
         exclude = []
         for obj in qs:
-            permit = self.permit(self.request, self.__class__.__name__, self.serializer_class.Meta.model, obj, self.kwargs)
+            permit = self.permit(request = self.request, view = self.__class__.__name__, 
+            obj = obj, owner = self.owner)
             if not permit:
                 exclude.append(obj.id)
                 
@@ -76,32 +87,49 @@ class PermissionMixin(object):
 
 
 class PostWithPermission(object):
+    '''
+    any class that inherits this must define an attribute self.error_dict
+    and a method get_owner() that returns the owner of the resource 
+    '''
 
     def post(self, request, format = None, *args, **kwargs):
-        permit = self.permit(self.request, self.__class__.__name__,
-            self.serializer_class.Meta.model, None, self.kwargs)
+        permit = self.permit(request = self.request, view = self.__class__.__name__, 
+            obj = None, owner = self.owner)
         if not permit:
-            raise PermissionDenied
+            error_key = self.get_request_type(request = self.request, view = self.__class__.__name__, 
+            obj = None, owner = self.owner)
+            raise PermissionDenied(detail = self.error_dict[error_key])
         return super(PostWithPermission, self).post(request, format = None, *args, **kwargs)
         
         
 class PutWithPermission(object):
+    '''
+    any class that inherits this must define an attribute self.error_dict
+    and a method get_owner() that returns the owner of the resource 
+    '''
 
     def put(self, request, format = None, *args, **kwargs):
-        permit = self.permit(self.request, self.__class__.__name__,
-            self.serializer_class.Meta.model, self.get_object(), self.kwargs)
+        permit = self.permit(request = self.request, view = self.__class__.__name__, 
+            obj = self.get_object(), owner = self.owner)
         if not permit:
-            raise PermissionDenied
+            error_key = self.get_request_type(request = self.request, view = self.__class__.__name__, 
+            obj = self.get_object(), owner = self.owner)
+            raise PermissionDenied(detail = self.error_dict[error_key])
         return super(PutWithPermission, self).put(request, format = None, *args, **kwargs)
         
         
 class DeleteWithPermission(object):
-
+    '''
+    any class that inherits this must define an attribute self.error_dict
+    and a method get_owner() that returns the owner of the resource 
+    '''
     def delete(self, request, format = None, *args, **kwargs):
-        permit = self.permit(self.request, self.__class__.__name__,
-            self.serializer_class.Meta.model, self.get_object(), self.kwargs)
+        permit = self.permit(request = self.request, view = self.__class__.__name__, 
+            obj = self.get_object(), owner = self.owner)
         if not permit:
-            raise PermissionDenied
+            error_key = self.get_request_type(request = self.request, view = self.__class__.__name__, 
+            obj = self.get_object(), owner = self.owner)
+            raise PermissionDenied(detail = self.error_dict[error_key])
         return super(DeleteWithPermission, self).delete(request, format = None, *args, **kwargs)        
     
         
