@@ -28,11 +28,11 @@ urlpatterns = patterns('',
         include('rest_framework.urls', namespace = 'rest_framework'),
        ),
     url(
-        r'^users/(?P<uri_name>.+)/profile/', 
-        include('userprofile.urls', namespace = 'userprofile'),
-        ), 
-    url(
         r'^users/', 
         include('accounts.urls', namespace = 'accounts'),
         ),
+    url(
+        r'^users/(?P<uri_name>[^/]+)/', 
+        include('userprofile.urls', namespace = 'userprofile'),
+        ), 
 )
