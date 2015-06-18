@@ -77,7 +77,7 @@ class PasswordResetLinkCreate(APIView):
         
 class PasswordResetLinkCheck(APIView):
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, uuid, *args, **kwargs):
     
         password_reset_link_model = settings.PASSWORD_RESET_LINK_MODEL
 
