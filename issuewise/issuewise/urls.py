@@ -31,8 +31,4 @@ urlpatterns = patterns('',
         r'^users/', 
         include('accounts.urls', namespace = 'accounts'),
         ),
-    url(
-        r'^users/(?P<uri_name>[^/]+)/', 
-        include('userprofile.urls', namespace = 'userprofile'),
-        ), 
 )
