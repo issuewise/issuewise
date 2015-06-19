@@ -14,13 +14,19 @@ from issuewise.utils import get_model_from_settings
 class WiseUserSerializer(serializers.ModelSerializer):
 
     usermodel = get_model_from_settings(settings.AUTH_USER_MODEL)
+    
+    activation_link = serializers.SerializerMethodField('activation_link_url',
+        read_only = True, help_text = _('POST email to this link to get an activation link'))
+        
+    def activation_link_url(self,obj):
+        return reverse('accounts:activation-link-create', request = self.context['request']) 
 
     def create(self, validated_data):
         return self.usermodel.objects.create_user(activity_status = 'I', explanation = 'NV', **validated_data)    
 
     class Meta:
         model = get_model_from_settings(settings.AUTH_USER_MODEL)
-        fields = ('name', 'email', 'password', 'uri_name')
+        fields = ('name', 'email', 'password', 'uri_name', 'activation_link',)
         read_only_fields = ('uri_name',)
         extra_kwargs = {
             'name': {
@@ -72,8 +78,9 @@ class WiseFriendSerializer(serializers.ModelSerializer):
         
         
 class AuthTokenSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(style={'input_type': 'password'})
+    email = serializers.EmailField(help_text = _('email of the user'))
+    password = serializers.CharField(style={'input_type': 'password'},
+        help_text = _('password of the user'))
 
     def validate(self, attrs):
         email = attrs.get('email')
