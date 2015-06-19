@@ -1,8 +1,11 @@
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.contrib.auth import authenticate
 
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from rest_framework.reverse import reverse
+from rest_framework import exceptions
 
 from accounts.models import WiseUser, WiseFriendship
 from issuewise.utils import get_model_from_settings
@@ -51,18 +54,48 @@ id. If you are not that someone, maybe you should get worried."))],
         
         
         
-class WiseFriendshipSerializer(serializers.ModelSerializer):
-
-    name = serializers.PrimaryKeyRelatedField(source = 'follower.name', 
-        read_only=True, help_text = _('This is one of the users \
-        in the friendship relation. If the status of the friendship is R \
-        (request sent), this field indicates the person who sent the request'))
+class WiseFriendSerializer(serializers.ModelSerializer):
         
-    profile = serializers.URLField(source = 'get_follower_profile_url', 
+    profile = serializers.SerializerMethodField('get_follower_profile_url', 
         read_only = True)
+        
+    def get_follower_profile_url(self,obj):
+        uri_name = obj.uri_name
+        return reverse('accounts:userprofile:profile', 
+            kwargs = {'uri_name' : uri_name}, request = self.context['request'])
+        
+        
     class Meta:
-        model = get_model_from_settings(settings.FRIENDSHIP_MODEL)
-        exclude = ('follower', 'followee','status','followed_at')
+        model = get_model_from_settings(settings.AUTH_USER_MODEL)
+        fields = ('name','profile',)
+        read_only_fields = ('name',)
+        
+        
+class AuthTokenSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(style={'input_type': 'password'})
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        if email and password:
+            user = authenticate(username=email, password=password)
+
+            if not user:
+                #if not user.is_active:
+                #    msg = _('User account is disabled.')
+                #    raise exceptions.ValidationError(msg)
+                
+            #else:
+                msg = _('Your email or password is incorrect')
+                raise exceptions.ValidationError(msg)
+        else:
+            msg = _('Must include "email" and "password".')
+            raise exceptions.ValidationError(msg)
+
+        attrs['user'] = user
+        return attrs
         
          
                     
