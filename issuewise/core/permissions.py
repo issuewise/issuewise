@@ -67,7 +67,7 @@ class FriendshipPermissions(Relationship):
             if request_type == 'friend':
                 return True
             elif request_type == 'stranger':
-                if WiseFriendship.objects.is_mutual_friend(owner, request.user, obj.follower):
+                if WiseFriendship.objects.is_mutual_friend(owner, request.user, obj):
                     return True
                 return False 
             elif request_type =='owner':
