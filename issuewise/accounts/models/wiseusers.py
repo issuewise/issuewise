@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
+
 
 from core.utils import (uri_name_mixin_factory, activity_mixin_factory,
                         user_as_follower_factory, user_as_followee_factory,
@@ -167,11 +167,6 @@ class WiseFriendship(UserAsFollowerClass, UserAsFolloweeClass):
         help_text = _('Status of the friendship relation. This could be \
         R denoting Request Sent or this could be F meaning that the users \
         are already friends.'))
-        
-        
-    def get_follower_profile_url(self):
-        uri_name = self.follower.uri_name
-        return reverse('userprofile:profile', kwargs = {'uri_name' : uri_name})
     
     class Meta:
         app_label = 'accounts'

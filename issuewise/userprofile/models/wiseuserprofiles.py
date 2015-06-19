@@ -2,7 +2,6 @@ from datetime import date
 
 from django.db import models
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from model_utils.models import TimeFramedModel
@@ -43,10 +42,6 @@ class WiseUserProfile(UserAsAutobiographerClass, PrivacyMixinClass):
             today = date.today()
             return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
         return 0
-    
-    def get_absolute_url(self):
-        uri_name = self.autobiographer.uri_name
-        return reverse('userprofile:personal-info', kwargs = {'uri_name' : uri_name})
         
         
     class Meta:
@@ -91,12 +86,6 @@ class UserSocialLink(UserAsAutobiographerClass, SocialLinkClass, PrivacyMixinCla
     #def save(self,*args,**kwargs):
     #    self.link_type = self.get_website_type()
     #    super(UserSocialLink,self).save(*args,**kwargs)
-    
-    def get_absolute_url(self):
-        uri_name = self.autobiographer.uri_name
-        pk = self.id
-        return reverse('userprofile:social-link-detail', 
-            kwargs = {'uri_name' : uri_name, 'pk' : pk})
         
    
     class Meta:
