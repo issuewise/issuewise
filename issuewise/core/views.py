@@ -2,18 +2,48 @@ from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 from core.permissions import permission_factory
 
 # Create your views here.
 
 class Welcome(APIView):
-
-    def get(self, request, *args, **kwargs):
-        data = {"name": "issuewise", "version": 0.1} 
-        return Response(data = data)
+    """
+    The root of the API
+    ---
     
-
+    type:
+            name:
+                required: true
+                type: string
+                description: name of this API
+            version:
+                required: true
+                type: fraction
+                description: version number
+            message:
+                required: true
+                type: string
+                description: welcome message
+            login:
+                required : true
+                type: url
+                description: you can obtain the token by POSTing to this node
+            signup:
+                required: true
+                type: url
+                description: you can create a new user by POSTing to this node
+    
+    """
+    def get(self, request, *args, **kwargs):
+        data = {"name": "issuewise", 
+                "version": 0.1,
+                "message" : "edit society",
+                "login": reverse('accounts:obtain-token', request = request),
+                "signup": reverse('accounts:accounts', request = request),
+                } 
+        return Response(data = data)
     
 
 class PermissionMixin(object):
