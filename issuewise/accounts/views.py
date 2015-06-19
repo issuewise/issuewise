@@ -11,6 +11,7 @@ from rest_framework import renderers
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.reverse import reverse
+from rest_framework import status
 
 from core.views import PermissionMixin, WiseListCreateAPIView
 from accounts.models import WiseUser, WiseActivation, WiseFriendship
@@ -23,16 +24,14 @@ class Accounts(generics.CreateAPIView):
     model = WiseUser
     serializer_class = WiseUserSerializer
     
+    
     def post(self, request, *args, **kwargs):
         """
         Function : Creates a new user. 
         
         Permission : Anonymous. Everyone is allowed access. 
-        
-        
-        
+            
         ---
-        
         responseMessages:
             - code: 400
               message: This error occurs if either the username exceeds \
@@ -40,14 +39,10 @@ class Accounts(generics.CreateAPIView):
               Check the json response to find out which one of them happened.
         
         """
-        response = super(Accounts, self).post(request, *args, **kwargs)
-        response.data['activation_link'] = reverse('accounts:activationlinkcreate',
-                                            request = request)
-        return response
+        return super(Accounts, self).post(request, *args, **kwargs)
+
         
 class ObtainTokenForActivatedUsers(ObtainAuthToken):
-
-    serializer_class = AuthTokenSerializer
 
     def post(self, request):
         """
@@ -57,17 +52,6 @@ class ObtainTokenForActivatedUsers(ObtainAuthToken):
         
         ---
         
-        parameters:
-            - name: username
-              description: email id of the user
-              required: true
-              type: email
-              paramType: form
-            - name: password
-              description : password of the user
-              required : true
-              type : string
-              paramType: form
         type:
             token:
                 required: true
@@ -76,8 +60,9 @@ class ObtainTokenForActivatedUsers(ObtainAuthToken):
             uri_name:
                 required: true
                 type: string
-                description: uri friendly name of the user. all nodes with \
-                {uri_node} needs to include this string in place of {uri_name}.
+                description: uri friendly name of the user.
+        
+        request_serializer : AuthTokenSerializer
               
         responseMessages:
             - code : 400
@@ -91,7 +76,7 @@ class ObtainTokenForActivatedUsers(ObtainAuthToken):
               
         """
         
-        serializer = self.serializer_class(data=request.data)
+        serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         if user.activity_status == 'I':
@@ -99,7 +84,8 @@ class ObtainTokenForActivatedUsers(ObtainAuthToken):
                 return Response({
                             'detail' : user.get_explanation_display(),
                             'message': 'looks like your email has not been verified.',
-                            'activation_link' : reverse('accounts:activation-link-create'),
+                            'activation_link' : reverse('accounts:activation-link-create',
+                                request = request),
                             'email' : user.email
                             }, 
                             status = status.HTTP_403_FORBIDDEN)
@@ -110,8 +96,7 @@ class ObtainTokenForActivatedUsers(ObtainAuthToken):
                             status = status.HTTP_403_FORBIDDEN)
         token, created = Token.objects.get_or_create(user=user)
         uri_name = user.uri_name
-        return Response({'token': token.key, 'uri_name' : uri_name})
-    
+        return Response({'token' : token.key , 'uri_name' : uri_name})
     
 class ActivationLinkCheck(APIView):
 
@@ -126,6 +111,23 @@ class ActivationLinkCheck(APIView):
         
         omit_parameters:
             - path
+            
+        type:
+            token:
+                required: true
+                type: string
+                description: token used for http Token Authentication
+            profile_url:
+                required: true
+                type: url
+                description: uri of the user profile
+                
+        parameters:
+            - name: email
+              description: email id of the user
+              required: true
+              type: email
+              paramType: form
         
         """ 
         obj = get_object_or_404(WiseActivation, uuid = uuid)
@@ -146,6 +148,36 @@ class PasswordResetLinkCreate(APIView):
     usermodel = get_model_from_settings(settings.AUTH_USER_MODEL)
 
     def post(self, request, *args, **kwargs):
+        """
+        Function : Sends an email with the password reset link to the submitted 
+        email id
+        
+        Permission : Anonymous. Anyone can access
+        
+        ---
+        
+        parameters:
+            - name: email
+              description: email id of the user
+              required: true
+              type: email
+              paramType: form
+            
+        type:
+            message:
+                required: true
+                type: string
+                description: a message
+            password_reset_link:
+                required: true
+                type: url
+                description: POST to this url to send yourself an email with the \
+                password reset link.
+            email:
+                required: true
+                type: email
+                description : email of the user
+        """
         email = request.data['email']
         user = self.usermodel.objects.get(email = email)
         user.send_password_reset_email()    
@@ -153,7 +185,8 @@ class PasswordResetLinkCreate(APIView):
                         "message" : "An email with the password reset link has been successfully \
 sent to you. If you didn't receive it, try another time.",
                         "email" : user.email,
-                        'activation_link' : reverse('accounts:password-reset-link-create'),
+                        'password_reset_link' : reverse('accounts:password-reset-link-create',
+                            request = request),
                         }
                         )
         
@@ -161,6 +194,36 @@ sent to you. If you didn't receive it, try another time.",
 class PasswordResetLinkCheck(APIView):
 
     def get(self, request, uuid, *args, **kwargs):
+        """
+        Function : Used for verifying the password reset link. Returns the token 
+        corresponding to the user and some other useful information when the link is
+        successfully verified.
+        
+        Permission : Anonymous. Everyone is allowed access
+        
+        ---
+        
+        omit_parameters:
+            - path
+        
+        type:
+            token:
+                required: true
+                type: string
+                description: token used for http Token Authentication
+            link:
+                required: true
+                type: url
+                description: POST to this link with the correct token to reset \
+                the password 
+                
+        parameters:
+            - name: email
+              description: email id of the user
+              required: true
+              type: email
+              paramType: form
+        """
     
         password_reset_link_model = settings.PASSWORD_RESET_LINK_MODEL
 
@@ -172,8 +235,7 @@ class PasswordResetLinkCheck(APIView):
         return Response({
                         'token': token.key, 
                         'link' : reverse('accounts:password',
-                            kwargs = {'uri_name' : uri_name}), 
-                        'method' : 'post',
+                            kwargs = {'uri_name' : uri_name}, request = request), 
                         }
                         )
     
@@ -185,6 +247,32 @@ class Password(APIView):
     usermodel = get_model_from_settings(settings.AUTH_USER_MODEL)
 
     def post(self, request, *args, **kwargs):
+        """
+        Function : Resets the password of the user corresponding to the token
+        used in the request to the submitted value.
+       
+        ---
+        
+        type:
+            message:
+                required: true
+                type: string
+                description: a message
+            profile_url:
+                required: true
+                type: url
+                description: url of the user profile
+                
+        parameters:
+            - name: password
+              description: password of the user
+              required: true
+              type: string
+              paramType: form
+        
+        
+        """  
+        
         requesting_user = request.user
         owner = self.usermodel.objects.get(uri_name = self.kwargs['uri_name'])
         if requesting_user == owner:
@@ -216,25 +304,30 @@ class ActivationLinkCreate(APIView):
             3. Sends an email to the email id of the authenticated user. This
             email contains the activation link.  
         
-        Permission : Authenticated user only.IMPORTANT NOTE : This is the only 
-        node where authentication is performed via Basic Http Authentication and 
-        NOT Token Authentication.
+        Permission : Anonymous. Anyone can access
         
         ---
         
-        omit_parameters:
-            - path
+        parameters:
+            - name: email
+              description: email id of the user
+              required: true
+              type: email
+              paramType: form
             
         type:
-            token:
+            message:
                 required: true
                 type: string
-                description: token used for http Token Authentication
-            uri_name:
+                description: a message
+            link:
                 required: true
-                type: string
-                description: uri friendly name of the user. all nodes with \
-                {uri_node} needs to include this string in place of {uri_name}.
+                type: url
+                description: POST to this url to send an activation to your email.
+            email:
+                required: true
+                type: email
+                description : email of the user
             
         responseMessages:
             - code: 403
@@ -255,7 +348,8 @@ class ActivationLinkCreate(APIView):
                         "message" : "An email with the activation link has been successfully \
 sent to you. If you didn't receive it, try another time.",
                         "email" : user.email,
-                        'activation_link' : reverse('accounts:activation-link-create'),
+                        'activation_link' : reverse('accounts:activation-link-create',
+                            request = request),
                         }
                         )
         
@@ -305,6 +399,12 @@ class AcceptRejectFriend(PermissionMixin, APIView):
         omit_parameters:
             - path
             
+        type:
+            message:
+                required: true
+                type: string
+                description: a message
+            
         
         responseMessages:
             - code : 404
@@ -344,7 +444,12 @@ someone else' , 'stranger' : 'you cannot accept a friend request for someone els
         
         omit_parameters:
             - path
-            
+        
+        type:
+            message:
+                required: true
+                type: string
+                description: a message            
         
         responseMessages:
             - code : 404
