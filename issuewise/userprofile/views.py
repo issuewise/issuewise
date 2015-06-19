@@ -2,19 +2,19 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.db import IntegrityError
-from django.core.urlresolvers import reverse
 
 from rest_framework import permissions
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.reverse import reverse
 
 from issuewise.utils import get_model_from_settings
 from core.views import PermissionMixin, WiseListCreateAPIView, WiseRetrieveUpdateDestroyAPIView, WiseRetrieveUpdateAPIView
 from core.serializers.social_link_serializers import SocialLinkSerializer
 from accounts.models import WiseUser
-from accounts.serializers import WiseFriendshipSerializer
+from accounts.serializers import WiseFriendSerializer
 from userprofile.models import WiseUserProfile
 from userprofile.serializers import WiseUserProfileSerializer
 
@@ -32,22 +32,22 @@ class Profile(PermissionMixin,APIView):
         total_friends = self.friendshipmodel.objects.get_total_friends(user = user)
         response_dict = {
                         'username' : user.name,
-                        'personal_info' : reverse('userprofile:personal-info',
-                            kwargs = {'uri_name' : uri_name}),
-                        'friend_list' : reverse('userprofile:friendshiplist',
-                            kwargs = {'uri_name' : uri_name}),
-                        'social_links' : reverse('userprofile:social-link-list',
-                            kwargs = {'uri_name' : uri_name}),
-                        'url' : reverse('userprofile:profile',
-                            kwargs = {'uri_name' : uri_name}),
+                        'personal_info' : reverse('accounts:userprofile:personal-info',
+                            kwargs = {'uri_name' : uri_name}, request = request),
+                        'friend_list' : reverse('accounts:userprofile:friendship-list',
+                            kwargs = {'uri_name' : uri_name}, request = request),
+                        'social_links' : reverse('accounts:userprofile:social-link-list',
+                            kwargs = {'uri_name' : uri_name}, request = request),
+                        'url' : reverse('accounts:userprofile:profile',
+                            kwargs = {'uri_name' : uri_name}, request = request),
                         'total_friends' : total_friends,
                         }
         request_type = self.get_request_type(request, self.__class__.__name__,
             None, user)
         if request_type == 'stranger':
             response_dict['relation']='stranger'
-            response_dict['friend_request']=reverse('userprofile:friendshiplist',
-                            kwargs = {'uri_name' : uri_name})
+            response_dict['friend_request']=reverse('accounts:userprofile:friendship-list',
+                            kwargs = {'uri_name' : uri_name}, request = request)
             response_dict['friend_request_method'] = 'POST'
         else:
             response_dict['relation'] = request_type
@@ -335,7 +335,7 @@ class FriendshipList(PermissionMixin, WiseListCreateAPIView):
 
     permission_classes = (permissions.IsAuthenticated,)
     
-    serializer_class = WiseFriendshipSerializer
+    serializer_class = WiseFriendSerializer
     
     
     usermodel=get_model_from_settings(settings.AUTH_USER_MODEL)
@@ -352,7 +352,9 @@ class FriendshipList(PermissionMixin, WiseListCreateAPIView):
     
     def get_queryset(self):
         wiseuser = get_object_or_404(self.usermodel, uri_name = self.kwargs['uri_name'])
-        friend_list = self.friendshipmodel.objects.get_friend_list(user = wiseuser)
+        friendship_list = self.friendshipmodel.objects.get_friend_list(user = wiseuser)
+        friend_list = self.usermodel.objects.filter(
+            id__in = friendship_list.values_list('follower', flat=True))
         self.qs = friend_list
         return super(FriendshipList, self).get_queryset()
     
