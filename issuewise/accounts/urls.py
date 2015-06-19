@@ -13,22 +13,22 @@ urlpatterns = [
     url(
         regex = r'^activation-links/$',
         view = ActivationLinkCreate.as_view(),
-        name = 'activationlinkcreate',
+        name = 'activation-link-create',
         ),
     url(
         regex = r'^activation-links/(?P<uuid>.+)/$',
         view = ActivationLinkCheck.as_view(),
-        name = 'activationlinkcheck',
+        name = 'activation-link-check',
         ),
     url(
         regex = r'^tokens/$',
         view = ObtainTokenForActivatedUsers.as_view(),
-        name = 'obtaintoken',
+        name = 'obtain-token',
         ),  
     url(
         regex = r'^friendships/(?P<pk>.+)/$',
         view = AcceptRejectFriend.as_view(),
-        name = 'acceptrejectfriend',
+        name = 'accept-reject-friend',
         ),
     url(
         regex = r'^password-reset-links',
@@ -41,9 +41,12 @@ urlpatterns = [
         name = 'password-reset-link-create',
         ),
     url(
-        regex = r'^(?P<uri_name>.+)/password/$',
+        regex = r'^(?P<uri_name>[^/]+)/password/$',
         view = Password.as_view(),
         name = 'password',
         ),
-        
+    url(
+        r'^(?P<uri_name>[^/]+)/',
+        include('userprofile.urls', namespace = 'userprofile'),
+        ),
 ]
