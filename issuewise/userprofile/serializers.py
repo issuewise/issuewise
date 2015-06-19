@@ -1,6 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from userprofile.models import WiseUserProfile
 
@@ -13,11 +14,16 @@ class WiseUserProfileSerializer(serializers.ModelSerializer):
     privacy_description = serializers.CharField(source = 'get_privacy_display',
         read_only = True, help_text = _('a help text for understanding the current \
         privacy setting'))
-    url = serializers.URLField(source = 'get_absolute_url', read_only=True,
+    href = serializers.SerializerMethodField('get_personal_info_url', read_only=True,
         help_text = _('url for this node'))
     edit_method = serializers.SerializerMethodField('edit_method_func', read_only = True,
         help_text = _('in order to edit the information provided by this node \
         use this http method'))
+        
+    def get_personal_info_url(self,obj):
+        uri_name = obj.autobiographer.uri_name
+        return reverse('accounts:userprofile:personal-info', 
+            kwargs = {'uri_name' : uri_name}, request = self.context['request'])
     
     def edit_method_func(self,obj):
         return 'PUT'
