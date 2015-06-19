@@ -52,6 +52,31 @@ DATABASES = {
 
 DOMAIN_NAME = 'http://127.0.0.1:8000'
 
+SWAGGER_SETTINGS = {
+    'exclude_namespaces': [],
+    'api_version': '0.1',
+    'api_path': '/',
+    'enabled_methods': [
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
+    ],
+    'api_key': '',
+    'is_authenticated': False,
+    'is_superuser': False,
+    'permission_denied_handler': None,
+    'info': {
+        'contact': 'dibyachakravorty@gmail.com',
+        'description': 'This is the issuewise API, which is currently under \
+development.',
+        'message' : 'edit society',
+        'title': 'issuewise',
+    },
+    'doc_expansion': 'none',
+}
+
 
 # Application definition
 
