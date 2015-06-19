@@ -17,6 +17,7 @@ from accounts.models import WiseUser
 from accounts.serializers import WiseFriendSerializer
 from userprofile.models import WiseUserProfile
 from userprofile.serializers import WiseUserProfileSerializer
+from userprofile.swagger_serializers import FriendListDisplaySerializer
 
 
 class Profile(PermissionMixin,APIView):
@@ -27,6 +28,47 @@ class Profile(PermissionMixin,APIView):
     friendshipmodel = get_model_from_settings(settings.FRIENDSHIP_MODEL)
     
     def get(self, request, *args, **kwargs):
+        """
+        Function : Provides information and links corresponding to the user
+        determined by uri_name
+        
+        Permission : Anonymous. Anyone can access
+        
+        ---
+        
+        omit_parameters:
+            - path
+        
+        type:
+            username:
+                required: true
+                type: string
+                description: name of the user
+            personal_info:
+                required: true
+                type: url
+                description: url for obtaining personal information about the user
+            friend_list:
+                required: true
+                type: string
+                description: url for obtaining a list of friends of the user
+            social_links:
+                required : true
+                type: url
+                description: url for obtaining a list of social links of the user
+            href:
+                required: true
+                type: url
+                description: url of this node
+            total_friends:
+                required: True
+                type: integer
+                description : total number of friends that the user has
+        
+        """
+        
+        
+    
         user = get_object_or_404(self.usermodel, uri_name = self.kwargs['uri_name'])
         uri_name = user.uri_name
         total_friends = self.friendshipmodel.objects.get_total_friends(user = user)
@@ -38,7 +80,7 @@ class Profile(PermissionMixin,APIView):
                             kwargs = {'uri_name' : uri_name}, request = request),
                         'social_links' : reverse('accounts:userprofile:social-link-list',
                             kwargs = {'uri_name' : uri_name}, request = request),
-                        'url' : reverse('accounts:userprofile:profile',
+                        'href' : reverse('accounts:userprofile:profile',
                             kwargs = {'uri_name' : uri_name}, request = request),
                         'total_friends' : total_friends,
                         }
@@ -87,7 +129,7 @@ class PersonalInfo(PermissionMixin, WiseRetrieveUpdateAPIView):
         Function : Get personal details of an user.
         
         Permission : Authenticated user only. The user himself or his friends
-        are allowed access
+        are allowed access unless privacy is set to public
         
         ---
         
@@ -372,6 +414,7 @@ class FriendshipList(PermissionMixin, WiseListCreateAPIView):
         omit_parameters:
             - path
             
+        response_serializer : FriendListDisplaySerializer    
         
         responseMessages:
             - code : 404
@@ -407,6 +450,12 @@ class FriendshipList(PermissionMixin, WiseListCreateAPIView):
         omit_parameters:
             - path
             - body
+            
+        type:
+            message:
+                required: true
+                type: string
+                description: a message of confirmation
             
         
         responseMessages:

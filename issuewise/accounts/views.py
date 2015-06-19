@@ -121,13 +121,6 @@ class ActivationLinkCheck(APIView):
                 required: true
                 type: url
                 description: uri of the user profile
-                
-        parameters:
-            - name: email
-              description: email id of the user
-              required: true
-              type: email
-              paramType: form
         
         """ 
         obj = get_object_or_404(WiseActivation, uuid = uuid)
@@ -167,7 +160,7 @@ class PasswordResetLinkCreate(APIView):
             message:
                 required: true
                 type: string
-                description: a message
+                description: a message of confirmation
             password_reset_link:
                 required: true
                 type: url
@@ -216,13 +209,7 @@ class PasswordResetLinkCheck(APIView):
                 type: url
                 description: POST to this link with the correct token to reset \
                 the password 
-                
-        parameters:
-            - name: email
-              description: email id of the user
-              required: true
-              type: email
-              paramType: form
+               
         """
     
         password_reset_link_model = settings.PASSWORD_RESET_LINK_MODEL
@@ -257,7 +244,7 @@ class Password(APIView):
             message:
                 required: true
                 type: string
-                description: a message
+                description: a message of confirmation
             profile_url:
                 required: true
                 type: url
@@ -319,7 +306,7 @@ class ActivationLinkCreate(APIView):
             message:
                 required: true
                 type: string
-                description: a message
+                description: a message of confirmation
             link:
                 required: true
                 type: url
@@ -403,7 +390,7 @@ class AcceptRejectFriend(PermissionMixin, APIView):
             message:
                 required: true
                 type: string
-                description: a message
+                description: a message of confirmation
             
         
         responseMessages:
@@ -449,7 +436,7 @@ someone else' , 'stranger' : 'you cannot accept a friend request for someone els
             message:
                 required: true
                 type: string
-                description: a message            
+                description: a message of confirmation          
         
         responseMessages:
             - code : 404
