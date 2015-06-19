@@ -1,9 +1,10 @@
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
-from userprofile.models import WiseUserProfile
+from issuewise.utils import get_model_from_settings
 
 
 class WiseUserProfileSerializer(serializers.ModelSerializer):
@@ -20,6 +21,7 @@ class WiseUserProfileSerializer(serializers.ModelSerializer):
         help_text = _('in order to edit the information provided by this node \
         use this http method'))
         
+        
     def get_personal_info_url(self,obj):
         uri_name = obj.autobiographer.uri_name
         return reverse('accounts:userprofile:personal-info', 
@@ -29,5 +31,5 @@ class WiseUserProfileSerializer(serializers.ModelSerializer):
         return 'PUT'
 
     class Meta:
-        model = WiseUserProfile
+        model = get_model_from_settings(settings.USER_PROFILE_MODEL)
         exclude = ('id', 'autobiographer',)
