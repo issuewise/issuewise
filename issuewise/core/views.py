@@ -10,31 +10,7 @@ from core.permissions import permission_factory
 
 class Welcome(APIView):
     """
-    The root of the API
-    ---
-    
-    type:
-            name:
-                required: true
-                type: string
-                description: name of this API
-            version:
-                required: true
-                type: fraction
-                description: version number
-            message:
-                required: true
-                type: string
-                description: welcome message
-            login:
-                required : true
-                type: url
-                description: you can obtain the token by POSTing to this node
-            signup:
-                required: true
-                type: url
-                description: you can create a new user by POSTing to this node
-    
+    Warm welcome to issuewise.
     """
     def get(self, request, *args, **kwargs):
         data = {"name": "issuewise", 
