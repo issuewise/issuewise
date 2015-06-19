@@ -8,29 +8,29 @@ from userprofile.views import (PersonalInfo, SocialLinkList, SocialLinkDetail,
 
 urlpatterns =[
     url(
-        regex = r'^$',
+        regex = r'^profile/$',
         view = Profile.as_view(),
         name = 'profile',
         ),
     url(
-        regex = r'^personal-info/$',
+        regex = r'^profile/personal-info/$',
         view = PersonalInfo.as_view(),
         name = 'personal-info'
         ),
     url(
-        regex = r'^social-links/$',
+        regex = r'^profile/social-links/$',
         view = SocialLinkList.as_view(),
         name = 'social-link-list',
         ),
     url(
-        regex = r'^social-links/(?P<pk>.+)$',
+        regex = r'^profile/social-links/(?P<pk>.+)$',
         view = SocialLinkDetail.as_view(),
         name = 'social-link-detail',
         ),
     url(
-        regex = r'^friends/$',
+        regex = r'^profile/friends/$',
         view = FriendshipList.as_view(),
-        name = 'friendshiplist',
+        name = 'friendship-list',
         ),
 ]
 
