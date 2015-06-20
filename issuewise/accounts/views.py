@@ -130,7 +130,7 @@ class ActivationLinkCheck(APIView):
         uri_name = user.uri_name
         return Response({'token': token.key, 
                         'profile_url' : reverse('accounts:userprofile:profile', 
-                            request = request),
+                            kwargs = {'uri_name' : uri_name}, request = request),
                         }
                         )
                         
