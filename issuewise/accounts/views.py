@@ -212,9 +212,10 @@ class PasswordResetLinkCheck(APIView):
                
         """
     
-        password_reset_link_model = settings.PASSWORD_RESET_LINK_MODEL
+        password_reset_link_model = get_model_from_settings(settings.PASSWORD_RESET_LINK_MODEL)
 
         obj = get_object_or_404(password_reset_link_model, uuid = uuid)
+        print obj
         user = obj.creator
         uri_name = user.uri_name
         token, created = Token.objects.get_or_create(user=user)
