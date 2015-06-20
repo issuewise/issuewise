@@ -31,14 +31,14 @@ urlpatterns = [
         name = 'accept-reject-friend',
         ),
     url(
-        regex = r'^password-reset-links',
+        regex = r'^password-reset-links/$',
         view = PasswordResetLinkCreate.as_view(),
         name = 'password-reset-link-create',
         ),
     url(
         regex = r'^password-reset-links/(?P<uuid>.+)/$',
         view = PasswordResetLinkCheck.as_view(),
-        name = 'password-reset-link-create',
+        name = 'password-reset-link-check',
         ),
     url(
         regex = r'^(?P<uri_name>[^/]+)/password/$',
