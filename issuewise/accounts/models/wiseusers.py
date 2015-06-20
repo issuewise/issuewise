@@ -106,7 +106,7 @@ class WiseUser(BaseUser, UriNameMixinClass, ActivityMixinClass):
     def send_password_reset_email(self):
         unique_code = unicode(uuid4())
         activation_link = ''.join([settings.DOMAIN_NAME, '/users'])
-        activation_link = ''.join([activation_link, '/password-rest-links/'])
+        activation_link = ''.join([activation_link, '/password-reset-links/'])
         activation_link = ''.join([activation_link, unique_code])
         send_mail('your password reset link', 
             ''.join(['your password reset link is ' , activation_link]), 'dibyachakravorty@gmail.com',
