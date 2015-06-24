@@ -89,6 +89,7 @@ a:hover img
 {
 	background-color: #2c9bab;
 	margin: auto;
+	margin-top:-1px;
 	border-radius: 0 0 75px 75px;
 	width: 150px;
 	height: 75px;
